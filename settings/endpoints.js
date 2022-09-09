@@ -1,7 +1,9 @@
 const endpointList={
 
     register:'/register',
-    login:'/verifyLogIn'
+    login:'/login',
+    findEmail:'/findEmail',
+    
     
     }
 

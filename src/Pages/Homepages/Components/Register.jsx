@@ -26,12 +26,18 @@ function Register() {
   });
 
   const fnSend = async (data) => {
+    
     try {
-      await API_AXIOS.post(
-        endpointList.register +
-          `?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}`
+      let registeredFlag = await API_AXIOS.get(
+        endpointList.findEmail + `?email=${data.email}`
       );
-      alert("joya");
+
+      if (registeredFlag.data == 0) {alert("no hay un email registrado");
+        await API_AXIOS.post(endpointList.register +`?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}` );} 
+        else {
+        alert("hay un email registrado");}
+
+
     } catch (error) {
       console.log(error);
     }
