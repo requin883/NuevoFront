@@ -22,13 +22,13 @@ function Homepages() {
 
             <Flex flexDirection="column" align="center" justify="space-evenly" w="100%" h="100%">
 
-                <Flex visibility={flag ? "hidden" : "visible"} onClick={() => { onOpen(); setFlag.toggle; }} align="center" gap="2em">
+                <Flex onClick={onOpen} align="center" gap="2em">
                     {menu.map(cbMenu)}
                 </Flex>
 
                 <Routes>
-                    <Route path='/Login' element={<Login val={{ isOpen, onClose, setFlag }} />} />
-                    <Route path='/Register' element={<Register val={{ isOpen, onClose, setFlag }} />} />
+                    <Route path='/Login' element={<Login val={{ isOpen, onClose }} />} />
+                    <Route path='/Register' element={<Register val={{ isOpen, onClose }} />} />
                 </Routes>
 
             </Flex>
