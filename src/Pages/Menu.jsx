@@ -1,7 +1,9 @@
-function Menu(){
+
+
+function Menu() {
     return (
-        <div> 
-         Menu 
+        <div>
+            Menu
         </div>
     )
 }
