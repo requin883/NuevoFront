@@ -21,7 +21,7 @@ import {
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
-  password: yup.string().min(6).required(),
+  password: yup.string().min(6,"The password must be at least 6 digits long").required(),
   valpass: yup
     .string()
     .required()
@@ -47,6 +47,7 @@ function Register(props) {
       let registeredFlag = await API_AXIOS.get(
         endpointList.findEmail + `?email=${data.email}`
       );
+      console.log(registeredFlag);
 
       if (registeredFlag.data == 0) {alert("no hay un email registrado");
         await API_AXIOS.post(endpointList.register +`?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}` );} 
