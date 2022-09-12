@@ -4,9 +4,9 @@ const endpointList={
     login:'/login',
     findEmail:'/findEmail',
     getPayments: '/getPayments',
-    getBalance: '/getBalance'
-    
-    
+    getBalance: '/getBalance',
+    verifyAcc:'/verifyAcc',
+    forgetPw:'/forgetPassword'
     }
 
     export default endpointList;
