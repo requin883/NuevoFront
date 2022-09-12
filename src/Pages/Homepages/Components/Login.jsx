@@ -23,11 +23,13 @@ import {
   useDisclosure,
   Flex,
 } from '@chakra-ui/react'
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import EmailAlert from "./EmailAlert";
 
 
 function Login(props) {
   let { isOpen, onClose } = props.val;
+  let [email, setEmail] = useLocalStorage('userEmailHP', '')
   let { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
   const {
     register,
@@ -44,12 +46,24 @@ function Login(props) {
       let call = await API_AXIOS.get(
         endpointList.login + `?email=${data.email}&password=${data.password}`
       );
-      if (call.data == 0) {
-        alert("los datos no coinciden pana");
-      } else {
+      alert(call.data)
+switch (call.data) {
+  case 0:
+    alert("los datos no coinciden pana");
+    break;
+  case 1:
+        setEmail(data.email)
         alert("tamo activo menol");
         navigate('/menu')
-      }
+    break;
+    case 2:
+    alert ("El email no esta registradoo")
+    break;
+
+  default:
+    alert ("error")
+    break;
+}
     } catch (error) {
       console.log(error);
     }

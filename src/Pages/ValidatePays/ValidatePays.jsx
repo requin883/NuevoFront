@@ -74,6 +74,7 @@ function ValidatePays(props) {
               <FormErrorMessage>{errors.minute?.message}</FormErrorMessage>
             </FormControl>
 
+<<<<<<< HEAD
             <FormControl isInvalid={errors.second}>
               <FormLabel> Second </FormLabel>
               <Input id="second" placeholder="second" type="number" {...register("second")} />
@@ -81,6 +82,15 @@ function ValidatePays(props) {
             </FormControl>
             <Center>
               <Button mb="1em" colorScheme="purple" mt="1.5em" type="submit" value="register">Validate</Button>
+=======
+           <FormControl isInvalid={errors.second}>
+               <FormLabel> Second </FormLabel>
+               <Input id="second" placeholder="second" type="number" {...register("second")}/>
+                <FormErrorMessage>{errors.second?.message}</FormErrorMessage> 
+           </FormControl>
+           <Center>
+              <Button colorScheme="purple" mt="1.5em" type="submit" value="register">Validate</Button>
+>>>>>>> b431d86989ab16d8d7ee9990ba260a9a89d3a49f
             </Center>
             <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
           </form>
