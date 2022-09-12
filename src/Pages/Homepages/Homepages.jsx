@@ -16,7 +16,7 @@ function Homepages() {
     return (
         <Box width="100vw" h="100vh" opacity=".9" bgImage="url(../../Public/img/cryptoMenubg1.jpg)" bgSize="cover">
 
-            <Flex h="6em" textShadow="2px 3px purple" justify="center" bgColor="black">
+            <Flex h="6em" justify="center" bgColor="black">
                 <Heading fontSize="4em" color="white" fontWeight="bold">CryptoCoders</Heading>
             </Flex>
 
@@ -27,7 +27,7 @@ function Homepages() {
                 </Flex>
 
                 <Routes>
-                    <Route path='/Login' element={<Login val={{ isOpen, onClose }} />} />
+                    <Route path='/Login/*' element={<Login val={{ isOpen, onClose }} />} />
                     <Route path='/Register' element={<Register val={{ isOpen, onClose }} />} />
                 </Routes>
 

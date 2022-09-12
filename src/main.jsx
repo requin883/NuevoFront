@@ -13,6 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Browser>
         <Routes>
           <Route path='/menu/*' element={<Menu />} />
+          <Route path="/validate/:token" element={<Validation/>}/>
           <Route path="/*" element={<Homepages />} />
           <Route path='/verifyEmail/:token' element={< VerifyEmail/>} />
         </Routes>

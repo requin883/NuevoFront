@@ -1,8 +1,8 @@
-import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import API_AXIOS from "../../../../settings/settings";
 import endpointList from "../../../../settings/endpoints";
+import { registerSchema } from "../../../Utils/yupSchemas";
 import {
   Modal,
   ModalContent,
@@ -19,41 +19,32 @@ import {
   Center
 } from '@chakra-ui/react'
 
-const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(6).required(),
-  valpass: yup
-    .string()
-    .required()
-    .oneOf([yup.ref("password")], "the password confirmation does not match"),
-  firstname: yup.string().required(),
-  lastname: yup.string().required(),
-  address: yup.string().required(),
-});
-
 function Register(props) {
   const { isOpen, onClose } = props.val;
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerSchema),
   });
 
   const fnSend = async (data) => {
-    
+
     try {
       let registeredFlag = await API_AXIOS.get(
         endpointList.findEmail + `?email=${data.email}`
       );
-
-      if (registeredFlag.data == 0) {alert("no hay un email registrado");
-        await API_AXIOS.post(endpointList.register +`?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}` );} 
-        else {
-        alert("hay un email registrado");}
-
-
+      console.log(registeredFlag.data);
+      if (registeredFlag.data == 0) {
+        await API_AXIOS.post(endpointList.register + `?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}`);
+        alert("Su cuenta ha sido creada satisfactoriamente, por favor revise su correo para verificar la cuenta");
+      }
+      else {
+        alert("Ya hay una cuenta con este email registrado");
+      }
+      reset();
     } catch (error) {
       console.log(error);
     }
