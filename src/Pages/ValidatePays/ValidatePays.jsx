@@ -90,7 +90,7 @@ return(
                 <FormErrorMessage>{errors.second?.message}</FormErrorMessage> 
            </FormControl>
            <Center>
-              <Button colorScheme="purple" mt="1.5em" type="submit" value="register">Login</Button>
+              <Button colorScheme="purple" mt="1.5em" type="submit" value="register">Validate</Button>
             </Center>
             </form>
    </div>
