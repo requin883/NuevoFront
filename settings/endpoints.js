@@ -4,7 +4,8 @@ const endpointList={
     login:'/login',
     findEmail:'/findEmail',
     getPayments: '/getPayments',
-    getBalance: '/getBalance'
+    getBalance: '/getBalance',
+    verifyEmail: '/verifyEmail'
     
     
     }
