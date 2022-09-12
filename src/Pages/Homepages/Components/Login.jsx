@@ -1,9 +1,11 @@
 import * as yup from "yup";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import API_AXIOS from "../../../../settings/settings";
 import endpointList from "../../../../settings/endpoints";
-import { useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, Link as reactLink } from "react-router-dom";
+import { loginSchema } from "../../../Utils/yupSchemas"
 import {
   Modal,
   ModalContent,
@@ -17,21 +19,22 @@ import {
   Input,
   Button,
   Center,
+  Link,
+  useDisclosure,
+  Flex,
 } from '@chakra-ui/react'
+import EmailAlert from "./EmailAlert";
 
-const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(6).required(),
-});
 
 function Login(props) {
   let { isOpen, onClose } = props.val;
+  let { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginSchema),
   });
 
   const navigate = useNavigate();
@@ -70,15 +73,19 @@ function Login(props) {
               <Input id="pw" placeholder="password" type="password" {...register("password")} />
               <FormErrorMessage>{errors.email && errors.password?.message}</FormErrorMessage>
             </FormControl>
-            <Center>
+            <Flex flexDir="column" justify="center" align="center">
               <Button colorScheme="purple" mt="1.5em" type="submit" value="register">Login</Button>
-            </Center>
+              <Link onClick={onOpen1} as={reactLink} to="/login/forgetpassword" pt="1em">Olvidaste tu contraseña</Link>
+            </Flex>
           </form>
         </ModalBody>
         <ModalFooter>
           <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
         </ModalFooter>
       </ModalContent>
+      <Routes>
+        <Route path='/forgetpassword' element={<EmailAlert val={{ isOpen1, onClose1 }} />} />
+      </Routes>
     </Modal>
   );
 }
