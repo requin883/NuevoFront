@@ -5,7 +5,7 @@ const endpointList={
     getPayments: '/getPayments',
     getBalance: '/getBalance',
     verifyEmail: '/verifyEmail'
-    forgetPw:'/forgetPassword'
+    // forgetPw:'/forgetPassword'
     }
 
     export default endpointList;
