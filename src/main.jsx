@@ -13,7 +13,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Browser>
         <Routes>
           <Route path='/menu/*' element={<Menu />} />
-          <Route path="/validate/:token" element={<Validation/>}/>
           <Route path="/*" element={<Homepages />} />
           <Route path='/verifyEmail/:token' element={< VerifyEmail/>} />
         </Routes>
@@ -21,18 +20,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </ChakraProvider>
   </React.StrictMode>
 )
-
-/*
-ReactDOM.createRoot(document.getElementById('root')).render(
-  
-    <ChakraProvider>
-      <Browser>
-        <Routes>
-          <Route path='/menu/*' element={<Menu />} />
-          <Route path="/*" element={<Homepages />} />
-          <Route path='/verifyEmail/:token' element={< VerifyEmail/>} />
-        </Routes>
-      </Browser>
-    </ChakraProvider>
- 
-)*/

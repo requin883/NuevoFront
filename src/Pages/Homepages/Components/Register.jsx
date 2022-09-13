@@ -16,11 +16,15 @@ import {
   Input,
   Button,
   Textarea,
-  Center
+  Center,
+  Spinner
 } from '@chakra-ui/react'
+import { useState } from "react";
+
 
 function Register(props) {
-  const { isOpen, onClose } = props.val;
+  const [spinner, setSpinner] = useState(false);
+  const { flag, setFlag } = props.flag;
   const {
     register,
     formState: { errors },
@@ -31,8 +35,8 @@ function Register(props) {
   });
 
   const fnSend = async (data) => {
-
     try {
+      setSpinner(true);
       let registeredFlag = await API_AXIOS.get(
         endpointList.findEmail + `?email=${data.email}`
       );
@@ -45,13 +49,14 @@ function Register(props) {
         alert("Ya hay una cuenta con este email registrado");
       }
       reset();
+      setSpinner(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+    <Modal isOpen={flag} size="lg">
       <ModalContent>
         <ModalHeader> Register </ModalHeader>
         <ModalBody>
@@ -92,12 +97,12 @@ function Register(props) {
               <FormErrorMessage> {errors.address?.message} </FormErrorMessage>
             </FormControl>
             <Center>
-              <Button colorScheme="purple" mt="1em" type="submit" value="register">Register</Button>
+              {spinner?<Button disabled={spinner} colorScheme="purple" mt="1em" type="submit" value="register"><Spinner/></Button>:<Button colorScheme="purple" mt="1em" type="submit" value="register">Register</Button>}
             </Center>
           </form>
         </ModalBody>
         <ModalFooter>
-          <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
+          <ModalCloseButton disabled={spinner} onClick={setFlag.off}>X</ModalCloseButton>
         </ModalFooter>
       </ModalContent>
     </Modal>
