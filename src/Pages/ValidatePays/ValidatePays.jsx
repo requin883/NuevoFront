@@ -13,10 +13,13 @@ import {
   Input,
   Button,
   Center,
+  Spinner,
 } from '@chakra-ui/react'
+import { useState } from "react";
 
 
 function ValidatePays(props) {
+  const [spinner, setSpinner] = useState(false);
   let { isOpen, onClose } = props.val;
   const {
     register,
@@ -28,7 +31,9 @@ function ValidatePays(props) {
 
   const fnSend = async (data) => {
     try {
+      setSpinner(true);
       alert(JSON.stringify(data));
+      setSpinner(false);
     } catch (error) {
       console.log(error)
     }
@@ -74,23 +79,14 @@ function ValidatePays(props) {
               <FormErrorMessage>{errors.minute?.message}</FormErrorMessage>
             </FormControl>
 
-<<<<<<< HEAD
-            <FormControl isInvalid={errors.second}>
-              <FormLabel> Second </FormLabel>
-              <Input id="second" placeholder="second" type="number" {...register("second")} />
-              <FormErrorMessage>{errors.second?.message}</FormErrorMessage>
-            </FormControl>
-            <Center>
-              <Button mb="1em" colorScheme="purple" mt="1.5em" type="submit" value="register">Validate</Button>
-=======
+
            <FormControl isInvalid={errors.second}>
                <FormLabel> Second </FormLabel>
                <Input id="second" placeholder="second" type="number" {...register("second")}/>
                 <FormErrorMessage>{errors.second?.message}</FormErrorMessage> 
            </FormControl>
            <Center>
-              <Button colorScheme="purple" mt="1.5em" type="submit" value="register">Validate</Button>
->>>>>>> b431d86989ab16d8d7ee9990ba260a9a89d3a49f
+              {spinner?<Button disabled={spinner} colorScheme="purple" mt="1.5em" type="submit" value="register"><Spinner/></Button>:<Button colorScheme="purple" mt="1.5em" type="submit" value="register">Validate</Button>}
             </Center>
             <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
           </form>
