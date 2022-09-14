@@ -8,7 +8,7 @@ function Menu() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     let menu = [
         { links: '/menu/validatepay', options: 'Validate Payments' },
-
+        { links: '/menu/transactions', options: 'Make a transaction' },
         { links: '/menu/profile', options: 'Profile' }
     ]
 
@@ -19,7 +19,9 @@ function Menu() {
             </Center>
             <ValidatePays val={{ isOpen, onClose }} />
             <Routes>
+                <Route path='/validatepay' element={<ValidatePays />} />
                 <Route path="/profile/*" element={<Profile />} />
+                <Route path="/transactions" element={<Transactions />} />
             </Routes>
         </Flex>
 
