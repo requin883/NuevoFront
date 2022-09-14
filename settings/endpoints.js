@@ -4,7 +4,10 @@ const endpointList={
     findEmail:'/findEmail',
     getPayments: '/getPayments',
     getBalance: '/getBalance',
-    verifyEmail: '/verifyEmail'
+    verifyEmail: '/verifyEmail',
+    sendPayment: '/sendPayment',
+    verifyPayment: '/verifyPayment'
+    
     // forgetPw:'/forgetPassword'
     }
 
