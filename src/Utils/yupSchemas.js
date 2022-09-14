@@ -29,12 +29,12 @@ const registerSchema = yup.object().shape({
 
 const validatePaySchema = yup.object().shape({
     year: yup.number().typeError(numericMsg).min(2000).max(y).required(requiredMsg),
-    month: yup.number().typeError(numericMsg).min(0).max(12).required(requiredMsg),
+    month: yup.string().max(2).min(2).required(requiredMsg),
     day: yup.number().typeError(numericMsg).min(0).max(31).required(requiredMsg),
     hour: yup.number().typeError(numericMsg).min(0).max(24).required(requiredMsg),
     minute: yup.number().typeError(numericMsg).min(0).max(60).required(requiredMsg),
-    second: yup.number().typeError(numericMsg).min(0).max(60).required(requiredMsg)
-
+    second: yup.number().typeError(numericMsg).min(0).max(60).required(requiredMsg),
+    quantity: yup.number().typeError(numericMsg).required()
 });
 
 export { loginSchema, registerSchema, validatePaySchema, forgetPwSchema }
