@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import cbMenu from "../callbacks/cbMenu";
 import { Flex, Center, useDisclosure } from "@chakra-ui/react";
 import Profile from "./Profile/Profile";
+import Transactions from "./Transactions/Transactions";
 
 function Menu() {
     const { isOpen, onOpen, onClose } = useDisclosure();
