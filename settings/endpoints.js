@@ -7,8 +7,6 @@ const endpointList={
     verifyEmail: '/verifyEmail',
     sendPayment: '/sendPayment',
     verifyPayment: '/verifyPayment'
-    
-    // forgetPw:'/forgetPassword'
     }
 
     export default endpointList;

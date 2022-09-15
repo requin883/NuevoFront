@@ -11,16 +11,19 @@ import {
     Input,
     FormHelperText,
     Button,
-    Center
+    Center,
+    Spinner
 } from '@chakra-ui/react'
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { forgetPwSchema } from '../../../Utils/yupSchemas';
 import API_AXIOS from '../../../../settings/settings';
 import endpointList from '../../../../settings/endpoints';
+import { useState } from 'react';
 
 
 function EmailAlert(props) {
+    const [spinner,setSpinner] = useState(false);
     const { isOpen1: isOpen, onClose1: onClose } = props.val;
     const {
         register,
@@ -33,7 +36,7 @@ function EmailAlert(props) {
 
 
     const fnSend = async (data) => {
-
+        setSpinner(true);
         let { email } = data;
         let registeredFlag = await API_AXIOS.get(`${endpointList.findEmail}?email=${email}`);
         if (registeredFlag.data) {
@@ -42,6 +45,7 @@ function EmailAlert(props) {
         } else {
             alert("El correo no está registrado");
         }
+        setSpinner(false);
         reset();
 
     }
@@ -59,13 +63,13 @@ function EmailAlert(props) {
                             <FormErrorMessage> {errors.email?.message}</FormErrorMessage>
                         </FormControl>
                         <Center>
-                            <Button mt="2em" colorScheme="purple" type="submit">Enviar</Button>
+                            {spinner?<Button mt="2em" disabled={spinner} colorScheme="purple" type="submit"><Spinner/></Button>:<Button mt="2em" colorScheme="purple" type="submit">Enviar</Button>}
                         </Center>
                     </form>
 
                 </ModalBody>
                 <ModalFooter>
-                    <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
+                    <ModalCloseButton disabled={spinner} onClick={onClose}>X</ModalCloseButton>
                 </ModalFooter>
             </ModalContent>
         </Modal>
