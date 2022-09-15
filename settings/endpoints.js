@@ -6,7 +6,8 @@ const endpointList={
     getBalance: '/getBalance',
     verifyEmail: '/verifyEmail',
     sendPayment: '/sendPayment',
-    verifyPayment: '/verifyPayment'
+    verifyPayment: '/verifyPayment',
+    getDeposits: '/getDeposits'
     }
 
     export default endpointList;
