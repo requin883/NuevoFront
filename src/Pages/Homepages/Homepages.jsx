@@ -1,7 +1,9 @@
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
-import { Box, Flex, Heading, useDisclosure, Button, useBoolean } from '@chakra-ui/react';
+import { Box, Flex, Heading, useDisclosure, Button, useBoolean, Center, Text } from '@chakra-ui/react';
+import Background from "../Background/Background";
+
 
 function Homepages() {
     const [flag, setFlag] = useBoolean();
@@ -13,29 +15,26 @@ function Homepages() {
     ]
 
     const cbMenu = (nm) => {
-        return (<Button key={nm.options} onClick={nm.options == 'Login' ? onOpen : setFlag.on} colorScheme="purple" size="lg" className="button"> <Link key={nm.options} to={nm.links}>{nm.options}</Link> </Button>)
+        return (<Button key={nm.options} onClick={nm.options == 'Login' ? onOpen : setFlag.on} colorScheme="purple" variant="ghost" size="md" className="button"> <Link key={nm.options} to={nm.links}>{nm.options}</Link> </Button>)
     }
 
     return (
-        <Box width="100vw" h="100vh" opacity=".9" bgImage="url(../../Public/img/cryptoMenubg1.jpg)" bgSize="cover">
-
-            <Flex h="6em" justify="center" bgColor="black">
-                <Heading fontSize="4em" color="white" fontWeight="bold">CryptoCoders</Heading>
-            </Flex>
-
-            <Flex flexDirection="column" align="center" justify="space-evenly" w="100%" h="100%">
-
-                <Flex align="center" gap="2em">
+        <Background position="relative">
+            <Flex bgColor="black" justify="space-between">
+                <Heading pt=".5em" pb=".5em" pl=".5em" fontSize={[0, "1em", "2em", "3em"]} color="white" fontWeight="bold">CryptoCoders</Heading>
+                <Flex align="center" gap="1em" mr="2em">
                     {menu.map(cbMenu)}
                 </Flex>
-
-                <Routes>
-                    <Route path='/Login/*' element={<Login val={{ isOpen, onClose }} />} />
-                    <Route path='/Register' element={<Register flag={{ flag, setFlag }} />} />
-                </Routes>
-
             </Flex>
-        </Box>
+            <Flex color="White" flexDirection="column" align="center" justify="center" position="absolute" mt="15em" ml="30em" fontStyle="italic" fontWeight="bold">
+                <Text display="block" fontSize='5xl'>WELCOME</Text>
+                <Text fontSize='4xl'>To CryptoCoders</Text>
+            </Flex>
+            <Routes>
+                <Route path='/Login/*' element={<Login val={{ isOpen, onClose }} />} />
+                <Route path='/Register' element={<Register flag={{ flag, setFlag }} />} />
+            </Routes>
+        </Background>
     )
 }
 
