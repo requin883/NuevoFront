@@ -100,7 +100,7 @@ function Login(props) {
           </form>
         </ModalBody>
         <ModalFooter>
-          <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
+          <ModalCloseButton disabled={spinner} onClick={onClose}>X</ModalCloseButton>
         </ModalFooter>
       </ModalContent>
       <Routes>
