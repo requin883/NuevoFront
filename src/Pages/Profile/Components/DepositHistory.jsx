@@ -11,6 +11,7 @@ import {
     TableContainer,
     Center,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 
 function DepositHistory() {
 
