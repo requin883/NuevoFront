@@ -24,7 +24,7 @@ import endpointList from "../../../settings/endpoints"
 import API_AXIOS from "../../../settings/settings"
 
 
-const currencies = ["USDT", "USDC", "BUSD"]
+const currencies = ["usdt", "btc", "eth", "busd"]
 
 const schema = yup.object().shape({
     email: yup.string().email().required(),
@@ -50,7 +50,7 @@ function Transactions(props) {
     const fnSend = async (data) => {
         try {
             setSpinner(true);
-            let string = `?sender=${userEmail.slice(1, userEmail.length - 1)}&receiver=${data.email}&quantity=${data.amount}`
+            let string = `?sender=${userEmail.slice(1, userEmail.length - 1)}&receiver=${data.email}&quantity=${data.amount}&token=${data.currency}`
             let output = await API_AXIOS.post(endpointList.sendPayment + string)
             alert(output.data)
             switch (output.data) {

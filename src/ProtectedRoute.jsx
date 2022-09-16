@@ -6,7 +6,7 @@ import Homepages from "./Pages/Homepages/Homepages";
 
 
 const ProtectedRoute = () => {
- let [auth, setAuth] = useState(true)
+ let [auth, setAuth] = useState(false)
 return auth ? <Outlet/> : <Homepages/>
 }
 
