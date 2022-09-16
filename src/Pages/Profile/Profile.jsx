@@ -4,6 +4,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import endpointList from "../../../settings/endpoints";
 import API_AXIOS from "../../../settings/settings";
 import Background from "../Background/Background";
+import Balance from "./Components/Balance";
 import DepositHistory from "./Components/DepositHistory";
 import PaymentHistory from "./Components/PaymentHistory";
 
@@ -43,6 +44,8 @@ function Profile() {
 
         { links: '/profile/paymenthistory', options: "Payments' history" },
         { links: '/profile/deposithistory', options: "Deposits' history" },
+        { links: '/profile/balance', options: "Users' balance" },
+        {links: '/menu', options: "Return to menu"}
 
     ]
 
@@ -61,6 +64,7 @@ function Profile() {
                     <Routes>
                         <Route path='/paymenthistory' element={<PaymentHistory val={{ isOpen, onClose }} />} />
                         <Route path="/deposithistory" element={<DepositHistory flag={{ flag, setFlag }} />} />
+                        <Route path="/balance" element={<Balance/>}/>
                     </Routes>
                 </Box>
             </Box>

@@ -1,5 +1,4 @@
-import {
-    Box,
+import { Box,
     Table,
     Thead,
     Tbody,
@@ -9,34 +8,39 @@ import {
     Td,
     TableCaption,
     TableContainer,
-    Center,
-} from '@chakra-ui/react';
+    Center, } from '@chakra-ui/react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect, useState } from 'react'
 import endpointList from '../../../../settings/endpoints'
 import API_AXIOS from '../../../../settings/settings'
-function DepositHistory() {
 
-    let [deposits, setDeposits] = useState([])
+
+function Balance () {
+    
+    let [balance, setBalance] = useState([
+        {amount: 10 , currency: "USDT"},
+        {amount: 15 , currency: "USDC"},
+        {amount: 8 , currency: "BUSD"},
+    ])
     let [email, setEmail] = useState(window.localStorage.getItem("userEmailHP"))
-
+/*
     const getData = async () => {
         try {
             let string = "?email=" + email.slice(1, email.length - 1)
-            console.log(string)
-            let { data } = await API_AXIOS.get(endpointList.getDeposits + string)
-            setDeposits(data)
+            let { data } = await API_AXIOS.get(endpointList.getBalance + string)
+            setBalance (data)
+            console.log(data)
         } catch (error) {
             console.log(error)
         }
-
     }
+
     useEffect(()=>{
         getData()
- }, [])
-    return (
-        <Box>
-            <Center fontWeight="extrabold" fontSize="4xl" pt="1em" pb="1em">Deposits</Center>
+ }, [])*/
+        return (
+            <Box>
+            <Center fontWeight="extrabold" fontSize="4xl" pt="1em" pb="1em">Balance</Center>
             <Center>
                 <TableContainer bgColor="purple.400" w="50em" rounded="10">
                     <Table variant="striped" >
@@ -47,11 +51,11 @@ function DepositHistory() {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {deposits &&
-                                deposits.map((deposits) => (
+                            {balance &&
+                                balance.map((currency) => (
                                     <Tr>
-                                        <Td>{deposits.amount}</Td>
-                                        <Td>{deposits.currency}</Td>
+                                        <Td>{currency.amount}</Td>
+                                        <Td>{currency.currency}</Td>
                                     </Tr>
                                 ))}
                         </Tbody>
@@ -59,7 +63,7 @@ function DepositHistory() {
                 </TableContainer>
             </Center>
         </Box>
-    )
+        )
 }
 
-export default DepositHistory
+export default Balance;
