@@ -16,8 +16,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
          <Route element={<ProtectedRoute/>}>
             <Route path='/menu/*' element={<Menu />} />
+         </Route>
+         <Route element={<ProtectedRoute/>}>
             <Route path='/profile/*' element={<Profile />} />
          </Route>
+   
           <Route path="/*" element={<Homepages />} />
           <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
         </Routes>

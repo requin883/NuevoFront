@@ -15,15 +15,16 @@ import {
   Center,
   Spinner,
 } from '@chakra-ui/react'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import API_AXIOS from "../../../settings/settings";
 import endpointList from "../../../settings/endpoints";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 
 
 function ValidatePays(props) {
   let [userEmail, setEmail] = useState(window.localStorage.getItem("userEmailHP"));
-
+ let [userLogin, setUserLogin] = useLocalStorage('user', "") 
   const [spinner, setSpinner] = useState(false);
 
   let { isOpen, onClose } = props.val;
@@ -47,7 +48,10 @@ function ValidatePays(props) {
       console.log(error)
     }
   }
-
+  useEffect (() => {
+    let date = new Date()
+    setUserLogin(date)
+}, []) 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalContent>

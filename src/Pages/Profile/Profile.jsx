@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import endpointList from "../../../settings/endpoints";
 import API_AXIOS from "../../../settings/settings";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import ProtectedRoute from "../../ProtectedRoute";
 import Background from "../Background/Background";
 import Balance from "./Components/Balance";
 import DepositHistory from "./Components/DepositHistory";
@@ -12,8 +14,9 @@ import PaymentHistory from "./Components/PaymentHistory";
 function Profile() {
     let [flag, setFlag] = useBoolean();
     let { isOpen, onOpen, onClose } = useDisclosure();
-    let [email, setEmail] = useState(window.localStorage.getItem("userEmailHP"))
+    let [email, setEmail] = (useState(window.localStorage.getItem("userEmailHP")))
     let [balance, setBalance] = useState()
+  let [userLogin, setUserLogin] = useLocalStorage('user', "") 
     // datos personales
     // balance
     // historial de pagos
@@ -24,11 +27,14 @@ function Profile() {
     }
 
     const getData = async () => {
+
         try {
             let string = "?email=" + email.slice(1, email.length - 1)
             let { data } = await API_AXIOS.get(endpointList.getBalance + string)
-            console.log(data)
-            setBalance(data)
+            //console.log(data)
+          //  setBalance(data)
+          
+  
         } catch (error) {
             console.log(error)
         }
@@ -36,8 +42,11 @@ function Profile() {
     }
 
     useEffect(() => {
+        let date = new Date()
+        setUserLogin(date)
         getData()
-        console.log(balance)
+       // console.log(balance)
+       
     }, [])
 
     let menu = [
@@ -62,9 +71,18 @@ function Profile() {
                 </Flex>
                 <Box>
                     <Routes>
-                        <Route path='/paymenthistory' element={<PaymentHistory val={{ isOpen, onClose }} />} />
-                        <Route path="/deposithistory" element={<DepositHistory flag={{ flag, setFlag }} />} />
-                        <Route path="/balance" element={<Balance/>}/>
+                        
+            <Route element={<ProtectedRoute/>}>
+                    <Route path='/paymenthistory' element={<PaymentHistory val={{ isOpen, onClose }} />} />
+            </Route>
+            <Route element={<ProtectedRoute/>}>
+                     <Route path="/deposithistory" element={<DepositHistory flag={{ flag, setFlag }} />} />
+            </Route>
+            <Route element={<ProtectedRoute/>}>
+                    <Route path="/balance" element={<Balance/>}/>
+            </Route>
+   
+           
                     </Routes>
                 </Box>
             </Box>

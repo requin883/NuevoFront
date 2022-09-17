@@ -13,10 +13,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect, useState } from 'react'
 import endpointList from '../../../../settings/endpoints'
 import API_AXIOS from '../../../../settings/settings'
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 
 function Balance () {
-    
+   let [userLogin, setUserLogin] = useLocalStorage('user', "") 
     let [balance, setBalance] = useState([
         {amount: 10 , currency: "USDT"},
         {amount: 15 , currency: "USDC"},
@@ -34,10 +35,13 @@ function Balance () {
             console.log(error)
         }
     }
-
+*/
     useEffect(()=>{
-        getData()
- }, [])*/
+  //      getData()
+  let date = new Date()
+  setUserLogin(date)
+  //console.log(userLogin)
+}, [])
         return (
             <Box>
             <Center fontWeight="extrabold" fontSize="4xl" pt="1em" pb="1em">Balance</Center>
