@@ -29,6 +29,7 @@ function Login(props) {
   const [spinner, setSpinner] = useState(false);
   let { isOpen, onClose } = props.val;
   let [email, setEmail] = useLocalStorage('userEmailHP', '')
+  let [userLogin, setUserLogin] = useLocalStorage('user', "")
   let { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
   const {
     register,
@@ -53,6 +54,8 @@ function Login(props) {
           break;
         case 1:
           setEmail(data.email)
+          let date = new Date()
+          setUserLogin(date)
           alert("tamo activo menol");
           navigate('/menu')
           break;
@@ -100,7 +103,7 @@ function Login(props) {
           </form>
         </ModalBody>
         <ModalFooter>
-          <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
+          <ModalCloseButton disabled={spinner} onClick={onClose}>X</ModalCloseButton>
         </ModalFooter>
       </ModalContent>
       <Routes>

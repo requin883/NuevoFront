@@ -5,6 +5,8 @@ import Homepages from './Pages/Homepages/Homepages'
 import Menu from './Pages/Menu'
 import { ChakraProvider } from '@chakra-ui/react'
 import VerifyEmail from './Pages/VerifyEmail/VerifyEmail'
+import Profile from './Pages/Profile/Profile';
+import ProtectedRoute from './ProtectedRoute'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -12,9 +14,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ChakraProvider>
       <Browser>
         <Routes>
-          <Route path='/menu/*' element={<Menu />} />
+         <Route element={<ProtectedRoute/>}>
+            <Route path='/menu/*' element={<Menu />} />
+         </Route>
+         <Route element={<ProtectedRoute/>}>
+            <Route path='/profile/*' element={<Profile />} />
+         </Route>
+   
           <Route path="/*" element={<Homepages />} />
-          <Route path='/verifyEmail/:token' element={< VerifyEmail/>} />
+          <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
         </Routes>
       </Browser>
     </ChakraProvider>

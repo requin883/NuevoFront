@@ -1,88 +1,125 @@
+import {
+    Modal,
+    Text,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    Input,
+    Select,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalCloseButton,
+    ModalOverlay,
+    Button,
+    Center,
+    Spinner
+} from "@chakra-ui/react"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import endpointList from "../../../settings/endpoints"
 import API_AXIOS from "../../../settings/settings"
+import { useLocalStorage } from "../../hooks/useLocalStorage"
 
-const currencies = ["USDT" , "USDC", "BUSD"]
+
+const currencies = ["usdt", "btc", "eth", "busd"]
 
 const schema = yup.object().shape({
-email: yup.string().email().required(),
-amount: yup.number().min(0, "The amount most be possitive ").required(),
-currency: yup.string().required()
+    email: yup.string().email().required(),
+    amount: yup.number().min(0, "The amount most be possitive ").required(),
+    currency: yup.string().required()
 })
 
 
-function Transactions(){
+function Transactions(props) {
+   let [userLogin, setUserLogin] = useLocalStorage('user', "") 
+    const [spinner, setSpinner] = useState(false);
+    const { flag, setFlag } = props.val;
+
     let [userEmail, setEmail] = useState(window.localStorage.getItem("userEmailHP"))
     const {
         register,
         formState: { errors },
         handleSubmit,
-      } = useForm({
+    } = useForm({
         resolver: yupResolver(schema),
-      });
+    });
+useEffect (() => {
+    let date = new Date()
+    setUserLogin(date)
+}, [])
 
-        const fnSend = async (data) => {
-            try {
-
-                let string = `?sender=${userEmail.slice(1,userEmail.length - 1)}&receiver=${data.email}&quantity=${data.amount}`
-               let output = await API_AXIOS.post(endpointList.sendPayment+ string)
-               alert (output.data) 
-               switch (output.data) {
-                    case 0:
-                        alert("no existe el sender")
-                        break;
-                    case 1:
-                        alert("No tienes tanta plata")
+    const fnSend = async (data) => {
+        try {
+            setSpinner(true);
+            let string = `?sender=${userEmail.slice(1, userEmail.length - 1)}&receiver=${data.email}&quantity=${data.amount}&token=${data.currency}`
+            let output = await API_AXIOS.post(endpointList.sendPayment + string)
+            alert(output.data)
+            switch (output.data) {
+                case 0:
+                    alert("no existe el sender")
                     break;
-                    case 2:
-                        alert("Sender = receiver")
+                case 1:
+                    alert("No tienes tanta plata")
+                    break;
+                case 2:
+                    alert("Sender = receiver")
                     break
-                    case 3:
-                        alert("Salio bien")
+                case 3:
+                    alert("Salio bien")
                     break;
-                    default:
-                        alert("error")
-                        break;
-                }
-
-            } catch (error) {
-                console.log (error)
+                default:
+                    alert("error")
+                    break;
             }
+            setSpinner(false);
+        } catch (error) {
+            console.log(error)
         }
+    }
 
     return (
-        <div>
-            <h1>Transactions</h1> 
-            <h2> From: {userEmail}</h2>
-            <form onSubmit={handleSubmit(fnSend)}>
-                <div> 
-                  <label> Email of receiver</label>
-                <input type='email' id="email" placeholder="Email" {...register("email")} />
-                <p> {errors.email?.message} </p>  
-                </div>
-                <div>
-                    <label> Currency </label>
-                    <select {...register("currency")}>
-                        {currencies?.map((option, index) => (
-                            <option key={index} value = {option}>
-                                {option}
-                            </option>
-                        ))}
-                    </select>
-                    <p> {errors.currency?.message} </p>
-                </div>
-                <div> 
-                  <label> Amount of the selected currency </label>
-                <input type="number" id="amount" placeholder="Amount" {...register("amount")} />
-                <p> {errors.amount?.message} </p>  
-                </div>
-
-                <input type='submit' value="Confirm Transaction"/>
-            </form>
-        </div>
+        <Modal isOpen={flag}>
+            <ModalOverlay></ModalOverlay>
+            <ModalContent>
+                <Center>
+                    <ModalHeader>Transactions</ModalHeader>
+                </Center>
+                <ModalCloseButton disabled={spinner} onClick={setFlag.off} />
+                <ModalBody>
+                    <Text fontSize="2xl">From:{userEmail}</Text>
+                    <form onSubmit={handleSubmit(fnSend)}>
+                        <FormControl>
+                            <FormLabel> Email of receiver</FormLabel>
+                            <Input type='email' id="email" placeholder="Email" {...register("email")} />
+                            <FormErrorMessage> {errors.email?.message} </FormErrorMessage>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel> Currency </FormLabel>
+                            <Select placeholder="select" {...register("currency")}>
+                                {currencies?.map((option, index) => (
+                                    <option key={index} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
+                            </Select>
+                            <FormErrorMessage> {errors.currency?.message} </FormErrorMessage>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel> Amount of the selected currency </FormLabel>
+                            <Input type="number" id="amount" placeholder="Amount" {...register("amount")} />
+                            <FormErrorMessage> {errors.amount?.message} </FormErrorMessage>
+                        </FormControl>
+                        <Center p="0.5em">
+                            {spinner ? <Button colorScheme="purple" disabled={spinner}><Spinner /></Button> : <Button colorScheme="purple" type='submit'>Confirm Transaction</Button>}
+                        </Center>
+                    </form>
+                </ModalBody>
+            </ModalContent>
+        </Modal>
     )
 
 }

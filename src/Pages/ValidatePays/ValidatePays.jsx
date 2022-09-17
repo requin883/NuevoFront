@@ -15,16 +15,20 @@ import {
   Center,
   Spinner,
 } from '@chakra-ui/react'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import API_AXIOS from "../../../settings/settings";
 import endpointList from "../../../settings/endpoints";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 
 
 function ValidatePays(props) {
-  let [userEmail, setEmail] = useState(window.localStorage.getItem("userEmailHP"))
+  let [userEmail, setEmail] = useState(window.localStorage.getItem("userEmailHP"));
+ let [userLogin, setUserLogin] = useLocalStorage('user', "") 
   const [spinner, setSpinner] = useState(false);
+
   let { isOpen, onClose } = props.val;
+
   const {
     register,
     formState: { errors },
@@ -36,7 +40,7 @@ function ValidatePays(props) {
   const fnSend = async (data) => {
     try {
       setSpinner(true);
-      let string = `?email=${userEmail.slice(1,userEmail.length - 1)}&year=${data.year}&month=${data.month}&day=${data.day}&hours=${data.hour}&minutes=${data.minute}&seconds=${data.second}&quantity=${data.quantity}`
+      let string = `?email=${userEmail.slice(1, userEmail.length - 1)}&year=${data.year}&month=${data.month}&day=${data.day}&hours=${data.hour}&minutes=${data.minute}&seconds=${data.second}&quantity=${data.quantity}`
       let output = await API_AXIOS.post(endpointList.verifyPayment + string)
       alert(JSON.stringify(output.data))
       setSpinner(false);
@@ -44,7 +48,10 @@ function ValidatePays(props) {
       console.log(error)
     }
   }
-
+  useEffect (() => {
+    let date = new Date()
+    setUserLogin(date)
+}, []) 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalContent>
@@ -86,23 +93,23 @@ function ValidatePays(props) {
             </FormControl>
 
 
-           <FormControl isInvalid={errors.second}>
-               <FormLabel> Second </FormLabel>
-               <Input id="second" placeholder="second" type="number" {...register("second")}/>
-                <FormErrorMessage>{errors.second?.message}</FormErrorMessage> 
-           </FormControl>
+            <FormControl isInvalid={errors.second}>
+              <FormLabel> Second </FormLabel>
+              <Input id="second" placeholder="second" type="number" {...register("second")} />
+              <FormErrorMessage>{errors.second?.message}</FormErrorMessage>
+            </FormControl>
 
-           <FormControl isInvalid={errors.quantity}>
-               <FormLabel> Quantity </FormLabel>
-               <Input id="quantity" placeholder="quantity" type="text" {...register("quantity")}/>
-                <FormErrorMessage>{errors.quantity?.message}</FormErrorMessage> 
-           </FormControl>
+            <FormControl isInvalid={errors.quantity}>
+              <FormLabel> Quantity </FormLabel>
+              <Input id="quantity" placeholder="quantity" type="text" {...register("quantity")} />
+              <FormErrorMessage>{errors.quantity?.message}</FormErrorMessage>
+            </FormControl>
 
-           
-           <Center>
-              {spinner?<Button disabled={spinner} colorScheme="purple" mt="1.5em" type="submit" value="register"><Spinner/></Button>:<Button colorScheme="purple" mt="1.5em" type="submit" value="register">Validate</Button>}
+
+            <Center>
+              {spinner ? <Button disabled={spinner} colorScheme="purple" mt="1.5em" type="submit" value="register"><Spinner /></Button> : <Button colorScheme="purple" mt="1.5em" type="submit" value="register">Validate</Button>}
             </Center>
-            <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
+            <ModalCloseButton disabled={spinner} onClick={onClose}>X</ModalCloseButton>
           </form>
         </ModalBody>
       </ModalContent>

@@ -40,7 +40,6 @@ function Register(props) {
       let registeredFlag = await API_AXIOS.get(
         endpointList.findEmail + `?email=${data.email}`
       );
-      console.log(registeredFlag.data);
       if (registeredFlag.data == 0) {
         await API_AXIOS.post(endpointList.register + `?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}`);
         alert("Su cuenta ha sido creada satisfactoriamente, por favor revise su correo para verificar la cuenta");
