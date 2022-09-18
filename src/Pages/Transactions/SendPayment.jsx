@@ -2,7 +2,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
-
+import API_AXIOS from "../../../settings/settings";
+import endpointList from "../../settings/endpoints";
+import {pepito} from "../../Utils/pepito";
 
 const schema = yup.object().shape({
     data: yup.string().required(),
@@ -72,13 +74,14 @@ return (
             <input type="submit" value="Send Payment"/>
         </form>
    
-        
+        <button onClick={ async () => {
+            let email = window.localStorage.getItem("userEmailHP")
+            console.log(email.slice(1,email.length - 1))
+            pepito(email.slice(1,email.length - 1))
+            alert ("Exportado ")
+     }} > Export Payments </button>
     </div>
-
-
 )
-
-
 }
 
 export default SendPayment;
