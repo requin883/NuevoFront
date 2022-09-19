@@ -9,7 +9,9 @@ import {
   NavItem
 } from "reactstrap";
 
-function ExamplesNavbar({ onOpen, setFlag }) {
+function ExamplesNavbar(props, children) {
+
+  const links = props?.val || 0;
 
   const [collapsed, setCollapsed] = useState(true);
 
@@ -19,23 +21,23 @@ function ExamplesNavbar({ onOpen, setFlag }) {
     <>
       <Navbar fixed="top" className="nav" expand="lg" dark container>
         <NavbarBrand href="/" className="me-auto">
-          CryptoCroders
+          <img src="../../../../Public/assets/logo.png" className="img-fluid navbarimg" alt="..." />
         </NavbarBrand>
-        <NavbarToggler onClick={toggleNavbar} />
+        {links?<><NavbarToggler onClick={toggleNavbar} />
         <Collapse isOpen={!collapsed} navbar>
-          <Nav className="ms-auto" navbar>
-            <NavItem>
-              <NavLink onClick={setFlag.on} href="/register">
-                Register
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink onClick={onOpen} href="/login">
-                Login
-              </NavLink>
-            </NavItem>
-          </Nav>
+        <Nav className="ms-auto" navbar>
+          {links.map(link=>{
+        return(
+          <>
+              <NavItem key={link}>
+                <NavLink href={`/${link}`}>
+                  {link}
+                </NavLink>
+              </NavItem>
+              </>)})}
+        </Nav>
         </Collapse>
+        </>:""}
       </Navbar>
     </>
   )
