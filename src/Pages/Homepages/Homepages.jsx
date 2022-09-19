@@ -10,8 +10,8 @@ function Homepages() {
     const { isOpen, onClose, onOpen } = useDisclosure();
 
     let menu = [
-        { links: '/Login', options: 'Login' },
-        { links: '/Register', options: 'Register' }
+        { links: '/home/Login', options: 'Login' },
+        { links: '/home/Register', options: 'Register' }
     ]
 
     const cbMenu = (nm) => {

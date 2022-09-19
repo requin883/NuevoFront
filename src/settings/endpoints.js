@@ -9,8 +9,8 @@ const endpointList={
     verifyPayment: '/verifyPayment',
     getDeposits: '/getDeposits',
     exportPayments: '/exportPayments',
-    getUserData: '/getUserData'
-
+    getUserData: '/getUserData',
+    forgotPassword: '/forgotPassword',
     }
 
     export default endpointList;
