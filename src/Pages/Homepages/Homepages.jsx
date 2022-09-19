@@ -1,6 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
-import Login from "./Components/Login";
-import Register from "./Components/Register";
+import { Link } from "react-router-dom";
 import { Container, Row } from "reactstrap";
 import ExamplesNavbar from "../Homepages/Components/Navbar";
 import Card from "../Homepages/Components/Card";
@@ -8,6 +6,7 @@ import Message from "../Homepages/Components/Message";
 import DefaultFooter from "../Homepages/Components/Footer";
 
 function Homepages() {
+
 
     let menu = [
         { links: '/Login', options: 'Login' },
@@ -17,10 +16,9 @@ function Homepages() {
     const cbMenu = (nm) => {
         return (<Button key={nm.options} onClick={nm.options == 'Login' ? onOpen : setFlag.on} colorScheme="purple" variant="ghost" size="md" className="button"> <Link key={nm.options} to={nm.links}>{nm.options}</Link> </Button>)
     }
-
     return (
         <>
-            <ExamplesNavbar onOpen={onOpen} setFlag={setFlag} />
+            <ExamplesNavbar val={["register", "login"]} />
             <Container className="d-flex flex-column wrapper m-5">
                 <Container className=" d-flex flex-column">
                     <h2 className="align-self-center title p-3">Quienes Somos?</h2>
@@ -61,10 +59,6 @@ function Homepages() {
                 </div>
                 <DefaultFooter />
             </Container>
-            <Routes>
-                <Route path='/Login/*' element={<Login />} />
-                <Route path='/Register' element={<Register />} />
-            </Routes>
         </>
     )
 }
