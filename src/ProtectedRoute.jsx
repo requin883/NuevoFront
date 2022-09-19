@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
-import Homepages from "./Pages/Homepages/Homepages";
+import { Outlet, useNavigate } from "react-router-dom";
+
 
 
 
 
 const ProtectedRoute = () => {
 
-
+    const navigate = useNavigate();
     let userlogin = window.localStorage.getItem("user")
 
     let l = Date.parse(userlogin.slice(1, userlogin.length - 1))
@@ -18,7 +18,7 @@ const ProtectedRoute = () => {
         let auth = (date > now)
 
         console.log(date + " " + now)
-return auth ? <Outlet/> : <Homepages/>
+return auth ? <Outlet/> : navigate('/autoLogOut')
 }
 
 export default ProtectedRoute;

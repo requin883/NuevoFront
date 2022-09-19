@@ -8,6 +8,9 @@ import VerifyEmail from './Pages/VerifyEmail/VerifyEmail'
 import Profile from './Pages/Profile/Profile';
 import ProtectedRoute from './ProtectedRoute'
 import SendPayment from './Pages/Transactions/SendPayment'
+import ForgotPassword from './Pages/ForgotPassword/ForgotPassword'
+import PageNotFound from './Pages/PageNotFound/PageNotFound'
+import AutoLogOut from './Pages/AutoLogOut/AutoLogOut'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -22,9 +25,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/profile/*' element={<Profile />} />
          </Route>
    
-          <Route path="/*" element={<Homepages />} />
+          <Route path="/home/*" element={<Homepages />} />
           <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
+          <Route path='/forgotPassword/:email' element={< ForgotPassword />} />
           <Route path='/sendpayment' element={<SendPayment/>}/>
+          <Route path="/*" element={<PageNotFound/>}/>
+          <Route path="/autoLogOut" element={<AutoLogOut/>}/>
         </Routes>
       </Browser>
     </ChakraProvider>
