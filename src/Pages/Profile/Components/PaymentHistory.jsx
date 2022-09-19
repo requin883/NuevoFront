@@ -7,6 +7,7 @@ import { Box,
     Th,
     Td,
     TableCaption,
+    Button,
     TableContainer,
     Center, } from '@chakra-ui/react';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -14,6 +15,7 @@ import { useEffect, useState } from 'react'
 import endpointList from '../../../../settings/endpoints'
 import API_AXIOS from '../../../../settings/settings'
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import {pepito} from "../../../Utils/pepito";
 
 function PaymentHistory(props) {
     /*let transactions = [
@@ -70,6 +72,12 @@ function PaymentHistory(props) {
                 </Table>
             </TableContainer>
             </Center>
+
+            <Button onClick={ async () => {
+            let email = window.localStorage.getItem("userEmailHP")
+            console.log(email.slice(1,email.length - 1))
+            pepito(email.slice(1,email.length - 1))
+     }} > Export Payments' History </Button>
         </Box>
     )
 }
