@@ -8,27 +8,26 @@ import Profile from './Pages/Profile/Profile';
 import ProtectedRoute from './ProtectedRoute';
 import SendPayment from './Pages/Transactions/SendPayment';
 import "../src/scss/style.scss";
-import * as bootstrap from 'bootstrap';
 import Login from "../src/Pages/Homepages/Components/Login";
 import Register from "../src/Pages/Homepages/Components/Register";
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-      <Browser>
-        <Routes>
-         <Route element={<ProtectedRoute/>}>
-            <Route path='/menu/*' element={<Menu />} />
-         </Route>
-         <Route element={<ProtectedRoute/>}>
-            <Route path='/profile/*' element={<Profile />} />
-         </Route>
-            <Route path='/Login/*' element={<Login />} />
-            <Route path='/Register/*' element={<Register />} />
-          <Route path="/*" element={<Homepages />} />
-          <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
-          <Route path='/sendpayment' element={<SendPayment/>}/>
-        </Routes>
-      </Browser>
+    <Browser>
+      <Routes>
+        <Route element={<ProtectedRoute />}>
+          <Route path='/menu/*' element={<Menu />} />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path='/profile/*' element={<Profile />} />
+        </Route>
+        <Route path='/Login/*' element={<Login />} />
+        <Route path='/Register/*' element={<Register />} />
+        <Route path="/*" element={<Homepages />} />
+        <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
+        <Route path='/sendpayment' element={<SendPayment />} />
+      </Routes>
+    </Browser>
   </React.StrictMode>
 )
