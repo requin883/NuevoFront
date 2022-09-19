@@ -1,0 +1,29 @@
+
+
+$primary-color: #352F44;
+$secondary-color: #2A2438;
+$third-color:#411E8F;
+$details-color:#310A5D;
+
+body{
+    background-color:black;
+    color:white;
+}
+
+.nav{
+    font-weight: bold;
+    background-color: $third-color;
+    border-bottom: solid 0.3em $secondary-color;
+    box-shadow: 0.3em -.5em 1em 1em black;
+}
+
+
+.newcard{
+    color:$details-color;
+    
+}
+
+
+.title{
+    opacity: 1;
+}
