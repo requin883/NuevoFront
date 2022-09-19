@@ -1,30 +1,26 @@
 import {
     Modal,
-    ModalContent,
     ModalHeader,
-    ModalFooter,
     ModalBody,
-    ModalCloseButton,
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    Input,
-    FormHelperText,
     Button,
-    Center,
-    Spinner
-} from '@chakra-ui/react'
+    ModalFooter,
+    Form,
+    FormFeedback,
+    Input,
+    Label,
+    FormGroup
+} from "reactstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { forgetPwSchema } from '../../../Utils/yupSchemas';
-import API_AXIOS from '../../../../settings/settings';
-import endpointList from '../../../../settings/endpoints';
+import API_AXIOS from '../../../settings/settings';
+import endpointList from '../../../settings/endpoints';
 import { useState } from 'react';
 
 
 function EmailAlert(props) {
-    const [spinner,setSpinner] = useState(false);
-    const { isOpen1: isOpen, onClose1: onClose } = props.val;
+    const [spinner, setSpinner] = useState(false);
+    const { flag, setFlag } = props.val;
     const {
         register,
         formState: { errors },
@@ -51,27 +47,21 @@ function EmailAlert(props) {
     }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size="lg">
-            <ModalContent>
-                <ModalHeader> Olvidé mi contraseña </ModalHeader>
-                <ModalBody>
-                    <form onSubmit={handleSubmit(fnSend)}>
-                        <FormControl isInvalid={errors.email}>
-                            <FormLabel htmlFor="email"> Correo electrónico </FormLabel>
-                            <Input id="email" placeholder="email" type="email" {...register("email")} />
-                            <FormHelperText>Por favor ingrese su correo electrónico</FormHelperText>
-                            <FormErrorMessage> {errors.email?.message}</FormErrorMessage>
-                        </FormControl>
-                        <Center>
-                            {spinner?<Button mt="2em" disabled={spinner} colorScheme="purple" type="submit"><Spinner/></Button>:<Button mt="2em" colorScheme="purple" type="submit">Enviar</Button>}
-                        </Center>
-                    </form>
-
-                </ModalBody>
-                <ModalFooter>
-                    <ModalCloseButton disabled={spinner} onClick={onClose}>X</ModalCloseButton>
-                </ModalFooter>
-            </ModalContent>
+        <Modal isOpen={flag} size="lg">
+            <ModalHeader className="text-black"> Olvidé mi contraseña </ModalHeader>
+            <ModalBody>
+                <Form onSubmit={handleSubmit(fnSend)}>
+                    <FormGroup isInvalid={errors.email}>
+                        <Label for="email"> Correo electrónico </Label>
+                        <Input id="email" placeholder="email" type="email" {...register("email")} />
+                        <FormFeedback> {errors.email?.message}</FormFeedback>
+                    </FormGroup>
+                    {spinner ? <Button mt="2em" disabled={spinner} colorScheme="purple" type="submit"><Spinner /></Button> : <Button mt="2em" colorScheme="purple" type="submit">Enviar</Button>}
+                </Form>
+            </ModalBody>
+            <ModalFooter>
+                <Button disabled={spinner} onClick={() => setFlag(false)}>X</Button>
+            </ModalFooter>
         </Modal>
     )
 }
