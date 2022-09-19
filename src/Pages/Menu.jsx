@@ -4,7 +4,6 @@ import cbMenu from "../callbacks/cbMenu";
 import { Flex, Button, useDisclosure, useBoolean } from "@chakra-ui/react";
 import Profile from "./Profile/Profile";
 import Transactions from "./Transactions/Transactions";
-import Background from "./Background/Background";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useEffect } from "react";
 import ProtectedRoute from "../ProtectedRoute";
