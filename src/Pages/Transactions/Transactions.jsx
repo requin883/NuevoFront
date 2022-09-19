@@ -17,14 +17,15 @@ import {
     Spinner
 } from "@chakra-ui/react"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import endpointList from "../../../settings/endpoints"
 import API_AXIOS from "../../../settings/settings"
+import { useLocalStorage } from "../../hooks/useLocalStorage"
 
 
-const currencies = ["USDT", "USDC", "BUSD"]
+const currencies = ["usdt", "btc", "eth", "busd"]
 
 const schema = yup.object().shape({
     email: yup.string().email().required(),
@@ -34,7 +35,7 @@ const schema = yup.object().shape({
 
 
 function Transactions(props) {
-
+   let [userLogin, setUserLogin] = useLocalStorage('user', "") 
     const [spinner, setSpinner] = useState(false);
     const { flag, setFlag } = props.val;
 
@@ -46,11 +47,15 @@ function Transactions(props) {
     } = useForm({
         resolver: yupResolver(schema),
     });
+useEffect (() => {
+    let date = new Date()
+    setUserLogin(date)
+}, [])
 
     const fnSend = async (data) => {
         try {
             setSpinner(true);
-            let string = `?sender=${userEmail.slice(1, userEmail.length - 1)}&receiver=${data.email}&quantity=${data.amount}`
+            let string = `?sender=${userEmail.slice(1, userEmail.length - 1)}&receiver=${data.email}&quantity=${data.amount}&token=${data.currency}`
             let output = await API_AXIOS.post(endpointList.sendPayment + string)
             alert(output.data)
             switch (output.data) {

@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import BGvideo from "../../../Public/img/BgVideo.mp4"
+import BGvideo from "../../../Public/img/BGvideo.mp4"
 import Footer from "./Footer";
 
 export default function Background({ children, props }) {
