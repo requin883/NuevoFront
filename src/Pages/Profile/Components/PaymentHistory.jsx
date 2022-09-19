@@ -57,6 +57,7 @@ function PaymentHistory(props) {
                     <Thead>
                         <Tr>
                             <Th> Quantity</Th>
+                            <Th> Currency </Th>
                             <Th> from/to </Th>
                         </Tr>
                     </Thead>
@@ -65,6 +66,7 @@ function PaymentHistory(props) {
                             transactions.map((transaction) => (
                                 <Tr>
                                     <Td>{transaction.quantity}</Td>
+                                    <Td> {transaction.token} </Td>
                                     <Td>{transaction.other}</Td>
                                 </Tr>
                             ))}

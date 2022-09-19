@@ -18,26 +18,27 @@ import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 function Balance () {
    let [userLogin, setUserLogin] = useLocalStorage('user', "") 
-    let [balance, setBalance] = useState([
-        {amount: 10 , currency: "USDT"},
-        {amount: 15 , currency: "USDC"},
-        {amount: 8 , currency: "BUSD"},
-    ])
+    let [balance, setBalance] = useState([])
     let [email, setEmail] = useState(window.localStorage.getItem("userEmailHP"))
-/*
+
     const getData = async () => {
         try {
             let string = "?email=" + email.slice(1, email.length - 1)
             let { data } = await API_AXIOS.get(endpointList.getBalance + string)
-            setBalance (data)
-            console.log(data)
+            let keys = Object.keys(data)
+            let bal = []
+            for (let i = 0; i < keys.length; i++) {
+            bal.push({currency: keys[i].toUpperCase(), amount: data[keys[i]]})                
+            }
+            console.log(bal)
+            setBalance(bal)
         } catch (error) {
             console.log(error)
         }
     }
-*/
+
     useEffect(()=>{
-  //      getData()
+     getData()
   let date = new Date()
   setUserLogin(date)
   //console.log(userLogin)
@@ -50,16 +51,18 @@ function Balance () {
                     <Table variant="striped" >
                         <Thead>
                             <Tr>
-                                <Th> Amount</Th>
-                                <Th> Currency </Th>
+                                 <Th> Currency </Th> 
+                                 <Th> Amount</Th>
+                              
                             </Tr>
                         </Thead>
                         <Tbody>
                             {balance &&
                                 balance.map((currency) => (
                                     <Tr>
-                                        <Td>{currency.amount}</Td>
-                                        <Td>{currency.currency}</Td>
+                                       <Td>{currency.currency}</Td> 
+                                       <Td>{currency.amount}</Td>
+                                        
                                     </Tr>
                                 ))}
                         </Tbody>
