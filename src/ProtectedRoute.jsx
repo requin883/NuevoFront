@@ -8,7 +8,9 @@ import Homepages from "./Pages/Homepages/Homepages";
 const ProtectedRoute = () => {
 
 
-    let userlogin = window.localStorage.getItem("user")
+    let userlogin = window.localStorage.getItem("user");
+
+    if(!userlogin) return;
 
     let l = Date.parse(userlogin.slice(1, userlogin.length - 1))
         let log = new Date(l)  
@@ -16,7 +18,6 @@ const ProtectedRoute = () => {
         date.setMinutes(log.getMinutes() + 1)
         let now = new Date()
         let auth = (date > now)
-
         console.log(date + " " + now)
 return auth ? <Outlet/> : <Homepages/>
 }
