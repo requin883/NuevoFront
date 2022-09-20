@@ -56,6 +56,11 @@ return (
             <p> {errors.data?.message}</p> 
             </div>
             <div>
+                <label> Email </label>
+            <input placeholder="Email" type="" {...register("data")}/>
+            <p> {errors.data?.message}</p> 
+            </div>
+            <div>
             <input placeholder="Amount" type="number" {...register("amount")}/>
             <p> {errors.amount?.message}</p> 
             </div>
