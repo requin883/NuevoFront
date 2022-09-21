@@ -18,7 +18,7 @@ import {
 } from 'reactstrap'
 import { useState } from "react";
 import ExamplesNavbar from "./Navbar";
-
+console.log(registerSchema);
 
 function Register() {
   const [spinner, setSpinner] = useState(false);
@@ -55,49 +55,54 @@ function Register() {
     <>
       <ExamplesNavbar />
       <Card className="d-flex regcard">
-          <CardTitle className="text-center"><h1> Register</h1> </CardTitle>
-          <CardBody>
-            <Form onSubmit={handleSubmit(fnSend)}>
-              <FormGroup isInvalid={errors.email}>
-                <Label for="email"> Email </Label>
-                <Input id="email" placeholder="Email" type="email" {...register("email")} />
-                <FormFeedback> {errors.email?.message}</FormFeedback>
-              </FormGroup>
+        <CardTitle className="text-center"><h1> Register</h1> </CardTitle>
+        <CardBody>
+          <Form onSubmit={handleSubmit(fnSend)}>
+            <FormGroup>
+              <Label for="email"> Email </Label>
+              <Input id="email" placeholder="Email" type="email" invalid={errors?.email} {...register("email")} />
+              {errors?.email &&
+                <FormFeedback>{errors.email?.message}</FormFeedback>}
+            </FormGroup>
+            <FormGroup>
+              <Label for="password"> Password </Label>
+              <Input id="password" placeholder="Password" type="password" invalid={errors?.password} {...register("password")} />
+              {errors?.password &&
+                <FormFeedback>{errors.password?.message}</FormFeedback>}
+            </FormGroup>
 
-              <FormGroup isInvalid={errors.password}>
-                <Label for="password"> Password </Label>
-                <Input id="pw" placeholder="Password" type="password" {...register("password")} />
-                <FormFeedback>{errors.email && errors.password?.message}</FormFeedback>
-              </FormGroup>
+            <FormGroup>
+              <Label for="valpass"> Confirm password </Label>
+              <Input id="valpass" placeholder="Password" type="password" invalid={errors?.valpass} {...register("valpass")} />
+              {errors?.valpass &&
+                <FormFeedback>{errors.valpass?.message}</FormFeedback>}
+            </FormGroup>
 
-              <FormGroup isInvalid={errors.valpass}>
-                <Label for="valpass"> Confirm password </Label>
-                <Input id="pw2" placeholder="Password" type="password" {...register("valpass")} />
-                <FormFeedback>{errors.valpass && errors.valpass?.message}</FormFeedback>
-              </FormGroup>
+            <FormGroup>
+              <Label for="firstname"> First name </Label>
+              <Input id="firstname" placeholder="First name" type="text" invalid={errors?.firstname} {...register("firstname")} />
+              {errors.firstname &&
+                <FormFeedback> {errors.firstname?.message}</FormFeedback>}
+            </FormGroup>
 
-              <FormGroup isInvalid={errors.firstname}>
-                <Label for="firstName"> First name </Label>
-                <Input id="firstName" placeholder="First name" type="text" {...register("firstname")} />
-                <FormFeedback> {errors.firstname?.message}</FormFeedback>
-              </FormGroup>
+            <FormGroup >
+              <Label for="Lastname"> Last name </Label>
+              <Input id="lastname" placeholder="Last name" type="text" invalid={errors?.lastname} {...register("lastname")} />
+              {errors.lastname &&
+                <FormFeedback> {errors.lastname && errors.lastname?.message}</FormFeedback>}
+            </FormGroup>
 
-              <FormGroup isInvalid={errors.lastname}>
-                <Label for="LastName"> Last name </Label>
-                <Input id="lastName" placeholder="Last name" type="text" {...register("lastname")} />
-                <FormFeedback> {errors.lastname && errors.lastname?.message}</FormFeedback>
-              </FormGroup>
-
-              <FormGroup isInvalid={errors.address}>
-                <Label for="Address"> address </Label>
-                <Input type="textarea" id="address" placeholder="Address"  {...register("address")} />
-                <FormFeedback> {errors.address?.message} </FormFeedback>
-              </FormGroup>
-              <Container className="text-center">
-                {spinner ? <Button disabled={spinner} type="submit" value="register"><Spinner /></Button> : <Button type="submit" value="register">Register</Button>}
-                </Container>
-            </Form>
-          </CardBody>
+            <FormGroup>
+              <Label for="Address"> address </Label>
+              <Input type="textarea" id="address" placeholder="Address" invalid={errors?.address}  {...register("address")} />
+              {errors.address &&
+                <FormFeedback> {errors.address?.message} </FormFeedback>}
+            </FormGroup>
+            <Container className="text-center">
+             <Button type="submit" value="register">Register</Button>
+            </Container>
+          </Form>
+        </CardBody>
       </Card>
     </>
   );
