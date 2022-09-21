@@ -44,9 +44,10 @@ function PaymentHistory(props) {
 
 
     let { isOpen, onClose } = props.val;
-    let [filter, setFilter] = useState(trans)
+    let [newTrans, setNewTrans] = useState([])
+    let [filter, setFilter] = useState([])
   //  let [busqueda, setBusqueda] = useState("")
-    let [transactions, setTransactions] = useState(trans)
+    let [transactions, setTransactions] = useState([])
     let [email, setEmail] = useState(window.localStorage.getItem("userEmailHP"))
    let [userLogin, setUserLogin] = useLocalStorage('user', "") 
     const getData = async () => {
@@ -54,7 +55,7 @@ function PaymentHistory(props) {
             let string = "?email=" + email.slice(1, email.length - 1)
             console.log(string)
             let { data } = await API_AXIOS.get(endpointList.getPayments + string)
-            console.log(data)
+           // console.log(data)
             setTransactions(data)
             setFilter(data)
         } catch (error) {
@@ -80,41 +81,55 @@ function PaymentHistory(props) {
         fillFunc(e.target.value)
     }*/
 
-const iterar = (array) => {
-    for (let i = 0; i < array.length; i++) {
-        let d = new Date(array[i].date)
-    return (
-        <Tr>
-                <Td>{array[i].quantity}</Td>
-                <Td> {array[i].token} </Td>
-                <Td>{array[i].other}</Td>
-                <Td> {d}</Td>
-      </Tr>
-    )    
-    }
-}
+
 
 const fnSend = (data) =>{
    let start = new Date(data.startDate)
    let end = new Date(data.endDate)
     var result = filter.filter((element) => {
 if(element.token.toString().toLowerCase().includes(data.token.toLowerCase()) 
-&& start.getTime() <= element.date 
-&& end.getTime() >= element.date) {
+&& (start.getTime() <= element.date || data.startDate == "") 
+&& (end.getTime() >= element.date || data.endDate == "")
+) {
    return element 
 }
         }
 )
+console.log(result)
 setTransactions(result)
 }
 
     useEffect(() => {
         let date = new Date()
         setUserLogin(date)
-       // getData()
+       getData()
       //  console.log(transactions)
        
     }, [])
+
+
+useEffect(() => {
+    let array = []
+    for (let i = 0; i < transactions.length; i++) {
+        let d = new Date(transactions[i].date)
+        let stringdate = [
+            d.getDate().toString().padStart(2,'0'),
+            (d.getMonth() + 1).toString().padStart(2,'0'),
+            d.getFullYear()
+        ].join('/')
+        let o = {
+            quantity: transactions[i].quantity,
+            other: transactions[i].other, 
+            token: transactions[i].token, 
+            date: stringdate
+        } 
+
+        array.push(o)
+    }
+
+    setNewTrans(array)
+   // console.log(array)
+}, [transactions])
     return (
         <Box>
             <Center fontWeight="extrabold" fontSize="4xl" pt="1em" pb="1em">Payments</Center>
@@ -140,8 +155,8 @@ setTransactions(result)
                     </Thead>
                     <Tbody>
 
-                        {transactions &&
-                            transactions.map((transaction) => (
+                        {newTrans &&
+                            newTrans.map((transaction) => (
                                 <Tr>
                                     <Td>{transaction.quantity}</Td>
                                     <Td> {transaction.token} </Td>
