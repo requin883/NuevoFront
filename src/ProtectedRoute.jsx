@@ -13,7 +13,7 @@ const ProtectedRoute = () => {
     let l = Date.parse(userlogin.slice(1, userlogin.length - 1))
         let log = new Date(l)  
         let date = new Date (log)
-        date.setMinutes(log.getMinutes() + 1)
+        date.setMinutes(log.getMinutes() + 15)
         let now = new Date()
         let auth = (date > now)
 
