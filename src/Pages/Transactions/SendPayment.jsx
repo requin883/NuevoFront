@@ -52,11 +52,16 @@ function SendPayment() {
                     <FormFeedback> {errors.data?.message}</FormFeedback>
                 </FormGroup>
                 <FormGroup>
+                                <label> Email </label>
+            <input placeholder="Email" type="" {...register("data")}/>
+            <p> {errors.data?.message}</p> 
+            </FormGroup>
+                <FormGroup>
                     <Input placeholder="Amount" type="number" {...register("amount")} />
                     <FormFeedback> {errors.amount?.message}</FormFeedback>
                 </FormGroup>
                 <FormGroup>
-                    <Input type="" placeholder="Select currency" {...register("currency")}>
+                    <Input type="select" placeholder="Select currency" {...register("currency")}>
                         {currencies?.map((option, index) => (
                             <option key={index} value={option}>
                                 {option}
@@ -65,11 +70,9 @@ function SendPayment() {
                     </Input>
                     <FormFeedback> {errors.data?.message}</FormFeedback>
                 </FormGroup>
-
-
+                
                 <Input type="submit" value="Send Payment" />
             </Form>
-
 
         </Container>
     )
