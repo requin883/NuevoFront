@@ -1,13 +1,12 @@
-import { Routes, Route, Link } from "react-router-dom";
-import Login from "./Components/Login";
-import Register from "./Components/Register";
-import { Box, Flex, Heading, useDisclosure, Button, useBoolean, Center, Text } from '@chakra-ui/react';
-import Background from "../Background/Background";
-
+import { Link } from "react-router-dom";
+import { Container, Row } from "reactstrap";
+import ExamplesNavbar from "../Homepages/Components/Navbar";
+import Card from "../Homepages/Components/Card";
+import Message from "../Homepages/Components/Message";
+import DefaultFooter from "../Homepages/Components/Footer";
 
 function Homepages() {
-    const [flag, setFlag] = useBoolean();
-    const { isOpen, onClose, onOpen } = useDisclosure();
+
 
     let menu = [
         { links: '/home/Login', options: 'Login' },
@@ -17,24 +16,50 @@ function Homepages() {
     const cbMenu = (nm) => {
         return (<Button key={nm.options} onClick={nm.options == 'Login' ? onOpen : setFlag.on} colorScheme="purple" variant="ghost" size="md" className="button"> <Link key={nm.options} to={nm.links}>{nm.options}</Link> </Button>)
     }
-
     return (
-        <Background position="relative">
-            <Flex bgColor="black" justify="space-between">
-                <Heading pt=".5em" pb=".5em" pl=".5em" fontSize={[0, "1em", "2em", "3em"]} color="white" fontWeight="bold">CryptoCoders</Heading>
-                <Flex align="center" gap="1em" mr="2em">
-                    {menu.map(cbMenu)}
-                </Flex>
-            </Flex>
-            <Flex color="White" flexDirection="column" align="center" justify="center" position="absolute" mt="15em" ml="30em" fontStyle="italic" fontWeight="bold">
-                <Text display="block" fontSize='5xl'>WELCOME</Text>
-                <Text fontSize='4xl'>To CryptoCoders</Text>
-            </Flex>
-            <Routes>
-                <Route path='/Login/*' element={<Login val={{ isOpen, onClose }} />} />
-                <Route path='/Register' element={<Register flag={{ flag, setFlag }} />} />
-            </Routes>
-        </Background>
+        <>
+            <ExamplesNavbar val={["register", "login"]} />
+            <Container className="d-flex flex-column wrapper m-5">
+                <Container className=" d-flex flex-column">
+                    <h2 className="align-self-center title p-3">Quienes Somos?</h2>
+                    <h5 className="description p-3">
+                        Somos CryptoCoders una empresa enfocada en buscar una solución innovadora para
+                        las billeteras digitales.
+                    </h5>
+                </Container>
+                <Container>
+                    <Container className="p-5">
+                        <h2 className="title text-center">Las CryptoMonedas que aceptamos</h2>
+                        <div className="CryptoCurrencies">
+                            <Row>
+                                <Card title="USDT" cat="StableCoin">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, nostrum!
+                                </Card>
+                                <Card title="BUSD" cat="Stablecoin">
+                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non, sapiente.
+                                </Card>
+                                <Card title="SOL" cat="CryptoCurrency">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, dicta!
+                                </Card>
+                                <Card title="Another" cat="CryptoCurrency">
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
+                                </Card>
+                            </Row>
+                        </div>
+                    </Container>
+                </Container>
+                <div className="section section-contact-us text-center">
+                    <Container className="d-flex flex-column">
+                        <h2 className="title">¿Cómo hago una transacción?</h2>
+                        <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, tempore!</p>
+                        <Row className="p-5 align-self-center d-flex flex-column">
+                            <Message />
+                        </Row>
+                    </Container>
+                </div>
+                <DefaultFooter />
+            </Container>
+        </>
     )
 }
 

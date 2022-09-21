@@ -9,6 +9,7 @@ const ProtectedRoute = () => {
 
     const navigate = useNavigate();
     let userlogin = window.localStorage.getItem("user")
+    if(!userlogin) return;
 
     let l = Date.parse(userlogin.slice(1, userlogin.length - 1))
         let log = new Date(l)  
@@ -16,7 +17,6 @@ const ProtectedRoute = () => {
         date.setMinutes(log.getMinutes() + 15)
         let now = new Date()
         let auth = (date > now)
-
         console.log(date + " " + now)
 return auth ? <Outlet/> : navigate('/autoLogOut')
 }

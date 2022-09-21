@@ -1,30 +1,17 @@
-import { Box,
+import {
+    Container,
     Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
     Button,
-    TableContainer,
-    Center,
-    Input, } from '@chakra-ui/react';
+    Input,
+    Form
+} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect, useState } from 'react'
 import endpointList from '../../../../settings/endpoints'
 import API_AXIOS from '../../../../settings/settings'
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
-import {pepito} from "../../../Utils/pepito";
-import * as yup from "yup"
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-
-const schema = yup.object().shape({
-    token: yup.string(),
-})
-    
+import { pepito } from "../../../Utils/pepito";
 
 function PaymentHistory(props) {
 
@@ -43,13 +30,13 @@ function PaymentHistory(props) {
     ]
 
 
-    let { isOpen, onClose } = props.val;
     let [newTrans, setNewTrans] = useState([])
     let [filter, setFilter] = useState([])
   //  let [busqueda, setBusqueda] = useState("")
     let [transactions, setTransactions] = useState([])
     let [email, setEmail] = useState(window.localStorage.getItem("userEmailHP"))
    let [userLogin, setUserLogin] = useLocalStorage('user', "") 
+
     const getData = async () => {
         try {
             let string = "?email=" + email.slice(1, email.length - 1)
@@ -104,7 +91,6 @@ setTransactions(result)
         setUserLogin(date)
        getData()
       //  console.log(transactions)
-       
     }, [])
 
 
@@ -131,50 +117,45 @@ useEffect(() => {
    // console.log(array)
 }, [transactions])
     return (
-        <Box>
-            <Center fontWeight="extrabold" fontSize="4xl" pt="1em" pb="1em">Payments</Center>
-          <form onSubmit={handleSubmit(fnSend)}>
+        <Container>
+            <h1 className='text-dark text-center'>Payments</h1>
+            
+                 <Form onSubmit={handleSubmit(fnSend)}>
 
             <Input  placeholder="Crypto filter" type="text"  {...register("token")}/>
             <Input  placeholder="Start date" type="date"  {...register("startDate")}/>
             <Input  placeholder="End date" type="date"  {...register("endDate")}/>
 
         <Input type="submit" value="Fill data"/>
-          </form>
-           
-            <Center>
-            <TableContainer bgColor="purple.400" w="50em" rounded="10">
-                <Table variant="striped" >
-                    <Thead>
-                        <Tr>
-                            <Th> Quantity</Th>
-                            <Th> Currency </Th>
-                            <Th> From/To </Th>
-                            <Th> Date </Th> 
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-
-                        {newTrans &&
-                            newTrans.map((transaction) => (
-                                <Tr>
-                                    <Td>{transaction.quantity}</Td>
-                                    <Td> {transaction.token} </Td>
-                                    <Td>{transaction.other}</Td>
-                                    <Td> {transaction.date}</Td>
-                                </Tr>
-                            ))}
-                    </Tbody>
-                </Table>
-            </TableContainer>
-            </Center>
-
-            <Button onClick={ async () => {
-            let email = window.localStorage.getItem("userEmailHP")
-            console.log(email.slice(1,email.length - 1))
-            pepito(email.slice(1,email.length - 1))
-     }} > Export Payments' History </Button>
-        </Box>
+          </Form>
+            
+            <Table>
+                <thead>
+                    <tr>
+                        <th> Quantity</th>
+                        <th> Currency </th>
+                        <th> from/to </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {transactions &&
+                        transactions.map((transaction) => (
+                            <tr>
+                                <td>{transaction.quantity}</td>
+                                <td> {transaction.token} </td>
+                                <td>{transaction.other}</td>
+                            </tr>
+                        ))}
+                </tbody>
+            </Table>
+            <Container className='text-center'>
+                <Button onClick={async () => {
+                    let email = window.localStorage.getItem("userEmailHP")
+                    console.log(email.slice(1, email.length - 1))
+                    pepito(email.slice(1, email.length - 1))
+                }} > Export Payments' History </Button>
+            </Container>
+        </Container>
     )
 }
 
