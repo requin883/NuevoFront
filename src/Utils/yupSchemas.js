@@ -27,6 +27,18 @@ const registerSchema = yup.object().shape({
     address: yup.string().required(),
 });
 
+const transactionsSchema = yup.object().shape({
+    email: yup.string().email().required(),
+    amount: yup.number().min(0, "The amount most be possitive ").required(),
+    currency: yup.string().required()
+})
+
+const sendPaymentSchema = yup.object().shape({
+    data: yup.string().required(),
+    currency: yup.string().required(),
+    amount: yup.number().required()
+})
+
 const validatePaySchema = yup.object().shape({
     year: yup.number().typeError(numericMsg).min(2000).max(y).required(requiredMsg),
     month: yup.string().max(2).min(2).required(requiredMsg),
@@ -37,4 +49,4 @@ const validatePaySchema = yup.object().shape({
     quantity: yup.number().typeError(numericMsg).required()
 });
 
-export { loginSchema, registerSchema, validatePaySchema, forgetPwSchema }
+export { loginSchema, registerSchema, sendPaymentSchema, validatePaySchema, transactionsSchema, forgetPwSchema }

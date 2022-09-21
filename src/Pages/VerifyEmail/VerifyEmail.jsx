@@ -3,16 +3,11 @@ import { useParams, useSearchParams } from "react-router-dom";
 import endpointList from "../../../settings/endpoints";
 import API_AXIOS from "../../../settings/settings";
 import {
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogContent,
-    Box,
-    Flex,
-    Heading,
-    Button
-  } from '@chakra-ui/react'
+    Button,
+    Alert,
+    Container
+  } from 'reactstrap'
+import ExamplesNavbar from "../Homepages/Components/Navbar";
 
 
 const redirectUser = () => {
@@ -65,22 +60,18 @@ function VerifyEmail() {
     }, [])
 
     return (
-        <Box width="100vw" h="100vh" opacity=".9" bgImage="url(../../Public/img/cryptoMenubg1.jpg)" bgSize="cover">
-            <Flex textShadow=".2em .2em purple" boxShadow='dark-lg' h="6em" justify="center" bgColor="black">
-                <Heading fontSize="4em" color="white" fontWeight="bold">CryptoCoders</Heading>
-            </Flex>
-            <AlertDialog isOpen={true} onClose={onclose}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>Notification</AlertDialogHeader>
-                    <AlertDialogBody>{message}</AlertDialogBody>
-                    <AlertDialogFooter>
+        <>
+        <ExamplesNavbar/>
+        <Container className="d-flex align-center justify-content-center">
+        <Alert className="newalert">
+                    <h1>Notification</h1>
+                    <p>{message}</p>
                         <Button onClick={redirectUser}>
                             Go to main page
                         </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </Box>
+        </Alert>
+        </Container>
+        </>
 
     )
 }

@@ -1,25 +1,20 @@
 import {
     Modal,
-    Text,
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
+    Container,
+    Form,
+    FormGroup,
+    Label,
+    FormFeedback,
     Input,
-    Select,
-    ModalContent,
     ModalHeader,
     ModalBody,
-    ModalCloseButton,
-    ModalOverlay,
     Button,
-    Center,
     Spinner
-} from "@chakra-ui/react"
+} from "reactstrap"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import * as yup from "yup"
+import { transactionsSchema } from "../../Utils/yupSchemas"
 import endpointList from "../../../settings/endpoints"
 import API_AXIOS from "../../../settings/settings"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
@@ -27,17 +22,12 @@ import { useLocalStorage } from "../../hooks/useLocalStorage"
 
 const currencies = ["usdt", "btc", "eth", "busd"]
 
-const schema = yup.object().shape({
-    email: yup.string().email().required(),
-    amount: yup.number().min(0, "The amount most be possitive ").required(),
-    currency: yup.string().required()
-})
-
 
 function Transactions(props) {
-   let [userLogin, setUserLogin] = useLocalStorage('user', "") 
+
+    let [userLogin, setUserLogin] = useLocalStorage('user', "")
     const [spinner, setSpinner] = useState(false);
-    const { flag, setFlag } = props.val;
+    const { transFlag, setTransFlag } = props.val;
 
     let [userEmail, setEmail] = useState(window.localStorage.getItem("userEmailHP"))
     const {
@@ -45,12 +35,12 @@ function Transactions(props) {
         formState: { errors },
         handleSubmit,
     } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(transactionsSchema),
     });
-useEffect (() => {
-    let date = new Date()
-    setUserLogin(date)
-}, [])
+    useEffect(() => {
+        let date = new Date()
+        setUserLogin(date)
+    }, [])
 
     const fnSend = async (data) => {
         try {
@@ -82,43 +72,39 @@ useEffect (() => {
     }
 
     return (
-        <Modal isOpen={flag}>
-            <ModalOverlay></ModalOverlay>
-            <ModalContent>
-                <Center>
-                    <ModalHeader>Transactions</ModalHeader>
-                </Center>
-                <ModalCloseButton disabled={spinner} onClick={setFlag.off} />
-                <ModalBody>
-                    <Text fontSize="2xl">From:{userEmail}</Text>
-                    <form onSubmit={handleSubmit(fnSend)}>
-                        <FormControl>
-                            <FormLabel> Email of receiver</FormLabel>
-                            <Input type='email' id="email" placeholder="Email" {...register("email")} />
-                            <FormErrorMessage> {errors.email?.message} </FormErrorMessage>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel> Currency </FormLabel>
-                            <Select placeholder="select" {...register("currency")}>
-                                {currencies?.map((option, index) => (
-                                    <option key={index} value={option}>
-                                        {option}
-                                    </option>
-                                ))}
-                            </Select>
-                            <FormErrorMessage> {errors.currency?.message} </FormErrorMessage>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel> Amount of the selected currency </FormLabel>
-                            <Input type="number" id="amount" placeholder="Amount" {...register("amount")} />
-                            <FormErrorMessage> {errors.amount?.message} </FormErrorMessage>
-                        </FormControl>
-                        <Center p="0.5em">
-                            {spinner ? <Button colorScheme="purple" disabled={spinner}><Spinner /></Button> : <Button colorScheme="purple" type='submit'>Confirm Transaction</Button>}
-                        </Center>
-                    </form>
-                </ModalBody>
-            </ModalContent>
+        <Modal className="text-dark" isOpen={transFlag}>
+                <ModalHeader className="d-flex justify-content-around">Transactions
+                <Button disabled={spinner} onClick={() => setTransFlag(false)} close />
+                </ModalHeader>
+            <ModalBody>
+                <h2 >From:{userEmail}</h2>
+                <Form onSubmit={handleSubmit(fnSend)}>
+                    <FormGroup>
+                        <Label> Email of receiver</Label>
+                        <Input type='email' id="email" placeholder="Email" {...register("email")} />
+                        <FormFeedback> {errors.email?.message} </FormFeedback>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label> Currency </Label>
+                        <Input type="select" placeholder="select" {...register("currency")}>
+                            {currencies?.map((option, index) => (
+                                <option key={index} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                        </Input>
+                        <FormFeedback> {errors.currency?.message} </FormFeedback>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label> Amount of the selected currency </Label>
+                        <Input type="number" id="amount" placeholder="Amount" {...register("amount")} />
+                        <FormFeedback> {errors.amount?.message} </FormFeedback>
+                    </FormGroup>
+                    <Container className="text-center">
+                        {spinner ? <Button disabled={spinner}><Spinner /></Button> : <Button type='submit'>Confirm Transaction</Button>}
+                    </Container>
+                </Form>
+            </ModalBody>
         </Modal>
     )
 

@@ -1,30 +1,28 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import API_AXIOS from "../../../../settings/settings";
-import endpointList from "../../../../settings/endpoints";
+import API_AXIOS from "../../../settings/settings";
+import endpointList from "../../../settings/endpoints";
 import { registerSchema } from "../../../Utils/yupSchemas";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
+  Container,
+  Card,
+  CardBody,
+  CardTitle,
+  FormGroup,
+  Label,
+  FormFeedback,
   Input,
+  Form,
   Button,
-  Textarea,
-  Center,
   Spinner
-} from '@chakra-ui/react'
+} from 'reactstrap'
 import { useState } from "react";
+import ExamplesNavbar from "./Navbar";
 
 
-function Register(props) {
+function Register() {
   const [spinner, setSpinner] = useState(false);
-  const { flag, setFlag } = props.flag;
+
   const {
     register,
     formState: { errors },
@@ -53,58 +51,55 @@ function Register(props) {
       console.log(error);
     }
   };
-
   return (
-    <Modal isOpen={flag} size="lg">
-      <ModalContent>
-        <ModalHeader> Register </ModalHeader>
-        <ModalBody>
-          <form onSubmit={handleSubmit(fnSend)}>
-            <FormControl isInvalid={errors.email}>
-              <FormLabel htmlFor="email"> Email </FormLabel>
-              <Input id="email" placeholder="Email" type="email" {...register("email")} />
-              <FormErrorMessage> {errors.email?.message}</FormErrorMessage>
-            </FormControl>
+    <>
+      <ExamplesNavbar />
+      <Card className="d-flex regcard">
+          <CardTitle className="text-center"><h1> Register</h1> </CardTitle>
+          <CardBody>
+            <Form onSubmit={handleSubmit(fnSend)}>
+              <FormGroup isInvalid={errors.email}>
+                <Label for="email"> Email </Label>
+                <Input id="email" placeholder="Email" type="email" {...register("email")} />
+                <FormFeedback> {errors.email?.message}</FormFeedback>
+              </FormGroup>
 
-            <FormControl isInvalid={errors.password}>
-              <FormLabel htmlFor="password"> Password </FormLabel>
-              <Input id="pw" placeholder="Password" type="password" {...register("password")} />
-              <FormErrorMessage>{errors.email && errors.password?.message}</FormErrorMessage>
-            </FormControl>
+              <FormGroup isInvalid={errors.password}>
+                <Label for="password"> Password </Label>
+                <Input id="pw" placeholder="Password" type="password" {...register("password")} />
+                <FormFeedback>{errors.email && errors.password?.message}</FormFeedback>
+              </FormGroup>
 
-            <FormControl isInvalid={errors.valpass}>
-              <FormLabel htmlFor="valpass"> Confirm password </FormLabel>
-              <Input id="pw2" placeholder="Password" type="password" {...register("valpass")} />
-              <FormErrorMessage>{errors.valpass && errors.valpass?.message}</FormErrorMessage>
-            </FormControl>
+              <FormGroup isInvalid={errors.valpass}>
+                <Label for="valpass"> Confirm password </Label>
+                <Input id="pw2" placeholder="Password" type="password" {...register("valpass")} />
+                <FormFeedback>{errors.valpass && errors.valpass?.message}</FormFeedback>
+              </FormGroup>
 
-            <FormControl isInvalid={errors.firstname}>
-              <FormLabel htmlFor="firstName"> First name </FormLabel>
-              <Input id="firstName" placeholder="First name" type="text" {...register("firstname")} />
-              <FormErrorMessage> {errors.firstname?.message}</FormErrorMessage>
-            </FormControl>
+              <FormGroup isInvalid={errors.firstname}>
+                <Label for="firstName"> First name </Label>
+                <Input id="firstName" placeholder="First name" type="text" {...register("firstname")} />
+                <FormFeedback> {errors.firstname?.message}</FormFeedback>
+              </FormGroup>
 
-            <FormControl isInvalid={errors.lastname}>
-              <FormLabel htmlFor="LastName"> Last name </FormLabel>
-              <Input id="lastName" placeholder="Last name" type="text" {...register("lastname")} />
-              <FormErrorMessage> {errors.lastname && errors.lastname?.message}</FormErrorMessage>
-            </FormControl>
+              <FormGroup isInvalid={errors.lastname}>
+                <Label for="LastName"> Last name </Label>
+                <Input id="lastName" placeholder="Last name" type="text" {...register("lastname")} />
+                <FormFeedback> {errors.lastname && errors.lastname?.message}</FormFeedback>
+              </FormGroup>
 
-            <FormControl isInvalid={errors.address}>
-              <FormLabel htmlFor="Address"> address </FormLabel>
-              <Textarea id="address" placeholder="Address"  {...register("address")} />
-              <FormErrorMessage> {errors.address?.message} </FormErrorMessage>
-            </FormControl>
-            <Center>
-              {spinner?<Button disabled={spinner} colorScheme="purple" mt="1em" type="submit" value="register"><Spinner/></Button>:<Button colorScheme="purple" mt="1em" type="submit" value="register">Register</Button>}
-            </Center>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <ModalCloseButton disabled={spinner} onClick={setFlag.off}>X</ModalCloseButton>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+              <FormGroup isInvalid={errors.address}>
+                <Label for="Address"> address </Label>
+                <Input type="textarea" id="address" placeholder="Address"  {...register("address")} />
+                <FormFeedback> {errors.address?.message} </FormFeedback>
+              </FormGroup>
+              <Container className="text-center">
+                {spinner ? <Button disabled={spinner} type="submit" value="register"><Spinner /></Button> : <Button type="submit" value="register">Register</Button>}
+                </Container>
+            </Form>
+          </CardBody>
+      </Card>
+    </>
   );
 }
 

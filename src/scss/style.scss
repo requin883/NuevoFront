@@ -1,0 +1,51 @@
+$primary-color: #352F44;
+$secondary-color: #2A2438;
+$third-color: #411E8F;
+$details-color: #310A5D;
+
+body {
+    background-color: black;
+    color: white;
+}
+.profileCard{
+    margin-top: 20em;
+}
+.newalert{
+    margin-top: 10em;
+}
+.regcard{
+    margin-top: 10em;
+    color: $third-color;
+}
+
+.navbarimg {
+    width: 150px;
+    height: auto;
+}
+
+.linkscontainer{
+    margin-top: 15em;
+}
+
+.logincard{
+    text-align: center;
+    color: #411E8F;
+    margin-top: 15em;
+}
+.nav {
+    font-weight: bold;
+    background-color: $third-color;
+    border-bottom: solid 0.3em $secondary-color;
+    box-shadow: 0.3em -.5em 1em 1em black;
+}
+
+
+.newcard {
+    color: $details-color;
+
+}
+
+
+.title {
+    opacity: 1;
+}

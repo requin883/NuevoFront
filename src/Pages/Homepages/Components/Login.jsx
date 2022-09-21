@@ -1,36 +1,26 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import API_AXIOS from "../../../../settings/settings";
-import endpointList from "../../../../settings/endpoints";
+import API_AXIOS from "../../../settings/settings";
+import endpointList from "../../../settings/endpoints";
 import { Route, Routes, useNavigate, Link as reactLink } from "react-router-dom";
 import { loginSchema } from "../../../Utils/yupSchemas"
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
-  Button,
-  Spinner,
-  useDisclosure,
-  Flex,
-} from '@chakra-ui/react'
+  Container, Button, Label, Input, Form, FormGroup, Spinner, Card, CardBody, CardTitle, FormFeedback
+} from "reactstrap";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import EmailAlert from "./EmailAlert";
 import { useState } from "react";
+import ExamplesNavbar from "./Navbar";
 
 
-function Login(props) {
+function Login() {
+
+  const [flag, setFlag] = useState(false);
+
   const [spinner, setSpinner] = useState(false);
-  let { isOpen, onClose } = props.val;
-  let [email, setEmail] = useLocalStorage('userEmailHP', '')
-  let [userLogin, setUserLogin] = useLocalStorage('user', "")
-  let { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
+
+  let [email, setEmail] = useLocalStorage('userEmailHP', '');
+
   const {
     register,
     formState: { errors },
@@ -43,6 +33,7 @@ function Login(props) {
 
   const fnSend = async (data) => {
     try {
+      console.log(data);
       setSpinner(true);
       let call = await API_AXIOS.get(
         endpointList.login + `?email=${data.email}&password=${data.password}`
@@ -54,8 +45,6 @@ function Login(props) {
           break;
         case 1:
           setEmail(data.email)
-          let date = new Date()
-          setUserLogin(date)
           alert("tamo activo menol");
           navigate('/menu')
           break;
@@ -74,42 +63,42 @@ function Login(props) {
   };
 
   const handlePassword = () => {
-    onOpen1();
+    setFlag(true);
     navigate('/login/forgetpassword')
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
-      <ModalContent>
-        <ModalHeader> Login </ModalHeader>
-        <ModalBody>
-          <form onSubmit={handleSubmit(fnSend)}>
-
-            <FormControl isInvalid={errors.email}>
-              <FormLabel htmlFor="email"> Email </FormLabel>
-              <Input id="email" placeholder="email" type="email" {...register("email")} />
-              <FormErrorMessage> {errors.email?.message}</FormErrorMessage>
-            </FormControl>
-
-            <FormControl isInvalid={errors.password}>
-              <FormLabel htmlFor="password"> Password </FormLabel>
-              <Input id="pw" placeholder="password" type="password" {...register("password")} />
-              <FormErrorMessage>{errors.email && errors.password?.message}</FormErrorMessage>
-            </FormControl>
-            <Flex flexDir="column" justify="center" align="center">
-              {spinner ? <Button colorScheme="purple" mt="1em" type="submit" disabled={spinner} value="register"><Spinner /></Button> : <Button colorScheme="purple" mt="1em" type="submit" value="register">Login</Button>}
-              <Button onClick={handlePassword} colorScheme="purple" disabled={spinner} mt="1em">Olvidaste tu contraseña</Button>
-            </Flex>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <ModalCloseButton disabled={spinner} onClick={onClose}>X</ModalCloseButton>
-        </ModalFooter>
-      </ModalContent>
-      <Routes>
-        <Route path='/forgetpassword' element={<EmailAlert val={{ isOpen1, onClose1 }} />} />
-      </Routes>
-    </Modal>
+    <Container>
+      <ExamplesNavbar />
+      <Card className="d-flex logincard">
+        <CardBody>
+          <CardTitle className="border-bottom mb-4">
+            <h2>Login</h2>
+          </CardTitle>
+          <Form onSubmit={handleSubmit(fnSend)}>
+            <FormGroup>
+              <Label for="email">Email</Label>
+              <Input id="email" name="email" placeholder="email" type="email" {...register("email")} />
+              {errors?.email &&
+                <FormFeedback>{errors?.email?.message}</FormFeedback>}
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="password"> Password </Label>
+              <Input id="password" name="password" placeholder="password" type="password"  {...register("password")} />
+              {errors?.password &&
+                <FormFeedback>{errors?.password?.message}</FormFeedback>}
+            </FormGroup>
+            <Container className="d-flex flex-column justify-content-center align-center">
+              {spinner ? <Button className="m-2" type="submit" value="register"><Spinner /></Button> : <Button className="m-2" type="submit" value="register">Login</Button>}
+              <Button onClick={handlePassword} >Olvidaste tu contraseña</Button>
+            </Container>
+          </Form>
+          <Routes>
+            <Route path='/forgetpassword' element={<EmailAlert val={{ flag, setFlag }} />} />
+          </Routes>
+        </CardBody>
+      </Card>
+    </Container>
   );
 }
 
