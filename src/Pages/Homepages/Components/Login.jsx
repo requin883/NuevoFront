@@ -2,10 +2,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import API_AXIOS from "../../../settings/settings";
 import endpointList from "../../../settings/endpoints";
-import { Route, Routes, useNavigate, Link as reactLink } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../Utils/yupSchemas"
 import {
-  Container, Button, Label, Input, Form, FormGroup, Spinner, Card, CardBody, CardTitle, FormFeedback
+  Container, Button, Label, Input, Form, FormGroup, Spinner, Card, CardBody, CardTitle, FormFeedback, Row, Col
 } from "reactstrap";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import EmailAlert from "./EmailAlert";
@@ -16,8 +16,6 @@ import ExamplesNavbar from "./Navbar";
 function Login() {
 
   const [flag, setFlag] = useState(false);
-
-  const [spinner, setSpinner] = useState(false);
 
   let [email, setEmail] = useLocalStorage('userEmailHP', '');
 
@@ -33,8 +31,8 @@ function Login() {
 
   const fnSend = async (data) => {
     try {
+      console.log("hello");
       console.log(data);
-      setSpinner(true);
       let call = await API_AXIOS.get(
         endpointList.login + `?email=${data.email}&password=${data.password}`
       );
@@ -56,48 +54,54 @@ function Login() {
           alert("error")
           break;
       }
-      setSpinner(false);
     } catch (error) {
+      console.log("hello");
       console.log(error);
     }
   };
 
   const handlePassword = () => {
     setFlag(true);
-    navigate('/login/forgetpassword')
+    navigate('/login/forgetpassword');
   }
 
   return (
     <Container>
       <ExamplesNavbar />
-      <Card className="d-flex logincard">
-        <CardBody>
-          <CardTitle className="border-bottom mb-4">
-            <h2>Login</h2>
-          </CardTitle>
-          <Form onSubmit={handleSubmit(fnSend)}>
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input id="email" name="email" placeholder="email" type="email" {...register("email")} />
-              {errors?.email &&
-                <FormFeedback>{errors?.email?.message}</FormFeedback>}
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="password"> Password </Label>
-              <Input id="password" name="password" placeholder="password" type="password"  {...register("password")} />
-              {errors?.password &&
-                <FormFeedback>{errors?.password?.message}</FormFeedback>}
-            </FormGroup>
-            <Container className="d-flex flex-column justify-content-center align-center">
-              {spinner ? <Button className="m-2" type="submit" value="register"><Spinner /></Button> : <Button className="m-2" type="submit" value="register">Login</Button>}
+      <Container style={{ display: "flex", justifyContent: "center" }} >
+        <Card style={{ width: '40em' }} className="d-flex logincard text-center">
+          <CardBody>
+            <CardTitle className="border-bottom">
+              <h2>Login</h2>
+            </CardTitle>
+            <Form method="POST" onSubmit={handleSubmit(fnSend)}>
+              <Row >
+                <Col md={6}>
+                  <FormGroup floating>
+                    <Input bsSize="sm" id="email" name="email" placeholder="email" type="email" {...register("email")} />
+                    <Label for="email">Email</Label>
+                    {errors?.email &&
+                      <FormFeedback>{errors?.email?.message}</FormFeedback>}
+                  </FormGroup>
+                </Col>
+                <Col md={6}>
+                  <FormGroup floating>
+                    <Input bsSize="sm" id="password" name="password" placeholder="password" type="password"  {...register("password")} />
+                    <Label for="password"> Password </Label>
+                    {errors?.password &&
+                      <FormFeedback>{errors?.password?.message}</FormFeedback>}
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Button className="mx-2" type="submit">Submit</Button>
               <Button onClick={handlePassword} >Olvidaste tu contraseña</Button>
-            </Container>
-          </Form>
-          <Routes>
-            <Route path='/forgetpassword' element={<EmailAlert val={{ flag, setFlag }} />} />
-          </Routes>
-        </CardBody>
-      </Card>
+            </Form>
+            <Routes>
+              <Route path='/forgetpassword' element={<EmailAlert val={{ flag, setFlag }} />} />
+            </Routes>
+          </CardBody>
+        </Card>
+      </Container>
     </Container>
   );
 }

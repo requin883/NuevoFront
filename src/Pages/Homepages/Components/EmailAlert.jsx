@@ -3,12 +3,11 @@ import {
     ModalHeader,
     ModalBody,
     Button,
-    ModalFooter,
     Form,
     FormFeedback,
     Input,
     Label,
-    FormGroup
+    FormGroup,
 } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,7 +19,9 @@ import { useState } from 'react';
 
 function EmailAlert(props) {
     const [spinner, setSpinner] = useState(false);
+
     const { flag, setFlag } = props.val;
+
     const {
         register,
         formState: { errors },
@@ -47,21 +48,20 @@ function EmailAlert(props) {
     }
 
     return (
-        <Modal isOpen={flag} size="lg">
-            <ModalHeader className="text-black"> Olvidé mi contraseña </ModalHeader>
+        <Modal isOpen={flag} size="md" className="text-dark">
+            <ModalHeader className="clearfix text-center text-black">
+                Forgot Password
+            </ModalHeader>
             <ModalBody>
-                <Form onSubmit={handleSubmit(fnSend)}>
-                    <FormGroup isInvalid={errors.email}>
-                        <Label for="email"> Correo electrónico </Label>
-                        <Input id="email" placeholder="email" type="email" {...register("email")} />
-                        <FormFeedback> {errors.email?.message}</FormFeedback>
+                <Form className="text-center" onSubmit={handleSubmit(fnSend)}>
+                    <FormGroup floating>
+                        <Input name="email" id="email" placeholder="Email" type="email" {...register("email")} />
+                        <Label for="email">Email</Label>
+                        <FormFeedback>{errors.email?.message}</FormFeedback>
                     </FormGroup>
                     {spinner ? <Button mt="2em" disabled={spinner} colorScheme="purple" type="submit"><Spinner /></Button> : <Button mt="2em" colorScheme="purple" type="submit">Enviar</Button>}
                 </Form>
             </ModalBody>
-            <ModalFooter>
-                <Button disabled={spinner} onClick={() => setFlag(false)}>X</Button>
-            </ModalFooter>
         </Modal>
     )
 }
