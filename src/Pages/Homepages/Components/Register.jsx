@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import API_AXIOS from "../../../settings/settings";
+import { useNavigate } from "react-router-dom";
 import endpointList from "../../../settings/endpoints";
 import { registerSchema } from "../../../Utils/yupSchemas";
 import {
@@ -18,9 +19,11 @@ import {
 } from 'reactstrap'
 import { useState } from "react";
 import ExamplesNavbar from "./Navbar";
-console.log(registerSchema);
 
 function Register() {
+
+  const navigate = useNavigate();
+
   const [spinner, setSpinner] = useState(false);
 
   const {
@@ -54,56 +57,61 @@ function Register() {
   return (
     <>
       <ExamplesNavbar />
-      <Card className="d-flex regcard">
-        <CardTitle className="text-center"><h1> Register</h1> </CardTitle>
-        <CardBody>
-          <Form onSubmit={handleSubmit(fnSend)}>
-            <FormGroup>
-              <Label for="email"> Email </Label>
-              <Input id="email" placeholder="Email" type="email" invalid={errors?.email} {...register("email")} />
-              {errors?.email &&
-                <FormFeedback>{errors.email?.message}</FormFeedback>}
-            </FormGroup>
-            <FormGroup>
-              <Label for="password"> Password </Label>
-              <Input id="password" placeholder="Password" type="password" invalid={errors?.password} {...register("password")} />
-              {errors?.password &&
-                <FormFeedback>{errors.password?.message}</FormFeedback>}
-            </FormGroup>
+      <Container className="w-50 text-dark">
+        <Card className="d-flex regcard justify-self-center">
+          <CardTitle className="pt-4 d-flex">
+            <h1 className="ms-3"> Register</h1>
+            <Button className="ms-auto me-3" onClick={() => navigate("/")}>X</Button>
+          </CardTitle>
+          <CardBody>
+            <Form onSubmit={handleSubmit(fnSend)}>
+              <FormGroup>
+                <Label for="email"> Email </Label>
+                <Input id="email" placeholder="Email" type="email" invalid={errors?.email} {...register("email")} />
+                {errors?.email &&
+                  <FormFeedback>{errors.email?.message}</FormFeedback>}
+              </FormGroup>
+              <FormGroup>
+                <Label for="password"> Password </Label>
+                <Input id="password" placeholder="Password" type="password" invalid={errors?.password} {...register("password")} />
+                {errors?.password &&
+                  <FormFeedback>{errors.password?.message}</FormFeedback>}
+              </FormGroup>
 
-            <FormGroup>
-              <Label for="valpass"> Confirm password </Label>
-              <Input id="valpass" placeholder="Password" type="password" invalid={errors?.valpass} {...register("valpass")} />
-              {errors?.valpass &&
-                <FormFeedback>{errors.valpass?.message}</FormFeedback>}
-            </FormGroup>
+              <FormGroup>
+                <Label for="valpass"> Confirm password </Label>
+                <Input id="valpass" placeholder="Password" type="password" invalid={errors?.valpass} {...register("valpass")} />
+                {errors?.valpass &&
+                  <FormFeedback>{errors.valpass?.message}</FormFeedback>}
+              </FormGroup>
 
-            <FormGroup>
-              <Label for="firstname"> First name </Label>
-              <Input id="firstname" placeholder="First name" type="text" invalid={errors?.firstname} {...register("firstname")} />
-              {errors.firstname &&
-                <FormFeedback> {errors.firstname?.message}</FormFeedback>}
-            </FormGroup>
+              <FormGroup>
+                <Label for="firstname"> First name </Label>
+                <Input id="firstname" placeholder="First name" type="text" invalid={errors?.firstname} {...register("firstname")} />
+                {errors.firstname &&
+                  <FormFeedback> {errors.firstname?.message}</FormFeedback>}
+              </FormGroup>
 
-            <FormGroup >
-              <Label for="Lastname"> Last name </Label>
-              <Input id="lastname" placeholder="Last name" type="text" invalid={errors?.lastname} {...register("lastname")} />
-              {errors.lastname &&
-                <FormFeedback> {errors.lastname && errors.lastname?.message}</FormFeedback>}
-            </FormGroup>
+              <FormGroup >
+                <Label for="Lastname"> Last name </Label>
+                <Input id="lastname" placeholder="Last name" type="text" invalid={errors?.lastname} {...register("lastname")} />
+                {errors.lastname &&
+                  <FormFeedback> {errors.lastname && errors.lastname?.message}</FormFeedback>}
+              </FormGroup>
 
-            <FormGroup>
-              <Label for="Address"> address </Label>
-              <Input type="textarea" id="address" placeholder="Address" invalid={errors?.address}  {...register("address")} />
-              {errors.address &&
-                <FormFeedback> {errors.address?.message} </FormFeedback>}
-            </FormGroup>
-            <Container className="text-center">
-             <Button type="submit" value="register">Register</Button>
-            </Container>
-          </Form>
-        </CardBody>
-      </Card>
+              <FormGroup>
+                <Label for="Address"> address </Label>
+                <Input type="textarea" id="address" placeholder="Address" invalid={errors?.address}  {...register("address")} />
+                {errors.address &&
+                  <FormFeedback> {errors.address?.message} </FormFeedback>}
+              </FormGroup>
+              <Container className="text-center">
+                <Button type="submit">Register</Button>
+              </Container>
+            </Form>
+          </CardBody>
+        </Card>
+      </Container>
     </>
   );
 }
