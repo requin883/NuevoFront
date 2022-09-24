@@ -8,6 +8,8 @@ import ProtectedRoute from "../ProtectedRoute";
 import ExamplesNavbar from "./Homepages/Components/Navbar";
 import { useState } from "react";
 
+
+
 function Menu() {
     const [valFlag, setValFlag] = useState(false);
     const [transFlag, setTransFlag] = useState(false);

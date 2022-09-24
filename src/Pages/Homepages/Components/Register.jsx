@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import API_AXIOS from "../../../settings/settings";
 import { useNavigate } from "react-router-dom";
@@ -28,12 +28,15 @@ function Register() {
 
   const {
     register,
+    control,
     formState: { errors },
     handleSubmit,
     reset
   } = useForm({
     resolver: yupResolver(registerSchema),
   });
+
+  const { ref, ...emailField } = register("email");
 
   const fnSend = async (data) => {
     try {
@@ -65,48 +68,146 @@ function Register() {
           </CardTitle>
           <CardBody>
             <Form onSubmit={handleSubmit(fnSend)}>
+
               <FormGroup>
                 <Label for="email"> Email </Label>
-                <Input id="email" placeholder="Email" type="email" invalid={errors?.email} {...register("email")} />
+                <Input id="email" placeholder="Email" type="email" invalid={errors?.email} innerRef={ref} {...emailField} />
                 {errors?.email &&
-                  <FormFeedback>{errors.email?.message}</FormFeedback>}
-              </FormGroup>
-              <FormGroup>
-                <Label for="password"> Password </Label>
-                <Input id="password" placeholder="Password" type="password" invalid={errors?.password} {...register("password")} />
-                {errors?.password &&
-                  <FormFeedback>{errors.password?.message}</FormFeedback>}
+                <FormFeedback>{errors.email?.message}</FormFeedback>}
               </FormGroup>
 
-              <FormGroup>
-                <Label for="valpass"> Confirm password </Label>
-                <Input id="valpass" placeholder="Password" type="password" invalid={errors?.valpass} {...register("valpass")} />
-                {errors?.valpass &&
-                  <FormFeedback>{errors.valpass?.message}</FormFeedback>}
-              </FormGroup>
+                    <Controller
+                      control={control}
+                      name="password"
+                      render={({ field: { ref, ...passProps } }) => (
+                        <FormGroup>
+                          <Label for="password"> Password </Label>
+                          <Input
+                      
+                      name="password"
+                      placeholder="Password"
+                      type="password"
+                      id="password"
+          
+                      invalid={errors.password ? true : false}
+                      innerRef={ref} {...passProps}
+                    />
+                      
+                      
+                      {errors?.password && (
+                        <FormFeedback>{errors.password?.message}</FormFeedback>
+                      )}
+                        </FormGroup>
+                      )}
+                    />
 
-              <FormGroup>
-                <Label for="firstname"> First name </Label>
-                <Input id="firstname" placeholder="First name" type="text" invalid={errors?.firstname} {...register("firstname")} />
-                {errors.firstname &&
-                  <FormFeedback> {errors.firstname?.message}</FormFeedback>}
-              </FormGroup>
+             <Controller
+                      control={control}
+                      name="valpass"
+                      render={({ field: { ref, ...valpassProps } }) => (
+                        <FormGroup>
+                          <Label for="valpass"> Confirm Password </Label>
+                          <Input
+                      
+                      name="valpass"
+                      placeholder="Confirm password"
+                      type="valpass"
+                      id="valpass"
+          
+                      invalid={errors.valpass ? true : false}
+                      innerRef={ref} {...valpassProps}
+                    />
+                      
+                      
+                      {errors?.valpass && (
+                        <FormFeedback>{errors.valpass?.message}</FormFeedback>
+                      )}
+                        </FormGroup>
+                      )}
+                    />
 
-              <FormGroup >
-                <Label for="Lastname"> Last name </Label>
-                <Input id="lastname" placeholder="Last name" type="text" invalid={errors?.lastname} {...register("lastname")} />
-                {errors.lastname &&
-                  <FormFeedback> {errors.lastname && errors.lastname?.message}</FormFeedback>}
-              </FormGroup>
 
-              <FormGroup>
-                <Label for="Address"> address </Label>
-                <Input type="textarea" id="address" placeholder="Address" invalid={errors?.address}  {...register("address")} />
-                {errors.address &&
-                  <FormFeedback> {errors.address?.message} </FormFeedback>}
-              </FormGroup>
+             <Controller
+                      control={control}
+                      name="firstname"
+                      render={({ field: { ref, ...firstnameProps } }) => (
+                        <FormGroup>
+                          <Label for="firstname"> First Names </Label>
+                          <Input
+                      
+                      name="firstname"
+                      placeholder="firstname"
+                      type="firstname"
+                      id="firstname"
+          
+                      invalid={errors.firstname ? true : false}
+                      innerRef={ref} {...firstnameProps}
+                    />
+                      
+                      
+                      {errors?.firstname && (
+                        <FormFeedback>{errors.firstname?.message}</FormFeedback>
+                      )}
+                        </FormGroup>
+                      )}
+                    />
+
+
+                  <Controller
+                      control={control}
+                      name="lastname"
+                      render={({ field: { ref, ...lastnameProps } }) => (
+                        <FormGroup>
+                          <Label for="lastname"> Last Names </Label>
+                          <Input
+                      
+                      name="lastname"
+                      placeholder="Lastname"
+                      type="lastname"
+                      id="lastname"
+          
+                      invalid={errors.lastname ? true : false}
+                      innerRef={ref} {...lastnameProps}
+                    />
+                      
+                      
+                      {errors?.lastname && (
+                        <FormFeedback>{errors.lastname?.message}</FormFeedback>
+                      )}
+                        </FormGroup>
+                      )}
+                    />
+                    
+                    <Controller
+                      control={control}
+                      name="address"
+                      render={({ field: { ref, ...addressProps } }) => (
+                        <FormGroup>
+                          <Label for="address"> Address </Label>
+                          <Input
+                      
+                      name="address"
+                      placeholder="Address"
+                      type="textarea"
+                      id="address"
+          
+                      invalid={errors.address ? true : false}
+                      innerRef={ref} {...addressProps}
+                    />
+                      
+                      
+                      {errors?.address && (
+                        <FormFeedback>{errors.address?.message}</FormFeedback>
+                      )}
+                        </FormGroup>
+                      )}
+                    />
+              
+
+              
               <Container className="text-center">
-                <Button type="submit">Register</Button>
+
+                <Button type="submit">Register </Button>
               </Container>
             </Form>
           </CardBody>

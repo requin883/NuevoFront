@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import API_AXIOS from "../../../settings/settings";
 import endpointList from "../../../settings/endpoints";
@@ -11,25 +11,34 @@ import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import EmailAlert from "./EmailAlert";
 import { useState } from "react";
 import ExamplesNavbar from "./Navbar";
+import { useEffect } from "react";
 
 
 function Login() {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors }
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(loginSchema),
+    resolver:yupResolver(loginSchema)
+   
   });
 
-  // let [email, setEmail] = useLocalStorage('userEmailHP', '');
+  const { ref, ...emailField } = register("email");
+  
+   let [email, setEmail] = useLocalStorage('userEmailHP', '');
+
+
+   const [spinner, setSpinner] = useState(false);
 
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    alert(JSON.stringify(data))
     try {
-      alert(`${data.email}`)
+      setSpinner(true)
       let call = await API_AXIOS.get(
         endpointList.login + `?email=${data.email}&password=${data.password}`
       );
@@ -48,8 +57,8 @@ function Login() {
           break;
 
         default:
-          alert("error")
-          break;
+          reset();
+      setSpinner(false);
       }
     } catch (error) {
       console.log("hello");
@@ -61,6 +70,8 @@ function Login() {
     setFlag(true);
     navigate('/login/forgetpassword');
   }
+
+
   return (
     <Container>
       <ExamplesNavbar />
@@ -80,8 +91,8 @@ function Login() {
                       bsSize="sm"
                       placeholder="email"
                       type="email"
-                      {...register("email")}
                       invalid={errors.email ? true : false}
+                      innerRef={ref} {...emailField}
                     />
                     <Label for="email">Email</Label>
                     {errors?.email && (
@@ -90,29 +101,43 @@ function Login() {
                   </FormGroup>
                 </Col>
                 <Col md={6}>
-                  <FormGroup floating>
-                    <Input
+                <Controller
+                      control={control}
+                      name="password"
+                      render={({ field: { ref, ...fieldProps } }) => (
+                        <FormGroup floating>
+                          <Input
                       bsSize="sm"
                       name="password"
                       placeholder="password"
                       type="password"
+          
                       invalid={errors.password ? true : false}
-                      {...register("password")}
+                      innerRef={ref} {...fieldProps}
                     />
-                    <Label for="password"> Password </Label>
-                    {errors?.password && (
-                      <FormFeedback>{errors.password?.message}</FormFeedback>
-                    )}
-                  </FormGroup>
+                      
+                      <Label for="password"> Password </Label>
+                      {errors?.password && (
+                        <FormFeedback>{errors.password?.message}</FormFeedback>
+                      )}
+                        </FormGroup>
+                      )}
+                    />
+                  
+                    
+
+
+                    
+                  
                 </Col>
               </Row>
               <Button type="submit">Login</Button>
-              <Button onClick={handlePassword} >Olvidaste tu contraseña</Button>
+              <Button  onClick={handlePassword} >Olvidaste tu contraseña </Button>
             </Form>
           </CardBody>
         </Card>
         <Routes>
-          <Route path='/forgetpassword' element={<EmailAlert val={{ flag, setFlag }} />} />
+       
         </Routes>
       </Container>
     </Container>
