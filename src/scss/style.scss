@@ -7,6 +7,9 @@ body {
     background-color: black;
     color: white;
 }
+.profmar{
+    margin-top: 6em;
+}
 .profileCard{
     margin-top: 20em;
 }
@@ -24,7 +27,7 @@ body {
 }
 
 .linkscontainer{
-    margin-top: 15em;
+    margin-top: 9em;
 }
 
 .logincard{
@@ -38,7 +41,6 @@ body {
     border-bottom: solid 0.3em $secondary-color;
     box-shadow: 0.3em -.5em 1em 1em black;
 }
-
 
 .newcard {
     color: $details-color;
