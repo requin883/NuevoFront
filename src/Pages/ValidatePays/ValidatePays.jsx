@@ -13,6 +13,7 @@ import {
   Button,
   Spinner,
   Container,
+  ModalFooter,
 } from 'reactstrap'
 import { useEffect, useState } from "react";
 import API_AXIOS from "../../../settings/settings";
@@ -55,7 +56,6 @@ function ValidatePays(props) {
     <Modal className="text-dark" isOpen={valFlag} size="lg">
       <ModalHeader className="d-flex justify-content-evenly">
         Validate payment
-          <Button  disabled={spinner} close onClick={() => setValFlag(false)}></Button>
       </ModalHeader>
 
       <ModalBody>
@@ -107,10 +107,13 @@ function ValidatePays(props) {
             <FormFeedback>{errors.quantity?.message}</FormFeedback>
           </FormGroup>
           <Container className="text-center">
-          {spinner ? <Button disabled={spinner} type="submit" value="register"><Spinner /></Button> : <Button type="submit" className="text-center" value="register">Validate</Button>}
+            {spinner ? <Button disabled={spinner} type="submit" value="register"><Spinner /></Button> : <Button type="submit" className="text-center" value="register">Validate</Button>}
           </Container>
         </Form>
       </ModalBody>
+      <ModalFooter>
+        <Button onClick={() => setValFlag(false)}>X</Button>
+      </ModalFooter>
     </Modal>
   )
 
