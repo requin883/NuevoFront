@@ -19,10 +19,11 @@ function Menu() {
         { links: '/menu/validatepay', options: 'Validate Payments', opt: 'vp' },
         { links: '/menu/transactions', options: 'Make a transaction', opt: 'mt' },
         { links: '/profile', options: 'Profile', opt: 'pf' },
+        {links:'/', options:'return to main menu'}
     ]
 
     const cbMenu = (nm) => {
-        return (<Button key={nm.options} onClick={nm.opt == 'vp' ? () => setValFlag(true) : nm.opt == 'mt' ? () => setTransFlag(true) : () => setProfileFlag(true)}  size="lg" > <Link style={{color:"white",textDecoration:"none"}} key={nm.options} to={nm.links}>  {nm.options} </Link> </Button>)
+        return (<Button key={nm.options} className="mb-4" onClick={nm.opt == 'vp' ? () => setValFlag(true) : nm.opt == 'mt' ? () => setTransFlag(true) : () => setProfileFlag(true)}  size="lg" > <Link style={{color:"white",textDecoration:"none"}} key={nm.options} to={nm.links}>  {nm.options} </Link> </Button>)
     }
     useEffect(() => {
         let date = new Date()
@@ -31,7 +32,8 @@ function Menu() {
     return (
         <>
             <ExamplesNavbar />
-            <Container className="linkscontainer d-flex justify-content-evenly">
+            <Container className="linkscontainer d-flex flex-column">
+                <h1 className="text-center text-decoration-underline pb-3">Menu</h1>
                 {menu.map(cbMenu)}
             </Container>
             <Routes>
