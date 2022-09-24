@@ -14,25 +14,22 @@ import ExamplesNavbar from "./Navbar";
 
 
 function Login() {
-
-  const [flag, setFlag] = useState(false);
-
-  let [email, setEmail] = useLocalStorage('userEmailHP', '');
-
   const {
     register,
-    formState: { errors },
     handleSubmit,
+    formState: { errors }
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(loginSchema),
   });
 
+  // let [email, setEmail] = useLocalStorage('userEmailHP', '');
+
   const navigate = useNavigate();
 
-  const fnSend = async (data) => {
+  const onSubmit = async (data) => {
     try {
-      console.log("hello");
-      console.log(data);
+      alert(`${data.email}`)
       let call = await API_AXIOS.get(
         endpointList.login + `?email=${data.email}&password=${data.password}`
       );
@@ -64,43 +61,59 @@ function Login() {
     setFlag(true);
     navigate('/login/forgetpassword');
   }
-
   return (
     <Container>
       <ExamplesNavbar />
       <Container style={{ display: "flex", justifyContent: "center" }} >
-        <Card style={{ width: '40em' }} className="d-flex logincard text-center">
+        <Card style={{ width: "40em" }} className="d-flex logincard text-center">
           <CardBody>
-            <CardTitle className="border-bottom">
-              <h2>Login</h2>
+            <CardTitle className="border-bottom d-flex">
+              <span></span>
+              <h2 className="text-center">Login</h2>
+              <Button className="ms-auto mb-2" onClick={() => navigate("/")}>X</Button>
             </CardTitle>
-            <Form method="POST" onSubmit={handleSubmit(fnSend)}>
-              <Row >
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <Row>
                 <Col md={6}>
                   <FormGroup floating>
-                    <Input bsSize="sm" id="email" name="email" placeholder="email" type="email" {...register("email")} />
+                    <Input
+                      bsSize="sm"
+                      placeholder="email"
+                      type="email"
+                      {...register("email")}
+                      invalid={errors.email ? true : false}
+                    />
                     <Label for="email">Email</Label>
-                    {errors?.email &&
-                      <FormFeedback>{errors?.email?.message}</FormFeedback>}
+                    {errors?.email && (
+                      <FormFeedback>{errors.email?.message}</FormFeedback>
+                    )}
                   </FormGroup>
                 </Col>
                 <Col md={6}>
                   <FormGroup floating>
-                    <Input bsSize="sm" id="password" name="password" placeholder="password" type="password"  {...register("password")} />
+                    <Input
+                      bsSize="sm"
+                      name="password"
+                      placeholder="password"
+                      type="password"
+                      invalid={errors.password ? true : false}
+                      {...register("password")}
+                    />
                     <Label for="password"> Password </Label>
-                    {errors?.password &&
-                      <FormFeedback>{errors?.password?.message}</FormFeedback>}
+                    {errors?.password && (
+                      <FormFeedback>{errors.password?.message}</FormFeedback>
+                    )}
                   </FormGroup>
                 </Col>
               </Row>
-              <Button className="mx-2" type="submit">Submit</Button>
+              <Button type="submit">Login</Button>
               <Button onClick={handlePassword} >Olvidaste tu contraseña</Button>
             </Form>
-            <Routes>
-              <Route path='/forgetpassword' element={<EmailAlert val={{ flag, setFlag }} />} />
-            </Routes>
           </CardBody>
         </Card>
+        <Routes>
+          <Route path='/forgetpassword' element={<EmailAlert val={{ flag, setFlag }} />} />
+        </Routes>
       </Container>
     </Container>
   );
