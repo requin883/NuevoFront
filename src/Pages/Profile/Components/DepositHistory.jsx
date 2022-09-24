@@ -2,13 +2,20 @@ import {
     Container,
     Table,
     Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
 } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect, useState } from 'react'
 import endpointList from '../../../../settings/endpoints'
 import API_AXIOS from '../../../../settings/settings'
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
-function DepositHistory() {
+function DepositHistory(props) {
+
+    const { depositFlag: flag, setDepositFlag: setFlag } = props.val;
+
     let [userLogin, setUserLogin] = useLocalStorage('user', "");
 
     let [deposits, setDeposits] = useState([]);
@@ -33,8 +40,12 @@ function DepositHistory() {
 
     }, [])
     return (
+        <Modal isOpen={flag}>
         <Container>
-            <h1 className='text-dark text-center'>Deposits</h1>
+            <ModalHeader>
+            Deposits
+            </ModalHeader>
+            <ModalBody>
             <Table striped>
                 <thead>
                     <tr>
@@ -52,7 +63,12 @@ function DepositHistory() {
                         ))}
                 </tbody>
             </Table>
+            </ModalBody>
+            <ModalFooter>
+                <Button onClick={()=>setFlag(false)}>X</Button>
+            </ModalFooter>
         </Container>
+        </Modal>
     )
 }
 

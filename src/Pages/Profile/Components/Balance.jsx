@@ -1,4 +1,4 @@
-import { Container, Button, Table } from 'reactstrap';
+import { Container, Button, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect, useState } from 'react'
 import endpointList from '../../../../settings/endpoints'
@@ -6,7 +6,10 @@ import API_AXIOS from '../../../../settings/settings'
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 
-function Balance() {
+function Balance(props) {
+
+    const { balanceFlag: flag, setBalanceFlag: setFlag } = props.val;
+
     let [userLogin, setUserLogin] = useLocalStorage('user', "");
 
     let [balance, setBalance] = useState([]);
@@ -36,8 +39,12 @@ function Balance() {
         //console.log(userLogin)
     }, [])
     return (
-        <Container>
-            <h1 className='text-dark text-center'>Balance</h1>
+        <Modal isOpen={flag}>
+            <ModalHeader className='text-dark'>
+                Balance
+            </ModalHeader>
+            <ModalBody>
+                <Container>
                     <Table striped>
                         <thead>
                             <tr>
@@ -57,7 +64,12 @@ function Balance() {
                                 ))}
                         </tbody>
                     </Table>
-        </Container>
+                </Container>
+            </ModalBody>
+            <ModalFooter>
+                <Button onClick={() => setFlag(false)}>X</Button>
+            </ModalFooter>
+        </Modal>
     )
 }
 
