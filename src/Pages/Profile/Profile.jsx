@@ -12,11 +12,11 @@ import PaymentHistory from "./Components/PaymentHistory";
 
 
 export default function Profile() {
-    // const [paymentFlag, setPaymentFlag] = useState(false);
-    // const [depositFlag, setDepositFlag] = useState(false);
-    // const [balanceFlag, setBalanceFlag] = useState(false);
+    const [paymentFlag, setPaymentFlag] = useState(false);
+    const [depositFlag, setDepositFlag] = useState(false);
+    const [balanceFlag, setBalanceFlag] = useState(false);
 
-    // let [email, setEmail] = (useState(window.localStorage.getItem("userEmailHP")))
+    let [email, setEmail] = (useState(window.localStorage.getItem("userEmailHP")))
 
     // let [userLogin, setUserLogin] = useLocalStorage('user', "")
     // datos personales
@@ -25,11 +25,8 @@ export default function Profile() {
     // historial de depositos
 
     const cbMenu = (nm) => {
-        return (<Button key={nm.options} onClick={nm.options == "Payments' history" ? () => setBalanceFlag(true) : nm.options == "Deposits' history" ? () => setDepositFlag(true) : () => setPaymentFlag(true)} size="lg"> <Link style={{ color: "white", textDecoration: 'none' }} key={nm.options} to={nm.links}>  {nm.options} </Link> </Button>)
+        return (<Button key={nm.options} onClick={()=>nm.opt == "ph" ? setPaymentFlag(true) : nm.opt == "dh" ? setDepositFlag(true) : nm.opt == "pr" ? setBalanceFlag(true) : ""} size="lg" className="mb-4"> <Link style={{ color: "white", textDecoration: 'none' }} key={nm.options} to={nm.links}>  {nm.options} </Link> </Button>)
     }
-
-
-
 
     // useEffect(() => {
     //     let date = new Date()
@@ -41,9 +38,9 @@ export default function Profile() {
 
     let menu = [
 
-        { links: '/profile/paymenthistory', options: "Payments' history" },
-        { links: '/profile/deposithistory', options: "Deposits' history" },
-        { links: '/profile/balance', options: "Users' balance" },
+        { links: '/profile/paymenthistory', options: "Payments' history", opt: "ph" },
+        { links: '/profile/deposithistory', options: "Deposits' history", opt: "dh" },
+        { links: '/profile/balance', options: "Users' balance", opt: "pr" },
         { links: '/menu', options: "Return to menu" }
 
     ]
@@ -51,30 +48,28 @@ export default function Profile() {
     return (
         <>
             <ExamplesNavbar />
-            <Card className="profileCard">
-                <CardBody>
-                    <CardTitle>
-                        <h2>User data </h2>
-                        {/* <h3> Email: {email} </h3> */}
-                    </CardTitle>
-                    <Container className="d-flex justify-content-evenly mb-3">
+            <Container className="d-flex  profmar flex-column align-items-center justify-content-center">
+                <Container className="mt-5">
+                    <h1 className="text-center text-decoration-underline mb-4">Menu</h1>
+                    {/* <h3> Email: {email} </h3> */}
+                    <Container className="d-flex flex-column justify-content-evenly mb-3">
                         {menu.map(cbMenu)}
                     </Container>
                     <Container>
                         <Routes>
                             {/* <Route element={<ProtectedRoute />}> */}
-                            <Route path='/paymenthistory' element={<PaymentHistory />} />
+                            <Route path='/paymenthistory' element={<PaymentHistory val={{ paymentFlag, setPaymentFlag }} />} />
                             {/* </Route> */}
                             {/* <Route element={<ProtectedRoute />}> */}
-                            <Route path="/deposithistory" element={<DepositHistory />} />
+                            <Route path="/deposithistory" element={<DepositHistory val={{ depositFlag, setDepositFlag }} />} />
                             {/* </Route> */}
                             {/* <Route element={<ProtectedRoute />}> */}
-                            <Route path="/balance" element={<Balance />} />
+                            <Route path="/balance" element={<Balance val={{ balanceFlag, setBalanceFlag }} />} />
                             {/* </Route> */}
                         </Routes>
                     </Container>
-                </CardBody>
-            </Card>
+                </Container>
+            </Container>
         </>
     )
 }
