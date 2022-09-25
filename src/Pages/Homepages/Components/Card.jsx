@@ -3,7 +3,7 @@ import { Col, Button } from "reactstrap"
 export default function Card({ title, cat, children }) {
     return (
         <>
-            <Col md="4" key={title} className="card">
+            <Col md="4" key={title} className="card me-3 mb-3">
                 <div className="d-flex flex-column alert newcard">
                     <h4 className="align-self-center">{title}</h4>
                     <p className="category text-info">{cat}</p>
