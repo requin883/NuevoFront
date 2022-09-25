@@ -1,7 +1,7 @@
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import API_AXIOS from "../../../settings/settings";
-import { useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import endpointList from "../../../settings/endpoints";
 import { registerSchema } from "../../../Utils/yupSchemas";
 import {
@@ -15,14 +15,19 @@ import {
   Input,
   Form,
   Button,
-  Spinner
+  Spinner,
+  Alert
 } from 'reactstrap'
 import { useState } from "react";
 import ExamplesNavbar from "./Navbar";
 
 function Register() {
 
+  const [msg, setMsg] = useState("");
+
   const navigate = useNavigate();
+
+  const [alert, setAlert] = useState(false);
 
   const [spinner, setSpinner] = useState(false);
 
@@ -38,6 +43,8 @@ function Register() {
 
   const { ref, ...emailField } = register("email");
 
+  const [color, setColor] = useState("primary");
+
   const fnSend = async (data) => {
     try {
       setSpinner(true);
@@ -45,11 +52,20 @@ function Register() {
         endpointList.findEmail + `?email=${data.email}`
       );
       if (registeredFlag.data == 0) {
+        setAlert(true);
         await API_AXIOS.post(endpointList.register + `?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}`);
-        alert("Su cuenta ha sido creada satisfactoriamente, por favor revise su correo para verificar la cuenta");
+        setMsg("Your account has been created. Please verify your account using the link sent to your email");
+        setTimeout(() => {
+          setAlert(false);
+        }, 2000);
       }
       else {
-        alert("Ya hay una cuenta con este email registrado");
+        setColor("danger");
+        setMsg("This email address is associated with an existing account");
+        setAlert(true);
+        setTimeout(() => {
+        setAlert(false);
+        }, 2000);
       }
       reset();
       setSpinner(false);
@@ -62,6 +78,9 @@ function Register() {
       <ExamplesNavbar />
       <Container className="w-50 text-dark">
         <Card className="d-flex regcard justify-self-center">
+        <Alert className="m-2" fade isOpen={alert} color={color}>
+            {msg}
+          </Alert>
           <CardTitle className="pt-4 d-flex">
             <h1 className="flex-fill text-center"> Register</h1>
             <Button className="text-light me-4" color="info" disabled={spinner} onClick={() => navigate("/home")}>X</Button>
@@ -132,7 +151,7 @@ function Register() {
                 name="firstname"
                 render={({ field: { ref, ...firstnameProps } }) => (
                   <FormGroup>
-                    <Label for="firstname"> First Names </Label>
+                    <Label for="firstname"> First Name</Label>
                     <Input
 
                       name="firstname"
@@ -158,7 +177,7 @@ function Register() {
                 name="lastname"
                 render={({ field: { ref, ...lastnameProps } }) => (
                   <FormGroup>
-                    <Label for="lastname"> Last Names </Label>
+                    <Label for="lastname"> Last Name </Label>
                     <Input
 
                       name="lastname"
@@ -204,12 +223,13 @@ function Register() {
 
 
               <Container className="text-center">
-                {spinner ? <Button className="btn-menu text-light" color="info" type="submit"><Spinner /></Button> : <Button className="btn-menu text-light" color="info" type="submit">Register</Button>}
+                {spinner ? <Button className="btn-menu text-light" disabled={spinner} color="info" type="submit"><Spinner /></Button> : <Button className="btn-menu text-light" color="info" type="submit">Register</Button>}
               </Container>
             </Form>
           </CardBody>
         </Card>
       </Container>
+
     </>
   );
 }
