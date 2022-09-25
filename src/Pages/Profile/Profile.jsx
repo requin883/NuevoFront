@@ -57,15 +57,15 @@ export default function Profile() {
                     </Container>
                     <Container>
                         <Routes>
-                            {/* <Route element={<ProtectedRoute />}> */}
+                             {/* <Route element={<ProtectedRoute />}>  */}
                             <Route path='/paymenthistory' element={<PaymentHistory val={{ paymentFlag, setPaymentFlag }} />} />
-                            {/* </Route> */}
-                            {/* <Route element={<ProtectedRoute />}> */}
+                            {/* </Route>  */}
+                             <Route element={<ProtectedRoute />}> 
                             <Route path="/deposithistory" element={<DepositHistory val={{ depositFlag, setDepositFlag }} />} />
-                            {/* </Route> */}
-                            {/* <Route element={<ProtectedRoute />}> */}
+                             </Route> 
+                             <Route element={<ProtectedRoute />}>
                             <Route path="/balance" element={<Balance val={{ balanceFlag, setBalanceFlag }} />} />
-                            {/* </Route> */}
+                            </Route> 
                         </Routes>
                     </Container>
                 </Container>

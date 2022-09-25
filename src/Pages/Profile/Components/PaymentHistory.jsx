@@ -7,7 +7,10 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter
+    ModalFooter,
+    FormGroup,
+    Label,
+    FormFeedback
 } from 'reactstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -15,19 +18,21 @@ import { useEffect, useState } from 'react'
 import endpointList from '../../../../settings/endpoints'
 import API_AXIOS from '../../../../settings/settings'
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { pepito } from "../../../Utils/pepito";
 import * as yup from "yup";
 
+  const schema = yup.object().shape({
+        token: yup.string(),
+    })
 function PaymentHistory(props) {
 
     const { paymentFlag: flag, setPaymentFlag: setFlag } = props.val;
 
-    const schema = yup.object().shape({
-        token: yup.string(),
-    })
+  
     const {
         register,
+        control,
         formState: { errors },
         handleSubmit,
     } = useForm({
@@ -84,7 +89,7 @@ function PaymentHistory(props) {
     const fnSend = (data) => {
         let start = new Date(data.startDate)
         let end = new Date(data.endDate)
-        var result = filter.filter((element) => {
+       var result = filter.filter((element) => {
             if (element.token.toString().toLowerCase().includes(data.token.toLowerCase())
                 && (start.getTime() <= element.date || data.startDate == "")
                 && (end.getTime() >= element.date || data.endDate == "")
@@ -93,8 +98,9 @@ function PaymentHistory(props) {
             }
         }
         )
-        console.log(result)
+       console.log(result)
         setTransactions(result)
+       console.log(data)
     }
 
     useEffect(() => {
@@ -134,12 +140,75 @@ function PaymentHistory(props) {
             </ModalHeader>
             <ModalBody>
                 <Form onSubmit={handleSubmit(fnSend)}>
-                    <Input placeholder="Crypto filter" className="mb-4" type="text"  {...register("token")} />
+                    <Controller 
+                    control={control}
+                    name="token"
+                    render={({field: {ref, ...tokenProp}}) => (
+                        <FormGroup floating>
+                            <Input 
+                            className="mb-4"
+                            name = "token"
+                            placeholder = "token"
+                            type="text"
+                            invalid={errors.token ? true : false}
+                            innerRef={ref} {...tokenProp}
+                            />
+                            <Label for="token"> Token </Label>
+                              {errors?.token && (
+                            <FormFeedback>{errors.token?.message}</FormFeedback>
+                      )}
+
+                        </FormGroup>
+                    )}
+                    />
+                    <Controller 
+                    control={control}
+                    name="startDate"
+                    render={({field: {ref, ...startDateProp}}) => (
+                        <FormGroup floating>
+                            <Input 
+                            className="mb-4"
+                            name = "startDate"
+                            placeholder = "startDate"
+                            type="date"
+                            invalid={errors.startDate ? true : false}
+                            innerRef={ref} {...startDateProp}
+                            />
+                            <Label for="startDate"> Start Date </Label>
+                              {errors?.startDate && (
+                            <FormFeedback>{errors.startDate?.message}</FormFeedback>
+                      )}
+
+                        </FormGroup>
+                    )}
+                    />
+                    <Controller 
+                    control={control}
+                    name="endDate"
+                    render={({field: {ref, ...endDateProp}}) => (
+                        <FormGroup floating>
+                            <Input 
+                            className="mb-4"
+                            name = "endDate"
+                            placeholder = "endDate"
+                            type="date"
+                            invalid={errors.endDate ? true : false}
+                            innerRef={ref} {...endDateProp}
+                            />
+                            <Label for="endDate"> End Date </Label>
+                              {errors?.endDate && (
+                            <FormFeedback>{errors.endDate?.message}</FormFeedback>
+                      )}
+
+                        </FormGroup>
+                    )}
+                    />
+                    {/* <Input placeholder="Crypto filter" className="mb-4" type="text"  {...register("token")} />
                     <Input placeholder="Start date" className="mb-4" type="date"  {...register("startDate")} />
-                    <Input placeholder="End date" className="mb-4" type="date"  {...register("endDate")} />
-                    <Container className='text-center'>
+                    <Input placeholder="End date" className="mb-4" type="date"  {...register("endDate")} />*/}
+                              <Container className='text-center'>
                         <Button type="submit" className='color-primary' value="Fill data">Fill Data</Button>
-                    </Container>
+                    </Container> 
                 </Form>
                 <Table>
                     <thead>
@@ -147,15 +216,17 @@ function PaymentHistory(props) {
                             <th> Quantity</th>
                             <th> Currency </th>
                             <th> from/to </th>
+                            <th> Date </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {transactions &&
-                            transactions.map((transaction) => (
+                        {newTrans &&
+                            newTrans.map((transaction) => (
                                 <tr>
                                     <td>{transaction.quantity}</td>
                                     <td> {transaction.token} </td>
                                     <td>{transaction.other}</td>
+                                    <td> {transaction.date}</td>
                                 </tr>
                             ))}
                     </tbody>

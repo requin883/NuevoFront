@@ -1,14 +1,22 @@
 $primary-color: #352F44;
-$secondary-color: #2A2438;
-$third-color: #411E8F;
+$secondary-color: #ffffff;
+$third-color: #352F44;
 $details-color: #310A5D;
 
 body {
-    background-color: black;
+    background-color: #293462
+    ;
     color: white;
 }
 .profmar{
     margin-top: 6em;
+}
+
+.btn-menu {
+    background-color: #5F6F94;
+    background-color: cutom-color;
+    padding: 1em;
+    margin-top: 1em;
 }
 .profileCard{
     margin-top: 20em;
@@ -39,7 +47,7 @@ body {
     font-weight: bold;
     background-color: $third-color;
     border-bottom: solid 0.3em $secondary-color;
-    box-shadow: 0.3em -.5em 1em 1em black;
+    box-shadow: 0.3em -.5em 0.5em 0.5em rgb(255, 255, 255);
 }
 
 .newcard {

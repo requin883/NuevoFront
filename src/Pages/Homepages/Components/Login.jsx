@@ -29,7 +29,7 @@ function Login() {
   const { ref, ...emailField } = register("email");
   
    let [email, setEmail] = useLocalStorage('userEmailHP', '');
-
+   let [userLogin, setUserLogin] = useLocalStorage('user', "")
 
    const [spinner, setSpinner] = useState(false);
 
@@ -49,6 +49,8 @@ function Login() {
           break;
         case 1:
           setEmail(data.email)
+          let date = new Date()
+          setUserLogin(date)
           alert("tamo activo menol");
           navigate('/menu')
           break;
@@ -81,11 +83,12 @@ function Login() {
             <CardTitle className="border-bottom d-flex">
               <span></span>
               <h2 className="text-center">Login</h2>
-              <Button className="ms-auto mb-2" onClick={() => navigate("/")}>X</Button>
+              <Button className="ms-auto mb-2" onClick={() => navigate("/home")}>X</Button>
             </CardTitle>
+
             <Form onSubmit={handleSubmit(onSubmit)}>
-              <Row>
-                <Col md={6}>
+              <Row >
+                <Col md={12}>
                   <FormGroup floating>
                     <Input
                       bsSize="sm"
@@ -100,7 +103,8 @@ function Login() {
                     )}
                   </FormGroup>
                 </Col>
-                <Col md={6}>
+                
+                <Col md={12}>
                 <Controller
                       control={control}
                       name="password"
@@ -131,7 +135,7 @@ function Login() {
                   
                 </Col>
               </Row>
-              <Button type="submit">Login</Button>
+              <Button type="submit">Login</Button> <br></br> <br></br>
               <Button  onClick={handlePassword} >Olvidaste tu contraseña </Button>
             </Form>
           </CardBody>

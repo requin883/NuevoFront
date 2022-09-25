@@ -25,7 +25,7 @@ function Menu() {
     ]
 
     const cbMenu = (nm) => {
-        return (<Button key={nm.options} className="mb-4" onClick={nm.opt == 'vp' ? () => setValFlag(true) : nm.opt == 'mt' ? () => setTransFlag(true) : () => setProfileFlag(true)}  size="lg" > <Link style={{color:"white",textDecoration:"none"}} key={nm.options} to={nm.links}>  {nm.options} </Link> </Button>)
+        return (<Button key={nm.options} className="btn-menu" color="info" onClick={nm.opt == 'vp' ? () => setValFlag(true) : nm.opt == 'mt' ? () => setTransFlag(true) : () => setProfileFlag(true)}  size="lg" > <Link style={{color:"white",textDecoration:"none"}} key={nm.options} to={nm.links}>  {nm.options} </Link> </Button>)
     }
     useEffect(() => {
         let date = new Date()

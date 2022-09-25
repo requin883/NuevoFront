@@ -64,7 +64,7 @@ function Register() {
         <Card className="d-flex regcard justify-self-center">
           <CardTitle className="pt-4 d-flex">
             <h1 className="ms-3"> Register</h1>
-            <Button className="ms-auto me-3" onClick={() => navigate("/")}>X</Button>
+            <Button className="ms-auto me-3" onClick={() => navigate("/home")}>X</Button>
           </CardTitle>
           <CardBody>
             <Form onSubmit={handleSubmit(fnSend)}>

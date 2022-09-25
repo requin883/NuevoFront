@@ -23,12 +23,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route element={<ProtectedRoute />}>
           <Route path='/menu/*' element={<Menu />} />
         </Route>
-        <Route element={<ProtectedRoute />}>
+        {/* <Route element={<ProtectedRoute />}> */}
           <Route path='/profile/*' element={<Profile />} />
-        </Route>
+        {/* </Route> */}
         <Route path='/Login/*' element={<Login />} />
         <Route path='/Register/*' element={<Register />} />
-        <Route path="/*" element={<Homepages />} />
+        <Route path="/home/*" element={<Homepages />} />
         <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
         <Route path='/forgotPassword/:email' element={< ForgotPassword />} />
         <Route path='/sendpayment' element={<SendPayment />} />

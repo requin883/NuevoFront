@@ -19,7 +19,7 @@ function Homepages() {
     return (
         <>
             <ExamplesNavbar val={["register", "login"]} />
-            <Container className="d-flex flex-column wrapper m-5">
+            <Container className="d-flex flex-column wrapper m-5 text-center">
                 <Container className=" d-flex flex-column">
                     <h2 className="align-self-center title p-3">Quienes Somos?</h2>
                     <h5 className="description p-3">
@@ -27,11 +27,11 @@ function Homepages() {
                         las billeteras digitales.
                     </h5>
                 </Container>
-                <Container>
-                    <Container className="p-5">
+                <Container className="text-center">
+                    <Container className="p-5 ">
                         <h2 className="title text-center">Las CryptoMonedas que aceptamos</h2>
                         <div className="CryptoCurrencies">
-                            <Row>
+                            <Row >
                                 <Card title="USDT" cat="StableCoin">
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, nostrum!
                                 </Card>
