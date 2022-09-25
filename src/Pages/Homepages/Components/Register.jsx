@@ -1,4 +1,4 @@
-import { useForm, Controller} from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import API_AXIOS from "../../../settings/settings";
 import { useNavigate } from "react-router-dom";
@@ -63,128 +63,128 @@ function Register() {
       <Container className="w-50 text-dark">
         <Card className="d-flex regcard justify-self-center">
           <CardTitle className="pt-4 d-flex">
-            <h1 className="ms-3"> Register</h1>
-            <Button className="ms-auto me-3" onClick={() => navigate("/home")}>X</Button>
+            <h1 className="flex-fill text-center"> Register</h1>
+            <Button className="text-light me-4" color="info" disabled={spinner} onClick={() => navigate("/home")}>X</Button>
           </CardTitle>
           <CardBody>
             <Form onSubmit={handleSubmit(fnSend)}>
 
               <FormGroup>
                 <Label for="email"> Email </Label>
-                <Input id="email" placeholder="Email" type="email" invalid={errors?.email?true:false} innerRef={ref} {...emailField} />
+                <Input id="email" placeholder="Email" type="email" invalid={errors?.email ? true : false} innerRef={ref} {...emailField} />
                 {errors?.email &&
-                <FormFeedback>{errors.email?.message}</FormFeedback>}
+                  <FormFeedback>{errors.email?.message}</FormFeedback>}
               </FormGroup>
 
-                    <Controller
-                      control={control}
-                      name="password"
-                      render={({ field: { ref, ...passProps } }) => (
-                        <FormGroup>
-                          <Label for="password"> Password </Label>
-                          <Input
-                      
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { ref, ...passProps } }) => (
+                  <FormGroup>
+                    <Label for="password"> Password </Label>
+                    <Input
+
                       name="password"
                       placeholder="Password"
                       type="password"
                       id="password"
-          
+
                       invalid={errors.password ? true : false}
                       innerRef={ref} {...passProps}
                     />
-                      
-                      
-                      {errors?.password && (
-                        <FormFeedback>{errors.password?.message}</FormFeedback>
-                      )}
-                        </FormGroup>
-                      )}
-                    />
 
-             <Controller
-                      control={control}
-                      name="valpass"
-                      render={({ field: { ref, ...valpassProps } }) => (
-                        <FormGroup>
-                          <Label for="valpass"> Confirm Password </Label>
-                          <Input
-                      
+
+                    {errors?.password && (
+                      <FormFeedback>{errors.password?.message}</FormFeedback>
+                    )}
+                  </FormGroup>
+                )}
+              />
+
+              <Controller
+                control={control}
+                name="valpass"
+                render={({ field: { ref, ...valpassProps } }) => (
+                  <FormGroup>
+                    <Label for="valpass"> Confirm Password </Label>
+                    <Input
+
                       name="valpass"
                       placeholder="Confirm password"
                       type="password"
                       id="valpass"
-          
+
                       invalid={errors.valpass ? true : false}
                       innerRef={ref} {...valpassProps}
                     />
-                      
-                      
-                      {errors?.valpass && (
-                        <FormFeedback>{errors.valpass?.message}</FormFeedback>
-                      )}
-                        </FormGroup>
-                      )}
-                    />
 
 
-             <Controller
-                      control={control}
-                      name="firstname"
-                      render={({ field: { ref, ...firstnameProps } }) => (
-                        <FormGroup>
-                          <Label for="firstname"> First Names </Label>
-                          <Input
-                      
+                    {errors?.valpass && (
+                      <FormFeedback>{errors.valpass?.message}</FormFeedback>
+                    )}
+                  </FormGroup>
+                )}
+              />
+
+
+              <Controller
+                control={control}
+                name="firstname"
+                render={({ field: { ref, ...firstnameProps } }) => (
+                  <FormGroup>
+                    <Label for="firstname"> First Names </Label>
+                    <Input
+
                       name="firstname"
                       placeholder="firstname"
                       type="firstname"
                       id="firstname"
-          
+
                       invalid={errors.firstname ? true : false}
                       innerRef={ref} {...firstnameProps}
                     />
-                      
-                      
-                      {errors?.firstname && (
-                        <FormFeedback>{errors.firstname?.message}</FormFeedback>
-                      )}
-                        </FormGroup>
-                      )}
-                    />
 
 
-                  <Controller
-                      control={control}
-                      name="lastname"
-                      render={({ field: { ref, ...lastnameProps } }) => (
-                        <FormGroup>
-                          <Label for="lastname"> Last Names </Label>
-                          <Input
-                      
+                    {errors?.firstname && (
+                      <FormFeedback>{errors.firstname?.message}</FormFeedback>
+                    )}
+                  </FormGroup>
+                )}
+              />
+
+
+              <Controller
+                control={control}
+                name="lastname"
+                render={({ field: { ref, ...lastnameProps } }) => (
+                  <FormGroup>
+                    <Label for="lastname"> Last Names </Label>
+                    <Input
+
                       name="lastname"
                       placeholder="Lastname"
                       type="lastname"
                       id="lastname"
-          
+
                       invalid={errors.lastname ? true : false}
                       innerRef={ref} {...lastnameProps}
                     />
-                      
-                      
-                      {errors?.lastname && (
-                        <FormFeedback>{errors.lastname?.message}</FormFeedback>
-                      )}
-                        </FormGroup>
-                      )}
-                    />
-                    
-                    <Controller
-                      control={control}
-                      name="address"
-                      render={({ field: { ref, ...addressProps } }) => (
-                        <FormGroup>
-                          <Label for="address"> Address </Label>
-                          <Input
+
+
+                    {errors?.lastname && (
+                      <FormFeedback>{errors.lastname?.message}</FormFeedback>
+                    )}
+                  </FormGroup>
+                )}
+              />
+
+              <Controller
+                control={control}
+                name="address"
+                render={({ field: { ref, ...addressProps } }) => (
+                  <FormGroup>
+                    <Label for="address"> Address </Label>
+                    <Input
                       name="address"
                       placeholder="Address"
                       type="textarea"
@@ -192,20 +192,19 @@ function Register() {
                       invalid={errors.address ? true : false}
                       innerRef={ref} {...addressProps}
                     />
-                      
-                      
-                      {errors?.address && (
-                        <FormFeedback>{errors.address?.message}</FormFeedback>
-                      )}
-                        </FormGroup>
-                      )}
-                    />
-              
 
-              
+
+                    {errors?.address && (
+                      <FormFeedback>{errors.address?.message}</FormFeedback>
+                    )}
+                  </FormGroup>
+                )}
+              />
+
+
+
               <Container className="text-center">
-
-                <Button type="submit">Register </Button>
+                {spinner ? <Button className="btn-menu text-light" color="info" type="submit"><Spinner /></Button> : <Button className="btn-menu text-light" color="info" type="submit">Register</Button>}
               </Container>
             </Form>
           </CardBody>
