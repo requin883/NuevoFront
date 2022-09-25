@@ -71,7 +71,7 @@ function Register() {
 
               <FormGroup>
                 <Label for="email"> Email </Label>
-                <Input id="email" placeholder="Email" type="email" invalid={errors?.email} innerRef={ref} {...emailField} />
+                <Input id="email" placeholder="Email" type="email" invalid={errors?.email?true:false} innerRef={ref} {...emailField} />
                 {errors?.email &&
                 <FormFeedback>{errors.email?.message}</FormFeedback>}
               </FormGroup>
@@ -111,7 +111,7 @@ function Register() {
                       
                       name="valpass"
                       placeholder="Confirm password"
-                      type="valpass"
+                      type="password"
                       id="valpass"
           
                       invalid={errors.valpass ? true : false}
@@ -185,12 +185,10 @@ function Register() {
                         <FormGroup>
                           <Label for="address"> Address </Label>
                           <Input
-                      
                       name="address"
                       placeholder="Address"
                       type="textarea"
                       id="address"
-          
                       invalid={errors.address ? true : false}
                       innerRef={ref} {...addressProps}
                     />
