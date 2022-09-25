@@ -10,7 +10,8 @@ import {
     ModalFooter,
     FormGroup,
     Label,
-    FormFeedback
+    FormFeedback,
+    Spinner
 } from 'reactstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -28,9 +29,13 @@ const schema = yup.object().shape({
 })
 function PaymentHistory(props) {
 
+    const [spinner, setSpinner] = useState(false);
+
     const currencies = ["usdt", "btc", "eth", "busd"];
 
     const { paymentFlag: flag, setPaymentFlag: setFlag } = props.val;
+
+    const { from } = props;
 
     const navigate = useNavigate();
 
@@ -59,12 +64,14 @@ function PaymentHistory(props) {
 
     const getData = async () => {
         try {
+            setSpinner(true);
             let string = "?email=" + email.slice(1, email.length - 1)
             console.log(string)
             let { data } = await API_AXIOS.get(endpointList.getPayments + string)
             // console.log(data)
-            setTransactions(data)
-            setFilter(data)
+            setTransactions(data);
+            setFilter(data);
+            setSpinner(false);
         } catch (error) {
             console.log(error)
         }
@@ -90,10 +97,15 @@ function PaymentHistory(props) {
 
     const handleClose = () => {
         setFlag(false);
-        navigate("/sendpayment");
+        if (from == "profile") {
+            navigate("/profile");
+        }else{
+            navigate("/sendpayment");
+        }
     }
 
     const fnSend = (data) => {
+        setSpinner(true);
         let start = new Date(data.startDate)
         let end = new Date(data.endDate)
         var result = filter.filter((element) => {
@@ -105,9 +117,8 @@ function PaymentHistory(props) {
             }
         }
         )
-        console.log(result)
-        setTransactions(result)
-        console.log(data)
+        setTransactions(result);
+        setSpinner(false);
     }
 
     useEffect(() => {
@@ -155,7 +166,7 @@ function PaymentHistory(props) {
                             render={({ field: { ref, ...tokenProp } }) => (
                                 <FormGroup floating>
                                     <Input
-
+                                        disabled={spinner}
                                         name="token"
                                         placeholder="Select token"
                                         type='text'
@@ -180,6 +191,7 @@ function PaymentHistory(props) {
                         render={({ field: { ref, ...startDateProp } }) => (
                             <FormGroup floating>
                                 <Input
+                                    disabled={spinner}
                                     className="mb-4"
                                     name="startDate"
                                     placeholder="startDate"
@@ -202,6 +214,7 @@ function PaymentHistory(props) {
                         render={({ field: { ref, ...endDateProp } }) => (
                             <FormGroup floating>
                                 <Input
+                                    disabled={spinner}
                                     className="mb-4"
                                     name="endDate"
                                     placeholder="endDate"
@@ -221,7 +234,7 @@ function PaymentHistory(props) {
                     <Input placeholder="Start date" className="mb-4" type="date"  {...register("startDate")} />
                     <Input placeholder="End date" className="mb-4" type="date"  {...register("endDate")} />*/}
                     <Container className='text-center'>
-                        <Button type="submit" color="info" className="btn-menu" value="Fill data">Fill Data</Button>
+                        {spinner ? <Button disabled={spinner} type="submit" color="info" className="btn-menu text-light" value="Fill data"><Spinner /></Button> : <Button type="submit" color="info" className="btn-menu text-light" value="Fill data">Fill Data</Button>}
                     </Container>
                 </Form>
                 <Table>
@@ -247,7 +260,7 @@ function PaymentHistory(props) {
                 </Table>
             </ModalBody>
             <ModalFooter>
-                <Button onClick={handleClose}>X</Button>
+                <Button disabled={spinner} className="btn-menu text-light" color='info' onClick={handleClose}>X</Button>
             </ModalFooter>
         </Modal >
     )
