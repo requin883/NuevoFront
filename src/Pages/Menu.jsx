@@ -19,9 +19,9 @@ function Menu() {
 
     let menu = [
         { links: '/menu/validatepay', options: 'Validate Payments', opt: 'vp' },
-        { links: '/menu/transactions', options: 'Make a transaction', opt: 'mt' },
+        { links: '/sendpayment', options: 'Make a transaction', opt: 'mt' },
         { links: '/profile', options: 'Profile', opt: 'pf' },
-        {links:'/', options:'return to main menu'}
+        {links:'/', options:'Return to main menu'}
     ]
 
     const cbMenu = (nm) => {
@@ -42,11 +42,7 @@ function Menu() {
                 <Route element={<ProtectedRoute />}>
                     <Route path='/validatepay' element={<ValidatePays val={{ valFlag, setValFlag }} />} />
                 </Route>
-
-                <Route element={<ProtectedRoute />}>
                     <Route path="/transactions" element={<Transactions val={{ transFlag, setTransFlag }} />} />
-                </Route>
-
             </Routes>
         </>
     )
