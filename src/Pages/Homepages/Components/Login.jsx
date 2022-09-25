@@ -11,7 +11,6 @@ import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import EmailAlert from "./EmailAlert";
 import { useState } from "react";
 import ExamplesNavbar from "./Navbar";
-import { useEffect } from "react";
 
 
 function Login() {
@@ -25,6 +24,8 @@ function Login() {
     resolver: yupResolver(loginSchema)
 
   });
+
+  const [valFlag,setValFlag] = useState(false);
 
   const { ref, ...emailField } = register("email");
 
@@ -70,8 +71,8 @@ function Login() {
   };
 
   const handlePassword = () => {
-    setFlag(true);
-    navigate('/login/forgetpassword');
+    setValFlag(true);
+    navigate('/login/forgotpassword');
   }
 
 
@@ -143,7 +144,7 @@ function Login() {
           </CardBody>
         </Card>
         <Routes>
-
+        <Route path='/forgotpassword' element={<EmailAlert val={{ valFlag, setValFlag }} />} />
         </Routes>
       </Container>
     </Container>
