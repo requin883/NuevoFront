@@ -21,15 +21,19 @@ import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import { Controller, useForm } from 'react-hook-form';
 import { pepito } from "../../../Utils/pepito";
 import * as yup from "yup";
+import { useNavigate } from 'react-router-dom';
 
-  const schema = yup.object().shape({
-        token: yup.string(),
-    })
+const schema = yup.object().shape({
+    token: yup.string(),
+})
 function PaymentHistory(props) {
+
+    const currencies = ["usdt", "btc", "eth", "busd"];
 
     const { paymentFlag: flag, setPaymentFlag: setFlag } = props.val;
 
-  
+    const navigate = useNavigate();
+
     const {
         register,
         control,
@@ -84,12 +88,15 @@ function PaymentHistory(props) {
         fillFunc(e.target.value)
     }*/
 
-
+    const handleClose = () => {
+        setFlag(false);
+        navigate("/sendpayment");
+    }
 
     const fnSend = (data) => {
         let start = new Date(data.startDate)
         let end = new Date(data.endDate)
-       var result = filter.filter((element) => {
+        var result = filter.filter((element) => {
             if (element.token.toString().toLowerCase().includes(data.token.toLowerCase())
                 && (start.getTime() <= element.date || data.startDate == "")
                 && (end.getTime() >= element.date || data.endDate == "")
@@ -98,9 +105,9 @@ function PaymentHistory(props) {
             }
         }
         )
-       console.log(result)
+        console.log(result)
         setTransactions(result)
-       console.log(data)
+        console.log(data)
     }
 
     useEffect(() => {
@@ -134,81 +141,88 @@ function PaymentHistory(props) {
         // console.log(array)
     }, [transactions])
     return (
-        <Modal isOpen={flag}>
+        <Modal isOpen={flag} className="text-dark">
             <ModalHeader className='fw-bolder text-dark'>
                 Payments
             </ModalHeader>
             <ModalBody>
                 <Form onSubmit={handleSubmit(fnSend)}>
-                    <Controller 
-                    control={control}
-                    name="token"
-                    render={({field: {ref, ...tokenProp}}) => (
-                        <FormGroup floating>
-                            <Input 
-                            className="mb-4"
-                            name = "token"
-                            placeholder = "token"
-                            type="text"
-                            invalid={errors.token ? true : false}
-                            innerRef={ref} {...tokenProp}
-                            />
-                            <Label for="token"> Token </Label>
-                              {errors?.token && (
-                            <FormFeedback>{errors.token?.message}</FormFeedback>
-                      )}
+                    <FormGroup>
+                        <Controller
+                            defaultValue=""
+                            control={control}
+                            name="token"
+                            render={({ field: { ref, ...tokenProp } }) => (
+                                <FormGroup floating>
+                                    <Input
 
-                        </FormGroup>
-                    )}
+                                        name="token"
+                                        placeholder="Select token"
+                                        type='text'
+                                        id="token"
+
+                                        invalid={errors.token ? true : false}
+                                        innerRef={ref} {...tokenProp}
+                                    >
+                                    </Input>
+                                    <Label for="token"> Token </Label>
+                                    {errors?.currency && (
+                                        <FormFeedback>{errors.currency?.message}</FormFeedback>
+                                    )}
+                                </FormGroup>
+                            )}
+                        />
+                    </FormGroup>
+                    <Controller
+                        control={control}
+                        name="startDate"
+                        defaultValue=""
+                        render={({ field: { ref, ...startDateProp } }) => (
+                            <FormGroup floating>
+                                <Input
+                                    className="mb-4"
+                                    name="startDate"
+                                    placeholder="startDate"
+                                    type="date"
+                                    invalid={errors.startDate ? true : false}
+                                    innerRef={ref} {...startDateProp}
+                                />
+                                <Label for="startDate"> Start Date </Label>
+                                {errors?.startDate && (
+                                    <FormFeedback>{errors.startDate?.message}</FormFeedback>
+                                )}
+
+                            </FormGroup>
+                        )}
                     />
-                    <Controller 
-                    control={control}
-                    name="startDate"
-                    render={({field: {ref, ...startDateProp}}) => (
-                        <FormGroup floating>
-                            <Input 
-                            className="mb-4"
-                            name = "startDate"
-                            placeholder = "startDate"
-                            type="date"
-                            invalid={errors.startDate ? true : false}
-                            innerRef={ref} {...startDateProp}
-                            />
-                            <Label for="startDate"> Start Date </Label>
-                              {errors?.startDate && (
-                            <FormFeedback>{errors.startDate?.message}</FormFeedback>
-                      )}
+                    <Controller
+                        control={control}
+                        name="endDate"
+                        defaultValue=""
+                        render={({ field: { ref, ...endDateProp } }) => (
+                            <FormGroup floating>
+                                <Input
+                                    className="mb-4"
+                                    name="endDate"
+                                    placeholder="endDate"
+                                    type="date"
+                                    invalid={errors.endDate ? true : false}
+                                    innerRef={ref} {...endDateProp}
+                                />
+                                <Label for="endDate"> End Date </Label>
+                                {errors?.endDate && (
+                                    <FormFeedback>{errors.endDate?.message}</FormFeedback>
+                                )}
 
-                        </FormGroup>
-                    )}
-                    />
-                    <Controller 
-                    control={control}
-                    name="endDate"
-                    render={({field: {ref, ...endDateProp}}) => (
-                        <FormGroup floating>
-                            <Input 
-                            className="mb-4"
-                            name = "endDate"
-                            placeholder = "endDate"
-                            type="date"
-                            invalid={errors.endDate ? true : false}
-                            innerRef={ref} {...endDateProp}
-                            />
-                            <Label for="endDate"> End Date </Label>
-                              {errors?.endDate && (
-                            <FormFeedback>{errors.endDate?.message}</FormFeedback>
-                      )}
-
-                        </FormGroup>
-                    )}
+                            </FormGroup>
+                        )}
                     />
                     {/* <Input placeholder="Crypto filter" className="mb-4" type="text"  {...register("token")} />
                     <Input placeholder="Start date" className="mb-4" type="date"  {...register("startDate")} />
                     <Input placeholder="End date" className="mb-4" type="date"  {...register("endDate")} />*/}
-                              <Container className='text-center'>
-                        <Button type="submit" className='color-primary' value="Fill data">Fill Data</Button>
-                    </Container> 
+                    <Container className='text-center'>
+                        <Button type="submit" color="info" className="btn-menu" value="Fill data">Fill Data</Button>
+                    </Container>
                 </Form>
                 <Table>
                     <thead>
@@ -233,14 +247,7 @@ function PaymentHistory(props) {
                 </Table>
             </ModalBody>
             <ModalFooter>
-                <Container className='text-center'>
-                    <Button onClick={async () => {
-                        let email = window.localStorage.getItem("userEmailHP")
-                        console.log(email.slice(1, email.length - 1))
-                        pepito(email.slice(1, email.length - 1))
-                    }} > Export Payments' History </Button>
-                </Container>
-                <Button onClick={() => setFlag(false)}>X</Button>
+                <Button onClick={handleClose}>X</Button>
             </ModalFooter>
         </Modal >
     )
