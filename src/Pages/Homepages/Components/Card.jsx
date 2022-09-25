@@ -1,9 +1,12 @@
+import { Navigate, useNavigate } from "react-router-dom";
 import { Col, Button } from "reactstrap"
 
 
 
 
 export default function Card({ title, cat, children }) {
+
+    const navigate = useNavigate();
 
     const route = "../../../../Public/assets";
     const imgSrc = title=="USDT"?`${route}/tether.png`:title=="BTC"?`${route}/btc.png`:title=="SOL"?`${route}/Solana.png`:`${route}/binance.png`;
@@ -19,7 +22,7 @@ export default function Card({ title, cat, children }) {
                     <Button
                         className="btn-icon btn-round"
                         color="info"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={()=>navigate("/login")}
                     >
                         Buy {title}!
                     </Button>
