@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { sendPaymentSchema } from "../../Utils/yupSchemas";
 import API_AXIOS from "../../../settings/settings";
 import endpointList from "../../settings/endpoints";
-import { Container, Form, Label, Input, FormGroup, FormFeedback, Button } from "reactstrap";
+import { Container, Form, Label, Input, FormGroup, FormFeedback, Button, Spinner } from "reactstrap";
 import ExamplesNavbar from "../Homepages/Components/Navbar";
 import ProtectedRoute from "../../ProtectedRoute";
 import PaymentHistory from "../Profile/Components/PaymentHistory";
@@ -24,6 +24,8 @@ function SendPayment() {
 
     const navigate = useNavigate();
 
+    const [spinner, setSpinner] = useState(false);
+
     const [paymentFlag, setPaymentFlag] = useState(false);
     const [balanceFlag, setBalanceFlag] = useState(false);
 
@@ -34,7 +36,7 @@ function SendPayment() {
     const currencies = ["usdt", "btc", "eth", "busd"];
 
     const fnSend = (data) => {
-
+        setSpinner(true);
         if (!switchbtn) {
             let token = data.data;
             let currency = data.currency;
@@ -46,6 +48,7 @@ function SendPayment() {
             let amount = data.amount;
             alert(`Email=${email} & currency=${currency} & amount ${amount}`)
         }
+           setSpinner(false);
     }
 
 
@@ -69,27 +72,31 @@ function SendPayment() {
     }
 
     const handleExport = async () => {
-        let email = window.localStorage.getItem("userEmailHP")
-        console.log(email.slice(1, email.length - 1))
-        pepito(email.slice(1, email.length - 1))
+        let email = window.localStorage.getItem("userEmailHP");
+        pepito(email.slice(1, email.length - 1));
+    }
+
+    const menuNavigate = () => {
+        navigate("/menu");
     }
 
     return (
         <>
-            <ExamplesNavbar />
+            <ExamplesNavbar env="pro" />
             <Container className="cont d-flex justify-content-between">
                 <Container>
                     <Container className="d-flex flex-column gap-3">
                         <Container className="bg-light text-dark rounded">
                             <h1 className="text-center pt-3">Payment Types</h1>
                             <ul>
-                                <li>Public: Uses Email</li>
-                                <li className="pb-3">Private: Uses Secret Token</li>
+                                <li>Public: Used to send payments by email address</li>
+                                <li className="pb-3">Private: Used to send payments with secret token </li>
                             </ul>
                         </Container>
-                        <Button color="info" onClick={navBal} className="p-3 btn-menu">Show Balance</Button>
-                        <Button color="info" onClick={navPayment} className="p-3 btn-menu">Show Payment History</Button>
-                        <Button color="info" onClick={handleExport} className="p-3 btn-menu">Show Export payments to Excel</Button>
+                        <Button disabled={spinner} color="info" onClick={navBal} className="p-3 btn-menu text-light">Show Balance</Button>
+                        <Button disabled={spinner} color="info" onClick={navPayment} className="p-3 btn-menu text-light">Show Payment History</Button>
+                        <Button disabled={spinner} color="info" onClick={handleExport} className="p-3 btn-menu text-light">Show Export payments to Excel</Button>
+                        <Button disabled={spinner} color="info" onClick={menuNavigate} className="p-3 btn-menu text-light">Return to Menu</Button>
                     </Container>
                 </Container>
                 <div className="separator"></div>
@@ -181,14 +188,14 @@ function SendPayment() {
                             )}
                         />
                         <Container className="text-center">
-                        <Button color="info" className="btn-menu text-dark" type="submit">Send Payment</Button>
+                            {spinner ? <Button color="info" disabled={spinner} className="btn-menu text-light" type="submit"><Spinner /></Button> : <Button color="info" className="btn-menu text-light" type="submit">Send Payment</Button>}
                         </Container>
                     </Form>
                 </Container>
             </Container>
             <Routes>
                 <Route element={<ProtectedRoute />}>
-                    <Route path='/paymenthistory' element={<PaymentHistory val={{ paymentFlag, setPaymentFlag }} />} />
+                    <Route path='/paymenthistory' element={<PaymentHistory val={{ paymentFlag, setPaymentFlag }} from="sendp" />} />
                 </Route>
                 <Route element={<ProtectedRoute />}>
                     <Route path="/balance" element={<Balance val={{ balanceFlag, setBalanceFlag }} />} />
