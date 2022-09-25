@@ -25,7 +25,7 @@ export default function Profile() {
     // historial de depositos
 
     const cbMenu = (nm) => {
-        return (<Button key={nm.options} onClick={()=>nm.opt == "ph" ? setPaymentFlag(true) : nm.opt == "dh" ? setDepositFlag(true) : nm.opt == "pr" ? setBalanceFlag(true) : ""} size="lg" className="mb-4"> <Link style={{ color: "white", textDecoration: 'none' }} key={nm.options} to={nm.links}>  {nm.options} </Link> </Button>)
+        return (<Button color="info" className="btn-menu mb-4" key={nm.options} onClick={()=>nm.opt == "ph" ? setPaymentFlag(true) : nm.opt == "dh" ? setDepositFlag(true) : nm.opt == "pr" ? setBalanceFlag(true) : ""} size="lg"> <Link style={{ color: "white", textDecoration: 'none' }} key={nm.options} to={nm.links}>  {nm.options} </Link> </Button>)
     }
 
     // useEffect(() => {
