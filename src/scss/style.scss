@@ -4,24 +4,26 @@ $third-color: #352F44;
 $details-color: #310A5D;
 
 body {
-    background-color: #293462
-    ;
+    background-color: #293462;
     color: white;
 }
 
-.controlledInput{
-    width:40vw;
+.controlledInput {
+    width: 40vw;
 }
-.profmar{
+
+
+.profmar {
     margin-top: 6em;
 }
-.separator{
+
+.separator {
     height: 70vh;
     width: 1px;
     border: 1px solid white;
 }
 
-.cont{
+.cont {
     margin-top: 10em;
 }
 
@@ -31,13 +33,16 @@ body {
     padding: 1em;
     margin-top: 1em;
 }
-.profileCard{
+
+.profileCard {
     margin-top: 20em;
 }
-.newalert{
+
+.newalert {
     margin-top: 10em;
 }
-.regcard{
+
+.regcard {
     margin-top: 10em;
     color: $third-color;
 }
@@ -47,15 +52,16 @@ body {
     height: auto;
 }
 
-.linkscontainer{
+.linkscontainer {
     margin-top: 9em;
 }
 
-.logincard{
+.logincard {
     text-align: center;
     color: #411E8F;
     margin-top: 15em;
 }
+
 .nav {
     font-weight: bold;
     background-color: $third-color;
@@ -68,7 +74,26 @@ body {
 
 }
 
+.wrapper {
+    margin-top: 10em;
+}
 
 .title {
     opacity: 1;
+}
+
+@media (min-width: 768px) {
+    .CryptoCurrencies {
+        margin-left: 10vw;
+    }
+}
+
+.cryptoimg {
+    max-width: 2vw;
+}
+
+@media (max-width: 576px) {
+    .cryptoimg {
+        max-width: 10vw;
+    }
 }
