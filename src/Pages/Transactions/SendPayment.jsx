@@ -1,12 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { sendPaymentSchema } from "../../Utils/yupSchemas";
 import API_AXIOS from "../../../settings/settings";
 import endpointList from "../../settings/endpoints";
 import { Container, Form, Label, Input, FormGroup, FormFeedback, Button } from "reactstrap";
 import ExamplesNavbar from "../Homepages/Components/Navbar";
+import ProtectedRoute from "../../ProtectedRoute";
+import PaymentHistory from "../Profile/Components/PaymentHistory";
+import Balance from "../Profile/Components/Balance";
+import { pepito } from "../../Utils/pepito";
 
 function SendPayment() {
     const {
@@ -17,6 +21,8 @@ function SendPayment() {
     } = useForm({
         resolver: yupResolver(sendPaymentSchema),
     });
+
+    const navigate = useNavigate();
 
     const [paymentFlag, setPaymentFlag] = useState(false);
     const [balanceFlag, setBalanceFlag] = useState(false);
@@ -42,6 +48,8 @@ function SendPayment() {
         }
     }
 
+
+
     const toggleBtn = () => {
         setSwitchBtn(!switchbtn);
         if (switchbtn) {
@@ -51,22 +59,37 @@ function SendPayment() {
         }
     }
 
+    const navBal = () => {
+        setBalanceFlag(true);
+        navigate("/sendpayment/balance");
+    }
+    const navPayment = () => {
+        setPaymentFlag(true);
+        navigate("/sendpayment/paymenthistory");
+    }
+
+    const handleExport = async () => {
+        let email = window.localStorage.getItem("userEmailHP")
+        console.log(email.slice(1, email.length - 1))
+        pepito(email.slice(1, email.length - 1))
+    }
+
     return (
         <>
             <ExamplesNavbar />
             <Container className="cont d-flex justify-content-between">
                 <Container>
                     <Container className="d-flex flex-column gap-3">
-                        <Container className="bg-light text-dark rounded ">
+                        <Container className="bg-light text-dark rounded">
                             <h1 className="text-center pt-3">Payment Types</h1>
                             <ul>
                                 <li>Public: Uses Email</li>
                                 <li className="pb-3">Private: Uses Secret Token</li>
                             </ul>
                         </Container>
-                        <Button className="p-3">Show Balance</Button>
-                        <Button className="p-3">Show Payment History</Button>
-                        <Button className="p-3">Show Export payments to Excel</Button>
+                        <Button color="info" onClick={navBal} className="p-3 btn-menu">Show Balance</Button>
+                        <Button color="info" onClick={navPayment} className="p-3 btn-menu">Show Payment History</Button>
+                        <Button color="info" onClick={handleExport} className="p-3 btn-menu">Show Export payments to Excel</Button>
                     </Container>
                 </Container>
                 <div className="separator"></div>
@@ -76,12 +99,7 @@ function SendPayment() {
                         <Input type="switch" onChange={toggleBtn} role="switch" />
                         <Label check>{switchbtn ? "Public" : "Secret"}</Label>
                     </FormGroup>
-                    {/* <Button onClick={() => setPlaceholder()}> Public </Button> <br></br>
-                    <Button onClick={() => setPlaceholder()}> Secret </Button> */}
-
                     <Form onSubmit={handleSubmit(fnSend)}>
-
-
                         <Controller
                             control={control}
                             name="data"
@@ -104,8 +122,6 @@ function SendPayment() {
                                 </FormGroup>
                             )}
                         />
-
-
                         <Controller
                             control={control}
                             name="amount"
@@ -164,7 +180,9 @@ function SendPayment() {
                                 </FormGroup>
                             )}
                         />
-                        <Input type="submit" value="Send Payment" />
+                        <Container className="text-center">
+                        <Button color="info" className="btn-menu text-dark" type="submit">Send Payment</Button>
+                        </Container>
                     </Form>
                 </Container>
             </Container>
