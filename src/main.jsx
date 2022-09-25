@@ -32,7 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
         <Route path='/forgotPassword/:email' element={< ForgotPassword />} />
         <Route element={<ProtectedRoute />}>
-        <Route path='/sendpayment' element={<SendPayment />} />
+        <Route path='/sendpayment/*' element={<SendPayment />} />
         </Route>
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/autoLogOut" element={<AutoLogOut />} />
