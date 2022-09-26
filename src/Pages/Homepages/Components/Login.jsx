@@ -137,7 +137,7 @@ function Login() {
 
                 </Col>
               </Row>
-              {spinner ? <Button className="btn-menu text-light" color="info" type="submit"><Spinner /></Button> : <Button className="btn-menu text-light" color="info" type="submit">Login</Button>}
+              {spinner ? <Button disabled={spinner} className="btn-menu text-light" color="info" type="submit"><Spinner /></Button> : <Button className="btn-menu text-light" color="info" type="submit">Login</Button>}
               <br />
               <Button className="mt-3 btn-menu text-light" color="info" disabled={spinner} onClick={handlePassword} >Forgot Password</Button>
             </Form>
