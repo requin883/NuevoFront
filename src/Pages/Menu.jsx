@@ -1,6 +1,6 @@
 import ValidatePays from "./ValidatePays/ValidatePays"
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Container, Button } from "reactstrap";
+import { Container, Button, Card, CardText, CardTitle, Col, Row, CardGroup, CardHeader, CardBody } from "reactstrap";
 import Transactions from "./Transactions/Transactions";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useEffect } from "react";
@@ -20,10 +20,10 @@ function Menu() {
     let [userLogin, setUserLogin] = useLocalStorage('user', "")
 
     let menu = [
-        { links: '/menu/validatepay', options: 'Validate Payments', opt: 'vp' },
-        { links: '/sendpayment', options: 'Make a transaction', opt: 'mt' },
-        { links: '/profile', options: 'Profile', opt: 'pf' },
-        { links: '/home', options: 'Return to main menu' }
+        { links: '/menu/validatepay', options: 'Validate Payments', opt: 'vp', txt: 'To validate a payments you\'ve made in the past', ico: 'bi bi-wallet' },
+        { links: '/sendpayment', options: 'Make a transaction', opt: 'mt', txt: ' To process a new transactions', ico: 'bi bi-credit-card-fill' },
+        { links: '/profile', options: 'Profile', opt: 'pf', txt: 'Go to your profile to see general information about payments and deposits', ico: 'bi bi-person-circle' },
+        { links: '/home', options: 'Return to main menu', txt: 'Go back to the main menu', ico: 'bi bi-backspace-fill' }
     ]
 
     const cbMenu = (nm) => {
@@ -33,7 +33,18 @@ function Menu() {
                     setProfileFlag(true);
             navigate(nm.links);
         }
-        return (<Button key={nm.options} className="btn-menu m-3 p-3 text-light" color="info" onClick={handleClick} size="lg" >{nm.options}</Button>)
+        return (<Button  key={nm.options} className="btn-menu m-3 p-3 text-dark" color="info" onClick={handleClick} size="lg" >
+            <Card key={nm.options} style={{width:"30vw"}}>
+                <CardHeader>
+                    <CardTitle>{nm.options}<i className={`${nm.ico} text-dark ms-3`} style={{fontSize:"1.5rem"}}></i></CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <CardText className="fs-6">
+                        {nm.txt}
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Button>)
     }
     useEffect(() => {
         let date = new Date()
@@ -44,7 +55,9 @@ function Menu() {
             <ExamplesNavbar />
             <Container className="linkscontainer d-flex flex-column">
                 <h1 className="text-center text-decoration-underline pb-3">Menu</h1>
-                {menu.map(cbMenu)}
+                <CardGroup className="d-flex justify-content-center">
+                    {menu.map(cbMenu)}
+                </CardGroup>
             </Container>
             <Routes>
                 <Route element={<ProtectedRoute />}>
