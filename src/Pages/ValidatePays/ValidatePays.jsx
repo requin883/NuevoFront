@@ -69,7 +69,7 @@ function ValidatePays() {
     resolver: yupResolver(validatePaySchema),
   });
 
-  const currencies = ["USDT", "BTC", "ETH", "BUSD", "SOL", "DOGE", "ADA"];
+  const currencies = ["USDT", "BTC", "ETH", "BUSD", "SOL", "DOGE", "BNB"];
 
   const handleClick = () => {
     setFlag(true);
