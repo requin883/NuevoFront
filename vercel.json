@@ -1,9 +1,8 @@
-  {
-    "routes": [
-      { "src": "/home", "dest": "/src/Pages/Homepages/Homepages.jsx" },
-      { "src": "/recruit", "dest": "/" },
-      { "src": "/tos", "dest": "/" }
-
+{
+    "rewrites": [
+      {
+        "source": "/((?!api/.*).*)",
+        "destination": "/index.html"
+      }
     ]
   }
-  
