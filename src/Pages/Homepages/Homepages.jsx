@@ -38,7 +38,7 @@ function Homepages() {
                                 Binance USD (BUSD) is a 1:1 USD-backed stable coin issued by Binance (in partnership with Paxos)
                             </Card>
                             <Card title="ETH" cat="CryptoCurrency">
-                                Ethereum is a decentralized open-source blockchain system that features its own cryptocurrency, Ether. ETH works as a platform for numerous other cryptocurrencies, as well as for the execution of decentralized smart contracts.
+                                Ethereum is a decentralized open-source blockchain system that features its own cryptocurrency, Ether.
                             </Card>
                             <Card title="BTC" cat="CryptoCurrency">
                                 Bitcoin is a decentralized digital currency and payment system with no central bank or single administrator.
