@@ -62,9 +62,10 @@ function SendPayment() {
 
     let [placeholder, setPlaceholder] = useState("Add receiver email");
 
-    const currencies = ["usdt", "btc", "eth", "busd"];
+    const currencies = ["USDT", "BUSD", "BTC", "ETH","DOGE","ADA"];
 
     const fnSend = async (data) => {
+        try{
         setSpinner(true);
         let sender = email;
         if (Number(data.amount) <= 0) {
@@ -83,7 +84,7 @@ function SendPayment() {
             let currency = data.currency;
             let amount = data.amount;
             console.log("hello");
-            const info = await API_AXIOS.post(`${endpointList.verifyPayData}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}/`);
+            const info = await API_AXIOS.post(`${endpointList.verifyPayData}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}`);
             setPaymentInfo({ data });
             switch (info.data) {
                 case 0:
@@ -109,6 +110,11 @@ function SendPayment() {
             }
         }
         setSpinner(false);
+    }catch(err){
+        console.log(err);
+        setSpinner(false);
+    }
+        
     }
 
 
@@ -135,7 +141,7 @@ function SendPayment() {
                     setValCode(false);
                     break;
                 case 2:
-                    const newInfo = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${email.slice(1, -1)}&receiver=${paymentInfo.data}&quantity=${paymentInfo.amount}&token=${paymentInfo.currency}&email=${email.slice(1, -1)}&code=${verToken}/`);
+                    const newInfo = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${email.slice(1, -1)}&receiver=${paymentInfo.data}&quantity=${paymentInfo.amount}&token=${paymentInfo.currency}&email=${email.slice(1, -1)}&code=${verToken}`);
                     switch (newInfo.data) {
                         case 0:
                             setMsg("The time to process the payment expired");
