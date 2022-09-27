@@ -20,7 +20,7 @@ function Menu() {
     let [userLogin, setUserLogin] = useLocalStorage('user', "")
 
     let menu = [
-        { links: '/menu/validatepay', options: 'Validate Payments', opt: 'vp', txt: 'To validate a payments you\'ve made in the past', ico: 'bi bi-wallet' },
+        { links: '/validatePayment', options: 'Validate Payments', opt: 'vp', txt: 'To validate a payments you\'ve made in the past', ico: 'bi bi-wallet' },
         { links: '/sendpayment', options: 'Make a transaction', opt: 'mt', txt: ' To process a new transactions', ico: 'bi bi-credit-card-fill' },
         { links: '/profile', options: 'Profile', opt: 'pf', txt: 'Go to your profile to see general information about payments and deposits', ico: 'bi bi-person-circle' },
         { links: '/home', options: 'Return to main menu', txt: 'Go back to the main menu', ico: 'bi bi-backspace-fill' }
@@ -60,9 +60,6 @@ function Menu() {
                 </CardGroup>
             </Container>
             <Routes>
-                <Route element={<ProtectedRoute />}>
-                    <Route path='/validatepay' element={<ValidatePays val={{ valFlag, setValFlag }} />} />
-                </Route>
                 <Route path="/transactions" element={<Transactions val={{ transFlag, setTransFlag }} />} />
             </Routes>
         </>
