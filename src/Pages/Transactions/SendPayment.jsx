@@ -83,7 +83,7 @@ function SendPayment() {
             let currency = data.currency;
             let amount = data.amount;
             console.log("hello");
-            const info = await API_AXIOS.post(`${endpointList.verifyPayData}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}`);
+            const info = await API_AXIOS.post(`${endpointList.verifyPayData}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}/`);
             setPaymentInfo({ data });
             switch (info.data) {
                 case 0:
