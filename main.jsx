@@ -10,7 +10,7 @@ import SendPayment from './src/Pages/Transactions/SendPayment'
 import ForgotPassword from './src/Pages/ForgotPassword/ForgotPassword'
 import PageNotFound from './src/Pages/PageNotFound/PageNotFound'
 import AutoLogOut from './src/Pages/AutoLogOut/AutoLogOut'
-import "../src/scss/style.scss";
+import "./src/scss/style.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./src/Pages/Homepages/Components/Login";
 import Register from "./src/Pages/Homepages/Components/Register";
