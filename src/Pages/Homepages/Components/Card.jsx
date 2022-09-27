@@ -8,7 +8,7 @@ export default function Card({ title, cat, children }) {
 
     const navigate = useNavigate();
 
-    const route = "../../../../Public/static/img";
+    const route = "./Public/static/img";
     const imgSrc = title=="USDT"?`${route}/tether.png`:title=="BTC"?`${route}/btc.png`:title=="SOL"?`${route}/Solana.png`:title=="DOGE"?`./doge.png`:title=="ADA"?`/cardano.png`:`/binance.png`;
     return (
         <>
