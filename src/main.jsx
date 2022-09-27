@@ -33,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
         <Route path='/forgotPassword/:token' element={< ForgotPassword />} />
         <Route element={<ProtectedRoute />}>
-        <Route path='/validatePayment' element={<ValidatePays />}/>
+        <Route path='/validatePayment/*' element={<ValidatePays />}/>
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path='/sendpayment/*' element={<SendPayment />} />
