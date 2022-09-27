@@ -22,6 +22,7 @@ import { useState } from 'react';
 
 
 function EmailAlert(props) {
+    
     const [spinner, setSpinner] = useState(false);
 
     const [msg, setMsg] = useState("");

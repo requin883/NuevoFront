@@ -21,8 +21,7 @@ import API_AXIOS from "../../../settings/settings"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 
 
-const currencies = ["usdt", "btc", "eth", "busd"]
-
+const currencies = ["USDT", "BUSD", "BTC", "ETH","DOGE","ADA"];
 
 function Transactions(props) {
 

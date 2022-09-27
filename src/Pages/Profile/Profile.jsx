@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Card, Container, Button, CardTitle, CardBody } from "reactstrap";
+import { Card, Container, Button, CardTitle, CardBody, CardHeader, CardText, CardGroup } from "reactstrap";
 import endpointList from "../../../settings/endpoints";
 import API_AXIOS from "../../../settings/settings";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
@@ -33,7 +33,18 @@ export default function Profile() {
                     nm.opt == 'pr' ? setBalanceFlag(true) : "";
             navigate(nm.links)
         }
-        return (<Button color="info" className="btn-menu mb-4 p-3 text-light" key={nm.options} onClick={handleClick} size="lg">{nm.options}</Button>)
+        return (<Button key={nm.options} className="btn-menu m-3 p-3 text-dark" color="info" onClick={handleClick} size="lg" >
+            <Card key={nm.options} style={{ width: "30vw" }}>
+                <CardHeader>
+                    <CardTitle>{nm.options}<i className={`${nm.ico} text-dark ms-3`} style={{ fontSize: "1.5rem" }}></i></CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <CardText className="fs-6">
+                        {nm.txt}
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Button>)
     }
 
     // useEffect(() => {
@@ -46,38 +57,35 @@ export default function Profile() {
 
     let menu = [
 
-        { links: '/profile/paymenthistory', options: "Payments' history", opt: "ph" },
-        { links: '/profile/deposithistory', options: "Deposits' history", opt: "dh" },
-        { links: '/profile/balance', options: "Users' balance", opt: "pr" },
-        { links: '/menu', options: "Return to menu" }
+        { links: '/profile/paymenthistory', options: "Payments' history", opt: "ph",txt: 'To validate the payments history' , ico: 'bi bi-wallet' },
+        { links: '/profile/deposithistory', options: "Deposits' history", opt: "dh",txt: 'To validate the deposits history' ,ico:'bi bi-cash-coin' },
+        { links: '/profile/balance', options: "Users' balance", opt: "pr", txt:'To see the your account\'s current balance', ico:'bi bi-piggy-bank' },
+        { links: '/menu', options: "Return to menu", txt:'Go back to the main menu', ico:'bi bi-backspace-fill' }
 
     ]
 
     return (
         <>
             <ExamplesNavbar env="pro" />
-            <Container className="d-flex  profmar flex-column align-items-center justify-content-center">
-                <Container className="mt-5">
-                    <h1 className="text-center text-decoration-underline mb-4">Menu</h1>
-                    {/* <h3> Email: {email} </h3> */}
-                    <Container className="d-flex flex-column justify-content-evenly mb-3">
-                        {menu.map(cbMenu)}
-                    </Container>
-                    <Container>
-                        <Routes>
-                            <Route element={<ProtectedRoute />}> 
-                            <Route path='/paymenthistory' element={<PaymentHistory val={{ paymentFlag, setPaymentFlag }} from="profile" />} />
-                            </Route> 
-                            <Route element={<ProtectedRoute />}>
-                                <Route path="/deposithistory" element={<DepositHistory val={{ depositFlag, setDepositFlag }} />} />
-                            </Route>
-                            <Route element={<ProtectedRoute />}>
-                                <Route path="/balance" element={<Balance val={{ balanceFlag, setBalanceFlag }} />} />
-                            </Route>
-                        </Routes>
-                    </Container>
-                </Container>
+            <Container className="linkscontainer d-flex flex-column">
+                <h1 className="text-center text-decoration-underline pb-3">Menu</h1>
+                <CardGroup className="d-flex justify-content-center">
+                    {menu.map(cbMenu)}
+                </CardGroup>
+            </Container>
+            <Container>
+                <Routes>
+                    <Route element={<ProtectedRoute />}>
+                        <Route path='/paymenthistory' element={<PaymentHistory val={{ paymentFlag, setPaymentFlag }} from="profile" />} />
+                    </Route>
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/deposithistory" element={<DepositHistory val={{ depositFlag, setDepositFlag }} />} />
+                    </Route>
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/balance" element={<Balance val={{ balanceFlag, setBalanceFlag }} />} />
+                    </Route>
+                </Routes>
             </Container>
         </>
     )
-}
+}   

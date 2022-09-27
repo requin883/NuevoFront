@@ -88,7 +88,6 @@ function ValidatePays() {
       let string = `?email=${userEmail.slice(1, userEmail.length - 1)}&year=${data.year}&month=${data.month}&day=${data.day}&hours=${data.hour}&minutes=${data.minute}&seconds=${data.second}&quantity=${data.quantity}`
 
       let output = await API_AXIOS.post(endpointList.verifyPayment + string);
-
       switch (output.data) {
         case 0:
         case 2:

@@ -31,7 +31,7 @@ function PaymentHistory(props) {
 
     const [spinner, setSpinner] = useState(false);
 
-    const currencies = ["usdt", "btc", "eth", "busd"];
+    const currencies = ["USDT", "BUSD", "BTC", "ETH","DOGE","BNB"];
 
     const { paymentFlag: flag, setPaymentFlag: setFlag } = props.val;
 
@@ -148,8 +148,7 @@ function PaymentHistory(props) {
             array.push(o)
         }
 
-        setNewTrans(array)
-        // console.log(array)
+        setNewTrans(array);
     }, [transactions])
     return (
         <Modal isOpen={flag} className="text-dark">

@@ -37,7 +37,7 @@ function Homepages() {
                             <Card title="BUSD" cat="Stablecoin">
                                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non, sapiente.
                             </Card>
-                            <Card title="SOL" cat="CryptoCurrency">
+                            <Card title="ETH" cat="CryptoCurrency">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, dicta!
                             </Card>
                             <Card title="BTC" cat="CryptoCurrency">

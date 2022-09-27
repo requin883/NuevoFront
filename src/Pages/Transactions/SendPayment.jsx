@@ -62,7 +62,7 @@ function SendPayment() {
 
     let [placeholder, setPlaceholder] = useState("Add receiver email");
 
-    const currencies = ["USDT", "BUSD", "BTC", "ETH","DOGE","ADA"];
+    const currencies = ["USDT", "BUSD", "BTC", "ETH","DOGE","BNB"];
 
     const fnSend = async (data) => {
         try{
@@ -99,7 +99,6 @@ function SendPayment() {
                     setMsg("You can't send money to your own account");
                     handleAlert();
                     break;
-                case 3:
                 case 4:
                 case 5:
                     setValCode(true);
