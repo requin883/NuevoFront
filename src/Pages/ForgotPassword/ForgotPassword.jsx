@@ -9,11 +9,6 @@ import { Card, CardBody, CardFooter, Alert, CardHeader, CardTitle, Container, Fo
 import ExamplesNavbar from "../Homepages/Components/Navbar";
 import { useState } from "react";
 
-
-const redirectUser = () => {
-    window.location.href = "https://cryptocoders-pi.vercel.app/home"
-}
-
 const schema = yup.object().shape({
     password: yup.string().min(6).required(),
     valpass: yup
@@ -23,8 +18,6 @@ const schema = yup.object().shape({
 })
 
 function ForgotPassword() {
-
-
 
     const { token } = useParams();
 
