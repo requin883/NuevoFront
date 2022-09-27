@@ -32,10 +32,10 @@ function Homepages() {
                     <Container className="CryptoCurrencies">
                         <Row>
                             <Card title="USDT" cat="StableCoin">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, nostrum!
+                                Tether tokens are the most widely adopted stablecoins, having pioneered the concept in the digital token space.
                             </Card>
                             <Card title="BUSD" cat="Stablecoin">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non, sapiente.
+                                Binance USD (BUSD) is a 1:1 USD-backed stable coin issued by Binance (in partnership with Paxos)
                             </Card>
                             <Card title="ETH" cat="CryptoCurrency">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, dicta!
@@ -46,7 +46,7 @@ function Homepages() {
                             <Card title="DOGE" cat="CryptoCurrency">
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
                             </Card>
-                            <Card title="ADA" cat="CryptoCurrency">
+                            <Card title="BNB" cat="CryptoCurrency">
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
                             </Card>
                         </Row>

@@ -54,7 +54,8 @@ function SendPayment() {
     const handleModalAlert = () => {
         setModalAlert(true);
         setTimeout(() => {
-            setModalAlert(false)
+            setModalAlert(false);
+            setModalSpinner(false);
         }, 3000);
     }
 
@@ -129,6 +130,7 @@ function SendPayment() {
 
     const handleVerCodeSubmit = async ({ verToken }) => {
         try{
+        setModalSpinner(true);
         if (!Number.isInteger(Number(verToken))) {
             setMsg("The verification code must contain only numbers");
             handleModalAlert();
