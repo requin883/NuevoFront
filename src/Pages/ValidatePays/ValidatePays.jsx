@@ -15,6 +15,7 @@ import {
   Button,
   Spinner,
   Container,
+  Alert,
 } from 'reactstrap'
 import { useEffect, useState } from "react";
 import API_AXIOS from "../../../settings/settings";
@@ -23,6 +24,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import ExamplesNavbar from "../Homepages/Components/Navbar";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import HowToTransaction from "./Components/HowToTransaction";
+import PaymentInfo from "./Components/PaymentInfo";
 
 
 
@@ -32,11 +34,29 @@ function ValidatePays() {
 
   const [flag, setFlag] = useState(false);
 
+  const [showAlert, setShowAlert] = useState(false);
+
+  const [msg, setMsg] = useState("");
+
+  const [color, setColor] = useState("dange");
+
   const [userEmail, setEmail] = useState(window.localStorage.getItem("userEmailHP"));
 
   const [userLogin, setUserLogin] = useLocalStorage('user', "");
 
   const [spinner, setSpinner] = useState(false);
+
+  const [paymentInfoFlag, setPaymentInfoFlag] = useState(false);
+
+  const handleShowAlert = (msg, color = "danger") => {
+    setMsg(msg);
+    setColor(color);
+    setShowAlert(true);
+    setTimeout(() => {
+      reset();
+      setShowAlert(false);
+    }, 3000);
+  }
 
   const {
     register,
@@ -48,39 +68,69 @@ function ValidatePays() {
     resolver: yupResolver(validatePaySchema),
   });
 
-  const currencies = ["USDT", "BTC", "ETH", "BUSD"];
+  const currencies = ["USDT", "BTC", "ETH", "BUSD", "SOL", "DOGE", "ADA"];
 
   const handleClick = () => {
     setFlag(true);
     navigate("howtotrans");
   }
 
+  const handlePaymentInfoClick = () => {
+    setPaymentInfoFlag(true);
+    navigate("paymentInfo");
+  }
+
   const fnSend = async (data) => {
     try {
       setSpinner(true);
+
       let string = `?email=${userEmail.slice(1, userEmail.length - 1)}&year=${data.year}&month=${data.month}&day=${data.day}&hours=${data.hour}&minutes=${data.minute}&seconds=${data.second}&quantity=${data.quantity}`
-      let output = await API_AXIOS.post(endpointList.verifyPayment + string)
-      alert(JSON.stringify(output.data))
-      setSpinner(false);
-      reset();
+
+      let output = await API_AXIOS.post(endpointList.verifyPayment + string);
+
+      switch (output.data) {
+        case 0:
+        case 2:
+          handleShowAlert("The transaction doesn't match the database");
+          break;
+        case 1:
+          handleShowAlert("The funds will be shown shortly in your balance", "success");
+          break;
+        case 3:
+          handleShowAlert("this payment has already been registered")
+          break;
+        default:
+          handleShowAlert("An error has occurred please try again later");
+          break;
+      }
     } catch (error) {
-      console.log(error)
+
+      console.log(error);
+
     }
   }
   useEffect(() => {
-    let date = new Date()
-    setUserLogin(date)
+
+    let date = new Date();
+
+    setUserLogin(date);
+
   }, [])
+
   return (
     <>
       <Container>
         <ExamplesNavbar env="pro" />
         <Container className="d-flex align-items-center justify-content-center">
           <Card className="text-dark mb-4" style={{ marginTop: "20vh", width: "50vw" }}>
+            <Alert isOpen={showAlert} className="m-2 text-center" color={color}>
+              {msg}
+            </Alert>
             <CardHeader>
               <Container className="d-flex justify-content-between">
+                <Button className="btn-menu bg-transparent border-0 text-dark text-center" onClick={handlePaymentInfoClick}><i class="bi bi-cash-coin fs-4"></i></Button>
                 <CardTitle className="fs-3 fw-bold">
-                  Validate payment
+                  Add Funds
                 </CardTitle>
                 <Button onClick={handleClick} className="bg-transparent border-0 p-0"><i className="bi bi-info-circle text-dark"></i></Button>
               </Container>
@@ -229,7 +279,7 @@ function ValidatePays() {
                         style={{ height: "6vh" }}
                         name="amount"
                         placeholder="Amount"
-                        type="number"
+                        type="text"
                         id="amount"
 
                         invalid={errors.amount ? true : false}
@@ -287,6 +337,7 @@ function ValidatePays() {
       </Container>
       <Routes>
         <Route path="/howtotrans" element={<HowToTransaction val={{ flag, setFlag }} />} />
+        <Route path="/paymentInfo" element={<PaymentInfo val={{ paymentInfoFlag, setPaymentInfoFlag }} />} />
       </Routes>
     </>
   )
