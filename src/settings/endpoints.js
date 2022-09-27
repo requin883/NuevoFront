@@ -1,7 +1,7 @@
-const endpointList={
-    register:'/register',
-    login:'/login',
-    findEmail:'/findEmail',
+const endpointList = {
+    register: '/register',
+    login: '/login',
+    findEmail: '/findEmail',
     getPayments: '/getPayments',
     getBalance: '/getBalance',
     verifyEmail: '/verifyEmail',
@@ -11,6 +11,7 @@ const endpointList={
     exportPayments: '/exportPayments',
     getUserData: '/getUserData',
     forgotPassword: '/forgotPassword',
-    }
+    verifyVerCode: '/verifyVerCode'
+}
 
-    export default endpointList;
+export default endpointList;
