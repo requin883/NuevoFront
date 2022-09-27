@@ -2,7 +2,7 @@
 import { Card, CardBody, CardHeader, CardText, CardTitle, Container, Button } from "reactstrap";
 
 const redirectUser = () => {
-    window.location.href = "http://localhost:5173/home"
+    window.location.href = "https://nuevo-front-vz2b.vercel.app/home"
 }
 function AutoLogOut() {
     return (
