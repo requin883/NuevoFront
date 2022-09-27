@@ -1,14 +1,22 @@
 
 const redirectUser = () => {
-    window.location.href = "http://localhost:5173/home"
+    window.location.href = "https://cryptocoders-pi.vercel.app/home"
 }
 function PageNotFound() {
- return(
-     <div> 
-        <h1> PAGE NOT FOUND </h1>
-        <h3> We couldn't find this page </h3>
-        <button onClick={redirectUser}> Visit our home page </button>     
-    </div>
- )   
+    return (
+        <Container style={{ width: "40vw" }} className="text-dark mt-5">
+            <Card style={{ marginTop: "30vh" }}>
+                <CardHeader className="text-center">
+                    <CardTitle style={{ fontSize: "2em", fontWeight: "bold" }}>PAGE NOT FOUND !</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <CardText style={{ fontSize: "1em" }}> We couldn't find this page  </CardText>
+                    <Container className="text-center">
+                        <Button className="btn-menu" color="info" onClick={redirectUser}> Visit our home page </Button>
+                    </Container>
+                </CardBody>
+            </Card>
+        </Container>
+    )
 }
 export default PageNotFound
