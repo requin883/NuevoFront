@@ -30,6 +30,12 @@ function SendPayment() {
 
     const [modalAlert, setModalAlert] = useState(false);
 
+    const [newColor, setNewColor] = useState("danger");
+
+    const [paymentInfo, setPaymentInfo] = useState({});
+
+    const [modalSpinner, setModalSpinner] = useState(false);
+
     const [msg, setMsg] = useState("The number can't be less or equal than 0");
 
     const [newAlert, setNewAlert] = useState(false);
@@ -71,13 +77,14 @@ function SendPayment() {
             let currency = data.currency;
             let amount = data.amount;
             // const info = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${sender}&receiver=${token}&quantity=${amount}&token=${currency}`)
+            setPaymentInfo({ data });
         } else {
             let email = data.data;
             let currency = data.currency;
             let amount = data.amount;
             console.log("hello");
-            const info = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}`);
-            console.log(info.data);
+            const info = await API_AXIOS.post(`${endpointList.verifyPayData}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}`);
+            setPaymentInfo({ data });
             switch (info.data) {
                 case 0:
                     setMsg("The receiver user doesn't exist");
@@ -93,8 +100,10 @@ function SendPayment() {
                     break;
                 case 3:
                 case 4:
+                case 5:
                     setValCode(true);
                     break;
+
                 default:
                     break;
             }
@@ -119,8 +128,32 @@ function SendPayment() {
             handleModalAlert();
             return;
         } else {
-            const info = await API_AXIOS.get(`${endpointList.verifyVerCode}?email=${email.slice(1, -1)}&code=${verToken}`)
-            console.log(info.data);
+            const info = await API_AXIOS.get(`${endpointList.verifyVerCode}?email=${email.slice(1, -1)}&code=${verToken}`);
+            switch (info.data) {
+                case 0:
+                    setValCode(false);
+                    break;
+                case 2:
+                    const newInfo = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${email.slice(1, -1)}&receiver=${paymentInfo.data}&quantity=${paymentInfo.amount}&token=${paymentInfo.currency}&email=${email.slice(1, -1)}&code=${verToken}`);
+                    switch (newInfo.data) {
+                        case 0:
+                            setMsg("The time to process the payment expired");
+                            handleAlert();
+                            break;
+                        case 1:
+                            setMsg("Your payment has been processed");
+                            setNewColor("success");
+                            handleAlert();
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
         }
 
     }
@@ -175,7 +208,7 @@ function SendPayment() {
                             )}
                         />
                         <Container className="d-flex justify-content-center">
-                            <Button className="btn-menu" color="info">Verify Code</Button>
+                            {modalSpinner ? <Button className="btn-menu" color="info"><Spinner /></Button> : <Button className="btn-menu" color="info">Verify Code</Button>}
                         </Container>
                     </Form>
                 </ModalBody>
@@ -183,7 +216,7 @@ function SendPayment() {
             </Modal>
 
             <Container className="cont flex-column d-flex justify-content-between">
-                <Alert isOpen={newAlert} className="m-2 text-center" color="danger">
+                <Alert isOpen={newAlert} className="m-2 text-center" color={newColor}>
                     {msg}
                 </Alert>
                 <Container className="d-flex justify-content-between" style={{ marginTop: "5em" }}>
