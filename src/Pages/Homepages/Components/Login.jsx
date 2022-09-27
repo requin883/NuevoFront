@@ -5,7 +5,7 @@ import endpointList from "../../../settings/endpoints";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../Utils/yupSchemas"
 import {
-  Container, Button, Label, Input, Form, FormGroup, Spinner, Card, CardBody, CardTitle, FormFeedback, Row, Col
+  Container, Alert, Button, Label, Input, Form, FormGroup, Spinner, Card, CardBody, CardTitle, FormFeedback, Row, Col
 } from "reactstrap";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import EmailAlert from "./EmailAlert";
@@ -17,6 +17,7 @@ function Login() {
   const {
     register,
     control,
+    reset,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -25,9 +26,21 @@ function Login() {
 
   });
 
+  const [newAlert, setNewAlert] = useState(false);
+
+  const [msg, setNewMsg] = useState('The email ')
+
   const [valFlag, setValFlag] = useState(false);
 
   const { ref, ...emailField } = register("email");
+
+  const handleAlert = () => {
+    setNewAlert(true);
+    setTimeout(() => {
+      setNewAlert(false);
+    }, 3000);
+
+  }
 
   let [email, setEmail] = useLocalStorage('userEmailHP', '');
 
@@ -38,34 +51,40 @@ function Login() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    alert(JSON.stringify(data))
     try {
       setSpinner(true);
       let call = await API_AXIOS.get(
         endpointList.login + `?email=${data.email}&password=${data.password}`
       );
-      alert(call.data)
       switch (call.data) {
         case 0:
-          alert("los datos no coinciden pana");
+          setNewMsg("The username and/or password are incorrect");
+          setSpinner(false);
+          reset();
+          handleAlert();
           break;
         case 1:
-          setEmail(data.email)
-          let date = new Date()
-          setUserLogin(date)
-          alert("tamo activo menol");
-          navigate('/menu')
+          setEmail(data.email);
+          let date = new Date();
+          setUserLogin(date);
+          navigate('/menu');
           break;
         case 2:
-          alert("El email no esta registradoo")
-          break;
-
-        default:
-          reset();
           setSpinner(false);
+          reset();
+          setNewMsg("The email address is not registered");
+          handleAlert();
+          break;
+        case 3:
+          setSpinner(false);
+          reset();
+          setNewMsg("The account has not been verified");
+          handleAlert();
+          break;
+        default:
+          break;
       }
     } catch (error) {
-      console.log("hello");
       console.log(error);
     }
   };
@@ -81,6 +100,9 @@ function Login() {
       <ExamplesNavbar />
       <Container style={{ display: "flex", justifyContent: "center" }} >
         <Card style={{ width: "40em" }} className="d-flex logincard text-center">
+          <Alert className="m-2" isOpen={newAlert} color="danger">
+            {msg}
+          </Alert>
           <CardBody>
             <CardTitle className="border-bottom d-flex">
               <span></span>
