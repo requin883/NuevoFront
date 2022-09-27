@@ -16,6 +16,7 @@ function SendPayment() {
     const {
         register,
         control,
+        reset,
         formState: { errors },
         handleSubmit,
     } = useForm({
@@ -56,6 +57,7 @@ function SendPayment() {
         setTimeout(() => {
             setModalAlert(false);
             setModalSpinner(false);
+            reset();
         }, 3000);
     }
 
@@ -63,58 +65,58 @@ function SendPayment() {
 
     let [placeholder, setPlaceholder] = useState("Add receiver email");
 
-    const currencies = ["USDT", "BUSD", "BTC", "ETH","DOGE","BNB"];
+    const currencies = ["USDT", "BUSD", "BTC", "ETH", "DOGE", "BNB"];
 
     const fnSend = async (data) => {
-        try{
-        setSpinner(true);
-        let sender = email;
-        if (Number(data.amount) <= 0) {
-            handleAlert();
-            setSpinner(false);
-            return;
-        }
-        if (!switchbtn) {
-            let token = data.data;
-            let currency = data.currency;
-            let amount = data.amount;
-            // const info = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${sender}&receiver=${token}&quantity=${amount}&token=${currency}`)
-            setPaymentInfo({ data });
-        } else {
-            let email = data.data;
-            let currency = data.currency;
-            let amount = data.amount;
-            console.log("hello");
-            const info = await API_AXIOS.post(`${endpointList.verifyPayData}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}`);
-            setPaymentInfo({ data });
-            switch (info.data) {
-                case 0:
-                    setMsg("The receiver user doesn't exist");
-                    handleAlert();
-                    break;
-                case 1:
-                    setMsg("You don't have enought balance to process this transaction");
-                    handleAlert();
-                    break;
-                case 2:
-                    setMsg("You can't send money to your own account");
-                    handleAlert();
-                    break;
-                case 4:
-                case 5:
-                    setValCode(true);
-                    break;
-
-                default:
-                    break;
+        try {
+            setSpinner(true);
+            let sender = email;
+            if (Number(data.amount) <= 0) {
+                handleAlert();
+                setSpinner(false);
+                return;
             }
+            if (!switchbtn) {
+                let token = data.data;
+                let currency = data.currency;
+                let amount = data.amount;
+                // const info = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${sender}&receiver=${token}&quantity=${amount}&token=${currency}`)
+                setPaymentInfo({ data });
+            } else {
+                let email = data.data;
+                let currency = data.currency;
+                let amount = data.amount;
+                console.log("hello");
+                const info = await API_AXIOS.post(`${endpointList.verifyPayData}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}`);
+                setPaymentInfo({ data });
+                switch (info.data) {
+                    case 0:
+                        setMsg("The receiver user doesn't exist");
+                        handleAlert();
+                        break;
+                    case 1:
+                        setMsg("You don't have enought balance to process this transaction");
+                        handleAlert();
+                        break;
+                    case 2:
+                        setMsg("You can't send money to your own account");
+                        handleAlert();
+                        break;
+                    case 4:
+                    case 5:
+                        setValCode(true);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            setSpinner(false);
+        } catch (err) {
+            console.log(err);
+            setSpinner(false);
         }
-        setSpinner(false);
-    }catch(err){
-        console.log(err);
-        setSpinner(false);
-    }
-        
+
     }
 
 
@@ -129,44 +131,36 @@ function SendPayment() {
     }
 
     const handleVerCodeSubmit = async ({ verToken }) => {
-        try{
-        setModalSpinner(true);
-        if (!Number.isInteger(Number(verToken))) {
-            setMsg("The verification code must contain only numbers");
-            handleModalAlert();
-            return;
-        } else {
-            const info = await API_AXIOS.get(`${endpointList.verifyVerCode}?email=${email.slice(1, -1)}&code=${verToken}`);
-            switch (info.data) {
-                case 0:
-                    setValCode(false);
-                    break;
-                case 2:
-                    const newInfo = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${email.slice(1, -1)}&receiver=${paymentInfo.data}&quantity=${paymentInfo.amount}&token=${paymentInfo.currency}&email=${email.slice(1, -1)}&code=${verToken}`);
-                    switch (newInfo.data) {
-                        case 0:
-                            setMsg("The time to process the payment expired");
-                            handleAlert();
-                            break;
-                        case 1:
-                            setMsg("Your payment has been processed");
-                            setNewColor("success");
-                            handleAlert();
-                            break;
-
-                        default:
-                            break;
-                    }
-                    break;
-
-                default:
-                    break;
+        try {
+            setModalSpinner(true);
+            if (!Number.isInteger(Number(verToken))) {
+                setMsg("The verification code must contain only numbers");
+                handleModalAlert();
+                return;
+            } else {
+                const newInfo = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${email.slice(1, -1)}&receiver=${paymentInfo.data}&quantity=${paymentInfo.amount}&token=${paymentInfo.currency}&email=${email.slice(1, -1)}&code=${verToken}`);
+                switch (newInfo.data) {
+                    case 0:
+                        setMsg("The time to process the payment expired");
+                        handleAlert();
+                        break;
+                    case 1:
+                        setMsg("There's an error with the code sent");
+                        handleAlert();
+                        break;
+                    case 2:
+                        setMsg("There's an error with the code sent");
+                        setNewColor("success");
+                        handleAlert();
+                        break;
+                    default:
+                        break;
+                }
             }
+        } catch (err) {
+            setSpinner(false);
+            console.log(err);
         }
-    }catch(err){
-        setSpinner(false);
-        console.log(err);
-    }
 
     }
 
