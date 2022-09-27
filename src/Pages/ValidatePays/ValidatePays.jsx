@@ -55,6 +55,7 @@ function ValidatePays() {
     setTimeout(() => {
       reset();
       setShowAlert(false);
+      setSpinner(false);
     }, 3000);
   }
 
