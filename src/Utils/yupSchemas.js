@@ -36,7 +36,7 @@ const transactionsSchema = yup.object().shape({
 const sendPaymentSchema = yup.object().shape({
     data: yup.string().required(),
     currency: yup.string().required(),
-    amount: yup.number().required()
+    amount: yup.string().required()
 })
 
 const validatePaySchema = yup.object().shape({
