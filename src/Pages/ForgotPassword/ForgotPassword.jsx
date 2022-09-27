@@ -1,7 +1,7 @@
 
 import API_AXIOS from "../../../settings/settings";
 import * as yup from "yup"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, set } from "react-hook-form";
 import endpointList from "../../settings/endpoints";
@@ -18,6 +18,12 @@ const schema = yup.object().shape({
 })
 
 function ForgotPassword() {
+
+    const navigate = useNavigate();
+
+    const redirectUser = () => {
+        navigate("/home");
+    }
 
     const { token } = useParams();
 
@@ -53,8 +59,9 @@ function ForgotPassword() {
         setSpinner(true);
         let output = await API_AXIOS.post(endpointList.forgotPassword + `?newPassword=${data.password}&token=${token}`)
         if (output.data == 1) {
-            setMsg("Contraseña cambiada correctamente");
+            setMsg("The password has been changed");
             handleShowAlert();
+            redirectUser();
         } else {
             setColor("danger");
             setMsg("An error has ocurred. Please go back to login page to request a new link sent out to your email address");
