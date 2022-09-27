@@ -9,7 +9,7 @@ export default function Card({ title, cat, children }) {
     const navigate = useNavigate();
 
     const route = "../../../../Public/assets";
-    const imgSrc = title=="USDT"?`/assets/tether.png`:title=="BTC"?`/btc.png`:title=="SOL"?`/assets/Solana.png`:title=="DOGE"?`/doge.png`:title=="ADA"?`/cardano.png`:`/binance.png`;
+    const imgSrc = title=="USDT"?`./assets/tether.png`:title=="BTC"?`./btc.png`:title=="SOL"?`./assets/Solana.png`:title=="DOGE"?`./doge.png`:title=="ADA"?`/cardano.png`:`/binance.png`;
     return (
         <>
             <Col md="3" key={title} className="card me-3 mb-3">
