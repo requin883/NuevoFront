@@ -40,13 +40,13 @@ function Homepages() {
                             <Card title="SOL" cat="CryptoCurrency">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, dicta!
                             </Card>
-                            <Card title="Another" cat="CryptoCurrency">
+                            <Card title="BTC" cat="CryptoCurrency">
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
                             </Card>
-                            <Card title="Another" cat="CryptoCurrency">
+                            <Card title="DOGE" cat="CryptoCurrency">
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
                             </Card>
-                            <Card title="Another" cat="CryptoCurrency">
+                            <Card title="ADA" cat="CryptoCurrency">
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
                             </Card>
                         </Row>
