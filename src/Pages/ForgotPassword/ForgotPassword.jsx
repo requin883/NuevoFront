@@ -61,7 +61,9 @@ function ForgotPassword() {
         if (output.data == 1) {
             setMsg("The password has been changed");
             handleShowAlert();
-            redirectUser();
+            setTimeout(() => {
+                redirectUser();
+            }, 3500);
         } else {
             setColor("danger");
             setMsg("An error has ocurred. Please go back to login page to request a new link sent out to your email address");
