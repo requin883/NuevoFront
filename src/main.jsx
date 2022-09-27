@@ -14,6 +14,7 @@ import "../src/scss/style.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "../src/Pages/Homepages/Components/Login";
 import Register from "../src/Pages/Homepages/Components/Register";
+import ValidatePays from './Pages/ValidatePays/ValidatePays';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -24,7 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/menu/*' element={<Menu />} />
         </Route>
         {/* <Route element={<ProtectedRoute />}> */}
-          <Route path='/profile/*' element={<Profile />} />
+        <Route path='/profile/*' element={<Profile />} />
         {/* </Route> */}
         <Route path='/Login/*' element={<Login />} />
         <Route path='/Register/*' element={<Register />} />
@@ -32,7 +33,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
         <Route path='/forgotPassword/:email' element={< ForgotPassword />} />
         <Route element={<ProtectedRoute />}>
-        <Route path='/sendpayment/*' element={<SendPayment />} />
+        <Route path='/validatePayment' element={<ValidatePays />}/>
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path='/sendpayment/*' element={<SendPayment />} />
         </Route>
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/autoLogOut" element={<AutoLogOut />} />
