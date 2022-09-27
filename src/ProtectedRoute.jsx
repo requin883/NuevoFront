@@ -18,8 +18,8 @@ const ProtectedRoute = () => {
         date.setMinutes(log.getMinutes() + 15)
         let now = new Date()
         let auth = (date > now)
-        console.log(date + " " + now)
-        console.log(auth)
+        // console.log(date + " " + now)
+        // console.log(auth)
 return  auth ? <Outlet/> : <AutoLogOut/>
 }
 
