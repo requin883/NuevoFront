@@ -1,14 +1,24 @@
 
+import { Card, CardBody, CardHeader, CardText, CardTitle, Container, Button } from "reactstrap";
+
 const redirectUser = () => {
     window.location.href = "http://localhost:5173/home"
 }
 function AutoLogOut() {
- return(
-     <div> 
-        <h1> Session Timeout </h1>
-        <h3> You have been logged out due to inactive  </h3>
-        <button onClick={redirectUser}> Visit our home page </button>     
-    </div>
- )   
+    return (
+        <Container style={{ width: "40vw" }} className="text-dark mt-5">
+            <Card style={{ marginTop: "30vh" }}>
+                <CardHeader className="text-center">
+                    <CardTitle style={{ fontSize: "2em", fontWeight: "bold" }}>Session Timeout !</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <CardText style={{ fontSize: "1em" }}> You have been logged out due to inactive  </CardText>
+                    <Container className="text-center">
+                        <Button className="btn-menu" color="info" onClick={redirectUser}> Visit our home page </Button>
+                    </Container>
+                </CardBody>
+            </Card>
+        </Container>
+    )
 }
 export default AutoLogOut
