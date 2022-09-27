@@ -123,6 +123,7 @@ function SendPayment() {
     }
 
     const handleVerCodeSubmit = async ({ verToken }) => {
+        try{
         if (!Number.isInteger(Number(verToken))) {
             setMsg("The verification code must contain only numbers");
             handleModalAlert();
@@ -155,6 +156,10 @@ function SendPayment() {
                     break;
             }
         }
+    }catch(err){
+        setSpinner(false);
+        console.log(err);
+    }
 
     }
 
