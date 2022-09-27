@@ -11,7 +11,7 @@ import ExamplesNavbar from "../Homepages/Components/Navbar";
 
 
 const redirectUser = () => {
-    window.location.href = "http://localhost:5173/home"
+    window.location.href = "https://cryptocoders-pi.vercel.app/home"
 }
 
 function VerifyEmail() {
