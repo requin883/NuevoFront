@@ -8,8 +8,8 @@ export default function Card({ title, cat, children }) {
 
     const navigate = useNavigate();
 
-    const route = "https://cryptocoders-pi.vercel.app//Public/assets";
-    const imgSrc = title=="USDT"?`./assets/tether.png`:title=="BTC"?`${route}/btc.png`:title=="SOL"?`${route}/Solana.png`:title=="DOGE"?`./doge.png`:title=="ADA"?`/cardano.png`:`/binance.png`;
+    const route = "../../../../Public/static/img";
+    const imgSrc = title=="USDT"?`${route}/tether.png`:title=="BTC"?`${route}/btc.png`:title=="SOL"?`${route}/Solana.png`:title=="DOGE"?`./doge.png`:title=="ADA"?`/cardano.png`:`/binance.png`;
     return (
         <>
             <Col md="3" key={title} className="card me-3 mb-3">
