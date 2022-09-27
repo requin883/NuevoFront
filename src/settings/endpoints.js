@@ -11,7 +11,8 @@ const endpointList = {
     exportPayments: '/exportPayments',
     getUserData: '/getUserData',
     forgotPassword: '/forgotPassword',
-    verifyVerCode: '/verifyVerCode'
+    verifyVerCode: '/verifyVerCode',
+    verifyPayData: '/verifyPayData'
 }
 
 export default endpointList;
