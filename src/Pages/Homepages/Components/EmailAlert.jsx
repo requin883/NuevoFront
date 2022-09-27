@@ -24,11 +24,21 @@ import { useState } from 'react';
 function EmailAlert(props) {
     const [spinner, setSpinner] = useState(false);
 
-    const [msg, setMsg] = useState("You will receive an email to update your password");
+    const [msg, setMsg] = useState("");
 
-    const [color,setColor] = useState("primary");
+    const [color, setColor] = useState("primary");
 
     const [showAlert, setShowAlert] = useState(false);
+
+    const handleShowAlert = (color) => {
+        setColor(color);
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 3000);
+        setSpinner(false);
+        reset();
+    }
 
     const { valFlag, setValFlag } = props.val;
 
@@ -48,24 +58,25 @@ function EmailAlert(props) {
     const fnSend = async (data) => {
         setSpinner(true);
         let { email } = data;
-        let registeredFlag = await API_AXIOS.get(`${endpointList.findEmail}?email=${email}`);
-        if (registeredFlag.data) {
-            await API_AXIOS.post(`${endpointList.forgotPassword}?email=${email}`)
-            setShowAlert(true);
-            setTimeout(() => {
-                setShowAlert(false);
-            }, 3000);
-        } else {
-            setMsg("Sorry, The email address is not registered in our database");
-            setColor("danger");
-            setShowAlert(true);
-            setTimeout(() => {
-                setShowAlert(false);
-            }, 3000);
+        let info = await API_AXIOS.post(`${endpointList.sendForgot}?email=${email}`);
+        switch (info.data) {
+            case 0:
+                setMsg("The user is not registered in our database")
+                handleShowAlert("danger");
+                break;
+            case 1:
+                setMsg("The user is not verified, you need to verify your account in order to access this feature")
+                handleShowAlert("danger");
+                break;
+            case 2:
+                setMsg("An email has been sent to your account with further information to recover your password")
+                handleShowAlert("success");
+                break;
+            default:
+                setMsg("An error has occured, please try again");
+                handleShowAlert("danger");
+                break;
         }
-        setSpinner(false);
-        reset();
-
     }
 
     return (
@@ -90,7 +101,6 @@ function EmailAlert(props) {
                                     name="email"
                                     placeholder="email"
                                     type="email"
-
                                     invalid={errors.email ? true : false}
                                     innerRef={ref} {...emailField}
                                 />

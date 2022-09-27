@@ -3,17 +3,16 @@ import API_AXIOS from "../../../settings/settings";
 import * as yup from "yup"
 import { useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 import endpointList from "../../settings/endpoints";
-import { Card, CardBody, CardFooter, Alert, CardHeader, CardTitle, Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Card, CardBody, CardFooter, Alert, CardHeader, CardTitle, Container, Form, FormGroup, Label, Input, Button, FormFeedback, Spinner } from "reactstrap";
 import ExamplesNavbar from "../Homepages/Components/Navbar";
 import { useState } from "react";
 
 
 const redirectUser = () => {
-    window.location.href = "http://localhost:5173"
+    window.location.href = "https://cryptocoders-pi.vercel.app/home"
 }
-
 
 const schema = yup.object().shape({
     password: yup.string().min(6).required(),
@@ -25,9 +24,16 @@ const schema = yup.object().shape({
 
 function ForgotPassword() {
 
+
+
+    const { token } = useParams();
+
+    const [spinner, setSpinner] = useState(false);
+
     const {
         register,
         control,
+        reset,
         formState: { errors },
         handleSubmit,
     } = useForm({
@@ -36,13 +42,30 @@ function ForgotPassword() {
 
     const [newAlert, setNewAlert] = useState(false);
 
+    const [msg, setMsg] = useState(false);
+
+    const [color, setColor] = useState("success");
+
+    const handleShowAlert = () => {
+        setNewAlert(true);
+        setTimeout(() => {
+            setNewAlert(false);
+        }, 3000);
+        setSpinner(false);
+        reset();
+    }
     const params = useParams();
-    let email = params.email
 
     const fnSend = async (data) => {
-        let output = await API_AXIOS.post(endpointList.forgotPassword + `?email=${email}&newPassword=${data.password}`)
+        setSpinner(true);
+        let output = await API_AXIOS.post(endpointList.forgotPassword + `?newPassword=${data.password}&token=${token}`)
         if (output.data == 1) {
-            alert("Contraseña cambiada correctamente")
+            setMsg("Contraseña cambiada correctamente");
+            handleShowAlert();
+        } else {
+            setColor("danger");
+            setMsg("An error has ocurred. Please go back to login page to request a new link sent out to your email address");
+            handleShowAlert();
         }
     }
 
@@ -52,13 +75,12 @@ function ForgotPassword() {
             <Container className="text-dark" style={{ marginTop: "30vh" }}>
                 <Card>
                     <CardHeader className="text-center" >
-                    <Alert isOpen color="danger">
-                        The token has expired. Please go back to login page to request a new link sent out to your email address
-                    </Alert>
-                        <CardTitle className="p-4" style={{ fontWeight: "bold" }}>Update Password</CardTitle>
+                        <Alert isOpen={newAlert} color={color}>
+                            {msg}
+                        </Alert>
+                        <CardTitle className="p-4" style={{ fontWeight: "bold", fontSize: "4vh" }}>Update Password</CardTitle>
                     </CardHeader>
                     <CardBody>
-
                         <Form onSubmit={handleSubmit(fnSend)}>
                             <Controller
                                 control={control}
@@ -66,21 +88,22 @@ function ForgotPassword() {
                                 render={({ field: { ref, ...passProps } }) => (
                                     <FormGroup floating>
                                         <Input
-
                                             name="password"
                                             placeholder="Password"
                                             type="password"
                                             id="password"
-
                                             invalid={errors.password ? true : false}
                                             innerRef={ref} {...passProps}
                                         />
-                                        <Label for="password">Password</Label>
+
 
                                         {errors?.password && (
                                             <FormFeedback>{errors.password?.message}</FormFeedback>
                                         )}
+                                        <Label for="password"> Password </Label>
+
                                     </FormGroup>
+
                                 )}
                             />
 
@@ -99,18 +122,22 @@ function ForgotPassword() {
                                             invalid={errors.valpass ? true : false}
                                             innerRef={ref} {...valpassProps}
                                         />
-                                        <Label for="valpass"> Confirm Password </Label>
+
 
                                         {errors?.valpass && (
                                             <FormFeedback>{errors.valpass?.message}</FormFeedback>
                                         )}
+                                        <Label for="valpass"> Confirm Password </Label>
                                     </FormGroup>
                                 )}
                             />
+                            <Container className="text-center">
+                                {spinner ? <Button className="btn-menu text-light" disabled={spinner} color="info"><Spinner /></Button> : <Button className="btn-menu text-light" type="submit" color="info"> Update now!</Button>}
+                            </Container>
                         </Form>
                     </CardBody>
                     <CardFooter className="text-center">
-                        <Button className="btn-menu" color="info" onClick={redirectUser}> Update now!</Button>
+
                     </CardFooter>
                 </Card>
             </Container>
