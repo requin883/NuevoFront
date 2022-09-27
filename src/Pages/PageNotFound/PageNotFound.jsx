@@ -1,4 +1,4 @@
-
+import { Container, Card, CardHeader, CardTitle, CardBody, Button, CardText } from "reactstrap";
 const redirectUser = () => {
     window.location.href = "https://cryptocoders-pi.vercel.app/home"
 }
