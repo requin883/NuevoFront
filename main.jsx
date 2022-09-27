@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Browser, Route, Routes } from "react-router-dom";
-import Homepages from './Pages/Homepages/Homepages';
-import Menu from './Pages/Menu';
-import VerifyEmail from './Pages/VerifyEmail/VerifyEmail';
-import Profile from './Pages/Profile/Profile';
-import ProtectedRoute from './ProtectedRoute'
-import SendPayment from './Pages/Transactions/SendPayment'
-import ForgotPassword from './Pages/ForgotPassword/ForgotPassword'
-import PageNotFound from './Pages/PageNotFound/PageNotFound'
-import AutoLogOut from './Pages/AutoLogOut/AutoLogOut'
+import Homepages from './src/Pages/Homepages/Homepages';
+import Menu from './src/Pages/Menu';
+import VerifyEmail from './src/Pages/VerifyEmail/VerifyEmail';
+import Profile from './src/Pages/Profile/Profile';
+import ProtectedRoute from './src/ProtectedRoute'
+import SendPayment from './src/Pages/Transactions/SendPayment'
+import ForgotPassword from './src/Pages/ForgotPassword/ForgotPassword'
+import PageNotFound from './src/Pages/PageNotFound/PageNotFound'
+import AutoLogOut from './src/Pages/AutoLogOut/AutoLogOut'
 import "../src/scss/style.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from "../src/Pages/Homepages/Components/Login";
-import Register from "../src/Pages/Homepages/Components/Register";
-import ValidatePays from './Pages/ValidatePays/ValidatePays';
+import Login from "./src/Pages/Homepages/Components/Login";
+import Register from "./src/Pages/Homepages/Components/Register";
+import ValidatePays from './src/Pages/ValidatePays/ValidatePays';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
