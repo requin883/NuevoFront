@@ -11,8 +11,10 @@ export default function PaymentInfo(props) {
                 <h2>Account information to process deposits</h2>
             </ModalHeader>
             <ModalBody>
-                <h5>Payment Information Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit nam rerum esse reiciendis voluptas enim qui mollitia debitis assumenda quaerat odio, minima dolorum, sunt quod dolore excepturi illo beatae ad?</h5>
-
+                <h5>
+                Binance Pay ID : 219489153
+                </h5>
+                <img src="./static/binancepay.png" style={{width:"15vw"}}></img>
             </ModalBody>
             <ModalFooter>
                 <Button className="btn-menu text-light" color="info" onClick={() => setPaymentInfoFlag(false)}>X</Button>
