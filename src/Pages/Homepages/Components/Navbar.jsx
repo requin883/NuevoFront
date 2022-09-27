@@ -24,7 +24,7 @@ function ExamplesNavbar(props) {
     <>
       <Navbar fixed="top" className="nav" expand="lg" dark container>
         <NavbarBrand href={env?"/menu":"/home"} className="me-auto">
-          <img src="../../../../Public/assets/Logo.png" className="img-fluid navbarimg" alt="..." />
+          <img src="./static/img/Logo.png" className="img-fluid navbarimg" alt="..." />
         </NavbarBrand>
         {links ? <><NavbarToggler onClick={toggleNavbar} />
           <Collapse isOpen={!collapsed} navbar>
