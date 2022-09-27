@@ -41,6 +41,22 @@ function Register() {
     resolver: yupResolver(registerSchema),
   });
 
+  const handleDangerAlert = () => {
+    setColor("danger");
+    setAlert(true);
+    setTimeout(() => {
+      setAlert(false)
+    }, 3000);
+  };
+
+  const handleInfoAlert = () => {
+    setColor("success");
+    setAlert(true);
+    setTimeout(() => {
+      setAlert(false)
+    }, 3000);
+  }
+
   const { ref, ...emailField } = register("email");
 
   const [color, setColor] = useState("primary");
@@ -48,24 +64,26 @@ function Register() {
   const fnSend = async (data) => {
     try {
       setSpinner(true);
-      let registeredFlag = await API_AXIOS.get(
-        endpointList.findEmail + `?email=${data.email}`
-      );
-      if (registeredFlag.data == 0) {
-        setAlert(true);
-        await API_AXIOS.post(endpointList.register + `?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}`);
-        setMsg("Your account has been created. Please verify your account using the link sent to your email");
-        setTimeout(() => {
-          setAlert(false);
-        }, 3000);
-      }
-      else {
-        setColor("danger");
-        setMsg("This email address is associated with an existing account");
-        setAlert(true);
-        setTimeout(() => {
-        setAlert(false);
-        }, 3000);
+      const info = await API_AXIOS.post(endpointList.register + `?email=${data.email}&names=${data.firstname}&lastnames=${data.lastname}&address=${data.address}&password=${data.password}`);
+      switch (info.data) {
+        case 1:
+          setMsg("Your account has been created. Please verify your account using the link sent to your email");
+          handleInfoAlert();
+          break;
+        case 2:
+          setMsg("Please check your inbox for a new verification email as the previous one has already expired")
+          handleInfoAlert();
+          break;
+        case 3:
+          setMsg("Please wait for an hour to be able to send another verification email")
+          handleInfoAlert();
+          break;
+        case 4:
+          setMsg("This user is registered");
+          handleDangerAlert();
+          break;
+        default:
+          break;
       }
       reset();
       setSpinner(false);
@@ -78,7 +96,7 @@ function Register() {
       <ExamplesNavbar />
       <Container className="w-50 text-dark">
         <Card className="d-flex regcard justify-self-center">
-        <Alert className="m-2" fade isOpen={alert} color={color}>
+          <Alert className="m-2" fade isOpen={alert} color={color}>
             {msg}
           </Alert>
           <CardTitle className="pt-4 d-flex">
