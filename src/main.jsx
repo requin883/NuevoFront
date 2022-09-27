@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/Register/*' element={<Register />} />
         <Route path="/home/*" element={<Homepages />} />
         <Route path='/verifyEmail/:token' element={< VerifyEmail />} />
-        <Route path='/forgotPassword/:email' element={< ForgotPassword />} />
+        <Route path='/forgotPassword/:token' element={< ForgotPassword />} />
         <Route element={<ProtectedRoute />}>
         <Route path='/validatePayment' element={<ValidatePays />}/>
         </Route>
