@@ -147,7 +147,7 @@ function ValidatePays() {
                         style={{ height: "6vh" }}
                         name="year"
                         placeholder="Year"
-                        type="number"
+                        type="text"
                         id="year"
 
                         invalid={errors.year ? true : false}
@@ -169,7 +169,7 @@ function ValidatePays() {
                         style={{ height: "6vh" }}
                         name="month"
                         placeholder="Month"
-                        type="number"
+                        type="text"
                         id="month"
 
                         invalid={errors.month ? true : false}
@@ -191,7 +191,7 @@ function ValidatePays() {
                         style={{ height: "6vh" }}
                         name="day"
                         placeholder="Day"
-                        type="number"
+                        type="text"
                         id="day"
 
                         invalid={errors.day ? true : false}
@@ -213,7 +213,7 @@ function ValidatePays() {
                         style={{ height: "6vh" }}
                         name="hour"
                         placeholder="Hour"
-                        type="number"
+                        type="text"
                         id="hour"
 
                         invalid={errors.hour ? true : false}
@@ -235,7 +235,7 @@ function ValidatePays() {
                         style={{ height: "6vh" }}
                         name="minute"
                         placeholder="Minutes"
-                        type="number"
+                        type="text"
                         id="minute"
 
                         invalid={errors.minute ? true : false}
@@ -257,7 +257,7 @@ function ValidatePays() {
                         style={{ height: "6vh" }}
                         name="second"
                         placeholder="Seconds"
-                        type="number"
+                        type="text"
                         id="second"
 
                         invalid={errors.second ? true : false}
