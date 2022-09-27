@@ -38,16 +38,16 @@ function Homepages() {
                                 Binance USD (BUSD) is a 1:1 USD-backed stable coin issued by Binance (in partnership with Paxos)
                             </Card>
                             <Card title="ETH" cat="CryptoCurrency">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, dicta!
+                                Ethereum is a decentralized open-source blockchain system that features its own cryptocurrency, Ether. ETH works as a platform for numerous other cryptocurrencies, as well as for the execution of decentralized smart contracts.
                             </Card>
                             <Card title="BTC" cat="CryptoCurrency">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
+                                Bitcoin is a decentralized digital currency and payment system with no central bank or single administrator.
                             </Card>
                             <Card title="DOGE" cat="CryptoCurrency">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
+                                Bitcoin-derived cryptocurrency that uses a Shiba Inu dog from the Internet meme "Doge" as a pet
                             </Card>
                             <Card title="BNB" cat="CryptoCurrency">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, dolores?
+                                Binance Coin (BNB) is a cryptocurrency that can be used to trade and pay fees on the Binance cryptocurrency exchange.
                             </Card>
                         </Row>
                     </Container>
