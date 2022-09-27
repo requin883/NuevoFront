@@ -55,7 +55,8 @@ function Homepages() {
                 <div className="section section-contact-us text-center">
                     <Container className="d-flex flex-column">
                         <h2 className="title">How may I process a transaction with CryptoCoders?</h2>
-                        <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, tempore!</p>
+                        <p className="description">To process your first transaction you need to register with a new account, verify that account and after login into your Account
+                        you can go to the option to "send payment" and you can start sending payments!</p>
                         <Row className="p-5 align-self-center d-flex flex-column">
                             <Message />
                         </Row>
