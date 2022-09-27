@@ -134,7 +134,7 @@ function SendPayment() {
                     setValCode(false);
                     break;
                 case 2:
-                    const newInfo = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${email.slice(1, -1)}&receiver=${paymentInfo.data}&quantity=${paymentInfo.amount}&token=${paymentInfo.currency}&email=${email.slice(1, -1)}&code=${verToken}`);
+                    const newInfo = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${email.slice(1, -1)}&receiver=${paymentInfo.data}&quantity=${paymentInfo.amount}&token=${paymentInfo.currency}&email=${email.slice(1, -1)}&code=${verToken}/`);
                     switch (newInfo.data) {
                         case 0:
                             setMsg("The time to process the payment expired");
