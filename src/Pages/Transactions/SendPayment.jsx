@@ -79,14 +79,14 @@ function SendPayment() {
             let currency = data.currency;
             let amount = data.amount;
             // const info = await API_AXIOS.post(`${endpointList.sendPayment}?sender=${sender}&receiver=${token}&quantity=${amount}&token=${currency}`)
-            setPaymentInfo({ data });
+            setPaymentInfo(...data);
         } else {
             let email = data.data;
             let currency = data.currency;
             let amount = data.amount;
             console.log("hello");
             const info = await API_AXIOS.post(`${endpointList.verifyPayData}?sender=${sender.slice(1, -1)}&receiver=${email}&quantity=${amount}&token=${currency}`);
-            setPaymentInfo({...data });
+            setPaymentInfo(...data);
             switch (info.data) {
                 case 0:
                     setMsg("The receiver user doesn't exist");
