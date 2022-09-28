@@ -143,19 +143,24 @@ function SendPayment() {
                     case 0:
                         setMsg("The time to process the payment expired");
                         handleAlert();
+                        setModalSpinner(false);
                         break;
                     case 1:
                         setMsg("There's an error with the code sent");
                         handleAlert();
+                        setModalSpinner(false);
                         break;
                     case 2:
                         setMsg("There's an error with the code sent");
                         setNewColor("success");
                         handleAlert();
+                        setModalSpinner(false);
                         break;
                     default:
+                        setModalSpinner(false);
                         break;
                 }
+                setModalSpinner(false);
             }
         } catch (err) {
             setSpinner(false);
