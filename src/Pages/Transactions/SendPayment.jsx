@@ -219,7 +219,7 @@ function SendPayment() {
                             )}
                         />
                         <Container className="d-flex justify-content-center">
-                            {modalSpinner ? <Button className="btn-menu" color="info"><Spinner /></Button> : <Button className="btn-menu" color="info">Verify Code</Button>}
+                            {modalSpinner ? <Button disabled={modalSpinner} className="btn-menu" color="info"><Spinner /></Button> : <Button className="btn-menu" color="info">Verify Code</Button>}
                         </Container>
                     </Form>
                 </ModalBody>
